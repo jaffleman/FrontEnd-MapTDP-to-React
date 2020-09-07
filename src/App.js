@@ -1,24 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div id="temp">
+            <form>
+            
+                <div className="cBouton">
+                  <div>
+                  <textarea id="msg" name="user_message" rows="8" cols="40" spellCheck="false" placeholder="Coller le texte ici..." ></textarea>
+                  </div>
+                  <div>
+                  <input type="button" value="Valider" onClick={()=>{}}/>
+                  </div>
+                </div>
+    
+            </form>
+        </div>
     </div>
   );
 }

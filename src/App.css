@@ -1,38 +1,116 @@
-.App {
+
+body {
+  background-color: #ecca96;font-family:Courier New, monospace;
+  background-image:url(./background.jpg);
+  background-attachment:fixed;
+}
+
+
+
+h3{
+  border-radius: 5px;
+  font-family:Courier New, monospace;
+  border:1px solid black;
+  text-align: center;
+  width: auto;
+  padding: 4px;
+  margin: 40px auto 1px auto;
+  color: #0b1352;
+  background-color: hsl(36, 90%, 48%);
+}
+
+h4{
+  
+  border-radius: 5px;
+  padding: 2px;
+  margin: 1px auto;
+  width: 315px;
+  border:1px solid black;
+  font-family:Courier New, monospace;
+  text-align: center;
+  color: #0b1352;
+  background-color: hsl(54, 90%, 48%);
+} 
+h5{
+  
+  border-radius: 5px;
+  padding: 1px;
+  margin: 1px auto;
+  width: 265px;
+  border:1px solid black;
+  font-family:Courier New, monospace;
+  text-align: center;
+  color: #0b1352;
+  background-color: hsl(108, 90%, 48%);
+}
+
+spam.optI{
+  color: #000000;
+  background-color: #00ff0075;
+  border:1px solid #000000;
+} 
+
+spam.optTNI{
+  color: #000000;
+  background-color: #ff000075;
+  border:1px solid #000000;
+}
+
+.Letes{
+  background-color: #e46b50;
+  padding:5px; 
+  border:1px solid black;
+  box-shadow: 3px 3px 10px 3px black;
+  text-align: center;
+  margin: 5px auto;
+  width: 252px;
+  border-radius: 5px;
+} 
+
+.cBouton{
+text-align: center;
+}
+
+.tdp{
+  color: #000000;
+  padding:0px; 
+  margin:0;
+}
+
+p.info{
+  display: none;
+}
+
+textarea{
+  width:80%;
+  margin:5px 10%;
+}
+
+input#vld{
+  width:40%;
+  margin:5px 30%;
+}
+p {
+  margin: 0 0 1em 0;
+}
+
+nav.aBouton{
+  display: none;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-family:Courier New, monospace;
+  color: #0b1352;
+}
+
+input#ajt{
+  width:82px;
+  margin: 1%;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+input#pEcran{
+  width:82px;
+  margin: 1%;
+  text-align: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
