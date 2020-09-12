@@ -23,16 +23,14 @@ class Form extends React.Component {
               <form>
 
                 <div className="cBouton">
-                  <div>
+                  
                     <textarea id="msg" type="text" 
-                    name="tdp_list" rows="8" cols="40" 
+                    name="tdp_list" rows="10" cols="40" 
                     spellCheck="false" placeholder="Coller le texte ici..." 
                     value={this.state.value} onChange={this.textareaHandleChange}>
                     </textarea>
-                  </div>
-                  <div>
                     <input type="button" value="Valider" onClick={this.submit}/>
-                  </div>
+                  
                 </div>
               
               </form>

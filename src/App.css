@@ -2,7 +2,7 @@
 body {
   background-color: #ecca96;font-family:Courier New, monospace;
   background-image:url(./background.jpg);
-  background-attachment:fixed;
+  background-attachment: fixed;
 }
 
 
@@ -79,6 +79,10 @@ text-align: center;
 
 p.info{
   display: none;
+}
+
+p.mustView{
+  margin-bottom: 0px;
 }
 
 textarea{
