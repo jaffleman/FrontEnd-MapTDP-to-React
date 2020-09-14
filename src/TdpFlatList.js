@@ -26,7 +26,9 @@ class TdpFlatList extends React.Component{
                 <h5>{`rco: ${this.state.rco}`}</h5>            
         </div>
     }
-
+    componentDidMount(){
+      
+    }
     render(){
         return (
             <div id = "tdp">

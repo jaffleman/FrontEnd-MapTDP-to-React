@@ -1,18 +1,44 @@
 import {connect} from 'react-redux';
-import React, { useContext, useState, useEffect } from 'react';
+import React  from 'react';
 
 
-const Fetcher = ()=>{
-    const [presentation, setPresentation] = useState(null)
-    useEffect(()=>{
-        const url = `http://tdp.jaffleman.tech:8081/datas?arg=lePutainDeTest`
-        fetch(url).then((response)=>{response.json()})
-            .then((data)=>setPresentation(data))       
-            .catch((error)=>{return alert("Erreur: Le serveur n'a pas répondu... Contactez le dev.")})
 
-    },[]
-    )
-console.log(presentation);
+class Fetcher extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            data : "",
+            error : null
+        }
+    }
+
+
+    componentDidMount(){
+        console.log("componentDidMount");
+        const arg = this.props.lesDonneesCopierColler;
+        fetch("http://tdp.jaffleman.tech:8081/datas?arg="+arg)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            this.setState({
+                data: result.msg,
+            });
+          },
+          // Remarque : il est important de traiter les erreurs ici
+          // au lieu d'utiliser un bloc catch(), pour ne pas passer à la trappe
+          // des exceptions provenant de réels bugs du composant.
+          (error) => {
+            this.setState({
+             
+              error
+            });
+          }
+        )    
+    }
+    
+    render(){
+        return null 
+    }
 }
-const mapStateToProps = (state)=>{return {fetchData:state.presentation }}
+const mapStateToProps = (state)=>{return {lesDonneesCopierColler:state.lesDonneesCopierColler }}
 export default connect(mapStateToProps)(Fetcher);

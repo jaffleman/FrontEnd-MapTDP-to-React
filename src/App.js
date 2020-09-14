@@ -4,6 +4,7 @@ import Form from './form';
 import TdpFlatList from './TdpFlatList';
 import { Provider } from 'react-redux'
 import Store from './store/configureStore'
+import Fetcher from './Fetcher';
 
 class App extends React.Component {
   render(){
@@ -11,6 +12,7 @@ class App extends React.Component {
       <div>
         <Provider store = {Store}>
           <Form/>
+          <Fetcher/>
           <TdpFlatList/>          
         </Provider>
       </div>

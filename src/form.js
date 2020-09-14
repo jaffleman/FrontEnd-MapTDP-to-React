@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import Fetcher from './Fetcher'
+import {connect} from 'react-redux';
+
 
 class Form extends React.Component {
   constructor(props) {
@@ -9,13 +10,12 @@ class Form extends React.Component {
         value: '',
         data:[]
     };
-    this.textareaHandleChange = this.textareaHandleChange.bind(this)
-    
+    this.textareaHandleChange = this.textareaHandleChange.bind(this) 
   }
-
-  submit(){
-      return <Fetcher arg={this.state.value}/>
-  }
+    valider() {  
+        const action = { type: "CAPTER_DATA", value: this.state.value }
+        this.props.dispatch(action)
+    }
   
   textareaHandleChange(e){
     this.setState({value: e.target.value});
@@ -24,6 +24,7 @@ class Form extends React.Component {
   
 
     render(){
+        console.log("Form RENDER");
         return (
             <div className="Form">
                 <div id="temp">
@@ -34,7 +35,7 @@ class Form extends React.Component {
                             spellCheck="false" placeholder="Coller le texte ici..." 
                             value={this.state.value} onChange={this.textareaHandleChange}>
                             </textarea>
-                            <input type="button" value="Valider" onClick={()=>{this.submit()}}/> 
+                            <input type="button" value="Valider" onClick={()=>{this.valider()}}/> 
                         </div>
                     </form>
                 </div>
@@ -43,4 +44,4 @@ class Form extends React.Component {
     }
 }
 
-export default Form;
+export default connect()(Form);
