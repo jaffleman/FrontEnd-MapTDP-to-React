@@ -1,47 +1,46 @@
 import React from 'react';
 import './App.css';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+
 
 
 class Form extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        value: '',
-        data:[]
-    };
-    this.textareaHandleChange = this.textareaHandleChange.bind(this) 
-  }
-    valider() {  
-        const action = { type: "CAPTER_DATA", value: this.state.value }
+    constructor(props){
+        super(props)
+        this.state = {
+            texteAreaValue: ""
+        }
+        this.textareaHandleChange = this.textareaHandleChange.bind(this) 
+
+    }
+    textareaHandleChange(e){
+        this.setState({texteAreaValue: e.target.value});
+      }
+    valider(){
+        const action = {
+            type: "GET_FORM_VALUE",
+            value: this.state.texteAreaValue
+        }
         this.props.dispatch(action)
     }
-  
-  textareaHandleChange(e){
-    this.setState({value: e.target.value});
-  }
-
-  
-
     render(){
-        console.log("Form RENDER");
         return (
             <div className="Form">
                 <div id="temp">
-                    <form>
+                    
                         <div className="cBouton">
                             <textarea id="msg" type="text" 
                             name="tdp_list" rows="10" cols="40" 
                             spellCheck="false" placeholder="Coller le texte ici..." 
-                            value={this.state.value} onChange={this.textareaHandleChange}>
+                            value={this.state.texteAreaValue} onChange={this.textareaHandleChange}>
                             </textarea>
                             <input type="button" value="Valider" onClick={()=>{this.valider()}}/> 
                         </div>
-                    </form>
+                    
                 </div>
             </div>
         );    
     }
 }
-
-export default connect()(Form);
+const mapStateToProps = (state)=>{return {formValue:state.formValue,getFetch:state.getFetch}}
+export default connect(mapStateToProps)(Form);

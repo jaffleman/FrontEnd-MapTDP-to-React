@@ -1,17 +1,18 @@
  const  initialState = {
     ndToShow: null,
-    lesDonneesCopierColler: ""
+    formValue: "",
+    getFetch: false
 };
 export default function  monStore(state = initialState, action){
     let nextState;
     switch (action.type) {
         case 'TOGGLE_FAVORITE':
-            nextState = state.ndToShow !== action.value? { ndToShow : action.value } : { ndToShow : null } 
+            nextState = state.ndToShow !== action.value? {...state, ndToShow : action.value } : {...state, ndToShow : null } 
         return nextState||state
 
         
-        case 'CAPTER_DATA':
-            nextState = state.lesDonneesCopierColler !== action.value? { lesDonneesCopierColler : action.value } : { lesDonneesCopierColler : "" } 
+        case 'GET_FORM_VALUE':
+            nextState = {...state, formValue: action.value, getFetch: true}
         return nextState||state
 
         default:

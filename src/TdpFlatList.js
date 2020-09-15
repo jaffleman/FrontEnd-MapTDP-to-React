@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux'
+
 import List from './List'
 
 class TdpFlatList extends React.Component{
@@ -26,18 +26,30 @@ class TdpFlatList extends React.Component{
                 <h5>{`rco: ${this.state.rco}`}</h5>            
         </div>
     }
-    componentDidMount(){
-      
+    showList(){
+        if (this.props.data !== undefined) {
+            this.props.data.map((item,index)=> <List data = {item} key = {index}/>)
+        }else{
+            return <p>Pas de données</p>
+        }
+
+              
     }
     render(){
+        const {data} = this.props
+        console.log(data);
         return (
+            
             <div id = "tdp">
-                {this.showheader()}
-                { this.state.data.map((item)=> <List data = {item} key = {item.nd}/>) }
+                {/*this.showheader()*/}
+                <h3>{"REPARTITEUR DE "+data[0].rep}</h3>
+                <h4>{`Salle: ${data.salle}`}</h4>
+                <h5>{`rco: ${data.rco}`}</h5>  
+                {data.map((item,index)=> <List data = {item} key = {index}/>)}
             </div>            
         );
     }    
 }
 
-const mapStateToProps = (state)=>{return {favoritesFilms:state.favoritesFilms}}
-export default connect(mapStateToProps)(TdpFlatList);
+//const mapStateToProps = (state)=>{return {favoritesFilms:state.favoritesFilms}}
+export default TdpFlatList;

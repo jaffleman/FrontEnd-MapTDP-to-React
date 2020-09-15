@@ -1,19 +1,16 @@
 import React from 'react';
 import './App.css';
-import Form from './form';
-import TdpFlatList from './TdpFlatList';
+import Base from './base';
 import { Provider } from 'react-redux'
 import Store from './store/configureStore'
-import Fetcher from './Fetcher';
+
 
 class App extends React.Component {
   render(){
     return (
       <div>
         <Provider store = {Store}>
-          <Form/>
-          <Fetcher/>
-          <TdpFlatList/>          
+          <Base/>       
         </Provider>
       </div>
     );    
