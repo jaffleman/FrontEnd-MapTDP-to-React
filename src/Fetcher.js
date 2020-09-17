@@ -1,5 +1,5 @@
 import React  from 'react';
-import TdpFlatList from './TdpFlatList';
+//import TdpFlatList from './TdpFlatList';
 import { connect } from 'react-redux';
 
 
@@ -10,7 +10,7 @@ class Fetcher extends React.Component{
         this.state = {
           error: null,
           isLoaded: false,
-          items: []
+          items: {}
         };
       }
       _toggleForm(){
@@ -26,10 +26,11 @@ class Fetcher extends React.Component{
           .then(res => res.json())
           .then(
             (result) => {
-              this.setState({
-                isLoaded: true,
-                items: result.value
-              });
+                const action = {
+                    type: "GET_FETCH_VALUE",
+                    value: result
+                }
+              this.props.dispatch(action);
             },
             (error) => {
               this.setState({
@@ -42,17 +43,24 @@ class Fetcher extends React.Component{
       }
     
       render() {
-        const { error, isLoaded, items } = this.state;
-        if (error) {
-          return <div>Erreur : {error.message}</div>;
-        } else if (!isLoaded) {
-          return <div>Chargement…</div>;
-        } else {
-          return (
-            <TdpFlatList data={items}/>
-          );
-        }
-      }
+
+            /*if (status === 300) {*/
+              return null
+            /*}else{
+                return <div id = "tdp"><h3>{msg}</h3></div>
+            }
+          
+             switch (items.status) {
+                  case "300": return <TdpFlatList data={items.value}/>
+                  case "200": return <div>{items.msg}</div>
+                  case "100": return <div>{items.msg}</div>
+                  default:
+                      break;
+              }*/
+      
+       
+    }     
+      
 }
 
 export default connect()(Fetcher);

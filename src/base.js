@@ -3,6 +3,7 @@ import './App.css';
 import Fetcher from './Fetcher';
 import Form from './form';
 import { connect } from 'react-redux';
+import TdpFlatList from './TdpFlatList';
 
 
 class Base extends React.Component {
@@ -13,6 +14,9 @@ class Base extends React.Component {
   }
  
     render(){
+        if (this.props.fetchedResultData.length !== 0) {
+           return <TdpFlatList/> 
+        }
         if (this.props.getFetch) {
             return <Fetcher arg={this.props.formValue}/>
         }else{
@@ -28,5 +32,5 @@ class Base extends React.Component {
     }
 }
 }
-const mapStateToProps = (state)=>{return {formValue:state.formValue,getFetch:state.getFetch}}
+const mapStateToProps = (state)=>{return {formValue:state.formValue, getFetch:state.getFetch, fetchedResultData:state.fetchedResultData}}
 export default connect(mapStateToProps)(Base);
