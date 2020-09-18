@@ -2,8 +2,13 @@ import React from 'react'
 
 
 function TdpHeader(props) {
-const {rep, compos}=props
-return compos.showRep?<h3>REPARTITEUR DE {rep}</h3>:null
-    
+    const {data, compos}=props
+    return (
+            <div>
+                { compos.showRep?<h3>REPARTITEUR DE {data.rep}</h3>:null}
+                { compos.showSalle?<h4>Salle: {data.salle}</h4>:null } 
+                { compos.showRco?<h5>Rco: {data.rco}</h5>:null  }           
+            </div>    
+    )
 }
 export default TdpHeader

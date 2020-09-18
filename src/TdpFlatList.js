@@ -13,18 +13,38 @@ class TdpFlatList extends React.Component{
 
             if (item.rep !== preRep){
                 preRep = item.rep;
-                withRep = true
-            }else{withRep = false}
-
-            if (item.salle !== preSalle){
                 preSalle = item.salle;
-                withSalle = true
-            }else{withSalle = false} 
-            
-            if (item.rco !== PreRco){
                 PreRco = item.rco;
+                withRep = true
+                withSalle = true
                 withRco = true
-            }else{withRco = false}            
+            }else{   
+                if (item.salle !== preSalle){
+                    preRep = item.rep;
+                    preSalle = item.salle;
+                    PreRco = item.rco;
+                    withRep = false
+                    withSalle = true
+                    withRco = true
+                }else{
+                    if (item.rco !== PreRco){
+                        preRep = item.rep;
+                        preSalle = item.salle;
+                        PreRco = item.rco;
+                        withRep = false
+                        withSalle = false
+                        withRco = true
+                    }else{
+                        withRep = false
+                        withSalle = false                        
+                        withRco = false
+                    }                    
+                } 
+            }
+
+
+            
+            
             const withHeader = {
                 showRep: withRep,
                 showSalle: withSalle,

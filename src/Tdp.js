@@ -39,10 +39,10 @@ class Tdp extends React.Component{
     }
   
     render(){
-        const { nd, reglette, posission, opt, rep } = this.props.data
+        const { nd, reglette, posission, opt, rep, salle, rco } = this.props.data
         return(
             <div>
-                <TdpHeader rep={rep} compos={this.props.headCompos}/>
+                <TdpHeader data={{rep, salle, rco}} compos={this.props.headCompos}/>
                 <div className = "Letes" onClick = {()=>{this._toggleView(nd)}}>
                     <p className = "tdp">{ reglette }-{ posission }</p>
                     <TdpOption opt = {opt}/>

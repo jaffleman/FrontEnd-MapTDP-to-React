@@ -28,10 +28,7 @@ export default function  monStore(state = initialState, action){
             nextState = {...state, TdpPreviousState: action.value }
         return nextState||state
 
-        case 'STORE_REGEX':
-            nextState = {...state, regex: action.value }
-        return nextState||state
-
+        
         default:
             return state
     }
