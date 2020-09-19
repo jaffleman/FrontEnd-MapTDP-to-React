@@ -11,8 +11,8 @@ export default function  monStore(state = initialState, action){
     switch (action.type) {
 
         case 'TOGGLE_FAVORITE':{
-           const check = state.alreadyShow.indexOf(action.value)===-1?action.value:null
-            nextState = state.ndToShow !== action.value? {...state, ndToShow : action.value, alreadyShow : [...state.alreadyShow, check]} : {...state, ndToShow : null } 
+           const check = state.alreadyShow.indexOf(action.value)===-1?true:false
+            nextState = state.ndToShow !== action.value? {...state, ndToShow : action.value, alreadyShow : check?[...state.alreadyShow, action.value]:[...state.alreadyShow]} : {...state, ndToShow : null } 
                     
         }
  return nextState||state

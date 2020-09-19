@@ -59,12 +59,14 @@ spam.optI{
   color: #000000;
   background-color: #00ff0075;
   border:1px solid #000000;
+  border-radius: 20px;
 } 
 
 spam.optTNI{
   color: #000000;
   background-color: #ff000075;
   border:1px solid #000000;
+  border-radius: 20px;
 }
 div#tdp{
   background-color: #e46b50;
