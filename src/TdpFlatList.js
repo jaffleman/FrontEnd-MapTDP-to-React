@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import Tdp from './Tdp'
 
 class TdpFlatList extends React.Component{
-
+    
     Lister(ladata){
         const {data} = ladata;
         let preRep, preSalle, PreRco;
@@ -61,14 +61,10 @@ class TdpFlatList extends React.Component{
         const {status, msg} = this.props.fetchedResultData
         if (status === 300){
             return (
-                <div id = "tdp">
-                    {
-                        <this.Lister data = {this.props.fetchedResultData}/>
-                    }
-                </div>            
+                <this.Lister data = {this.props.fetchedResultData}/>
             )           
         }else{
-            return <div id = "tdp">{msg}</div>
+            return <div id = "tdp" role="button">{msg}</div>
         }
     }    
 }

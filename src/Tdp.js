@@ -6,36 +6,20 @@ import TdpHeader from './TdpHeader'
 
 
 class Tdp extends React.Component{
-    constructor(props){
-        super(props)
- 
-        this.showrep = false;
-        this.showsalle = false;
-        this.showrco = false;
-         
-    }
-
-    componentDidMount(){
-        console.log("DIDMOUNT");
-  
-        const { rep, salle, rco } = this.props.data
-        if (this.showrep|this.showsalle|this.showrep ){
-            const action = {
-                type: "STORE_TDP_STATE",
-                value:{
-                    rep : rep,
-                    salle : salle,
-                    rco : rco
-                }
-            }
-            this.props.dispatch(action)
-        } 
-
-    }
  
     _toggleView(elem) {  
         const action = { type: "TOGGLE_FAVORITE", value: elem }
         this.props.dispatch(action)
+    }
+    styler(nd){
+        if (this.props.ndToShow === nd) return "Letes2"        
+        else{
+            if (this.props.alreadyShow.indexOf(nd) === -1){
+                return "Letes"
+            }else{
+                return "Letes3"
+            }
+        }
     }
   
     render(){
@@ -43,8 +27,8 @@ class Tdp extends React.Component{
         return(
             <div>
                 <TdpHeader data={{rep, salle, rco}} compos={this.props.headCompos}/>
-                <div className = "Letes" onClick = {()=>{this._toggleView(nd)}}>
-                    <p className = "tdp">{ reglette }-{ posission }</p>
+                <div className = {this.styler(nd)} onClick = {()=>{this._toggleView(nd)}}>
+                    <p className = "tdp">{nd} { reglette }-{ posission }</p>
                     <TdpOption opt = {opt}/>
                     <DeteilView data = {this.props.data}/>
                 </div>              
@@ -54,5 +38,6 @@ class Tdp extends React.Component{
     }
 }
 
-const mapStateToProps = (state)=>{return {ndToShow:state.ndToShow, TdpPreviousState:state.TdpPreviousState}}
+
+const mapStateToProps = (state)=>{return {ndToShow:state.ndToShow, TdpPreviousState:state.TdpPreviousState, alreadyShow:state.alreadyShow}}
 export default connect(mapStateToProps)(Tdp);

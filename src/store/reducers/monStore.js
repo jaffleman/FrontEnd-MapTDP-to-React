@@ -3,15 +3,19 @@
     formValue: null,
     getFetch: false,
     fetchedResultData:[],
-    regex:[]
+    alreadyShow:[]
+    
 };
 export default function  monStore(state = initialState, action){
     let nextState;
     switch (action.type) {
 
-        case 'TOGGLE_FAVORITE':
-            nextState = state.ndToShow !== action.value? {...state, ndToShow : action.value } : {...state, ndToShow : null } 
-        return nextState||state
+        case 'TOGGLE_FAVORITE':{
+           const check = state.alreadyShow.indexOf(action.value)===-1?action.value:null
+            nextState = state.ndToShow !== action.value? {...state, ndToShow : action.value, alreadyShow : [...state.alreadyShow, check]} : {...state, ndToShow : null } 
+                    
+        }
+ return nextState||state
 
         
         case 'GET_FORM_VALUE':
@@ -28,7 +32,7 @@ export default function  monStore(state = initialState, action){
             nextState = {...state, TdpPreviousState: action.value }
         return nextState||state
 
-        
+
         default:
             return state
     }
