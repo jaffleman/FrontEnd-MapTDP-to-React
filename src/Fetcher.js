@@ -35,7 +35,7 @@ class Fetcher extends React.Component{
             (error) => {
               this.setState({
                 isLoaded: true,
-                error
+                error: true
               });
             }
           )
@@ -43,22 +43,7 @@ class Fetcher extends React.Component{
       }
     
       render() {
-
-            /*if (status === 300) {*/
-              return null
-            /*}else{
-                return <div id = "tdp"><h3>{msg}</h3></div>
-            }
-          
-             switch (items.status) {
-                  case "300": return <TdpFlatList data={items.value}/>
-                  case "200": return <div>{items.msg}</div>
-                  case "100": return <div>{items.msg}</div>
-                  default:
-                      break;
-              }*/
-      
-       
+              return this.state.error?<div id = "tdp" role="button" onClick={()=>{this.props.dispatch({type:'RESET_APP'})}}>Le serveur n'a pas répondu, contacter le dev.</div>:null  
     }     
       
 }

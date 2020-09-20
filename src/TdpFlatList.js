@@ -64,7 +64,7 @@ class TdpFlatList extends React.Component{
                 <this.Lister data = {this.props.fetchedResultData}/>
             )           
         }else{
-            return <div id = "tdp" role="button">{msg}</div>
+            return <div id = "tdp" role="button" onClick={()=>{this.props.dispatch({type:'RESET_APP'})}}>{msg}</div>
         }
     }    
 }

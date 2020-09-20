@@ -32,6 +32,9 @@ export default function  monStore(state = initialState, action){
             nextState = {...state, TdpPreviousState: action.value }
         return nextState||state
 
+        case 'RESET_APP':
+            nextState = initialState
+        return nextState||state
 
         default:
             return state
