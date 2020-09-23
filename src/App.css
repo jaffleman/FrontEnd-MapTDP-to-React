@@ -20,14 +20,15 @@ h2{
 }
 h3{
   border-radius: 5px;
-  font-family:Courier New, monospace;
-  border:1px solid black;
+  box-shadow: 3px 3px 10px 3px black;
+  font-family: Courier New, monospace;
+  border: 1px solid black;
   text-align: center;
-  width: auto;
+  /* width: auto; */
   padding: 4px;
-  margin: 40px auto 1px auto;
+  margin: 10px 5px 5px 5px;
   color: #0b1352;
-  background-color: hsl(36, 90%, 48%);
+  background-color: hsl(36, 46%, 65%);
 }
 
 h4{

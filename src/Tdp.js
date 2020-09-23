@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import DeteilView from './DeteilView'
 import TdpOption from './TdpOption'
 import TdpHeader from './TdpHeader'
+import VoyantVert from './VoyantVert.png'
+
 
 
 class Tdp extends React.Component{
@@ -24,11 +26,18 @@ class Tdp extends React.Component{
   
     render(){
         const { nd, reglette, posission, opt, rep, salle, rco } = this.props.data
+        let nb= this.props.nd
+        nb++
         return(
             <div>
                 <TdpHeader data={{rep, salle, rco}} compos={this.props.headCompos}/>
                 <div className = {this.styler(nd)} onClick = {()=>{this._toggleView(nd)}}>
-                    <p className = "tdp">{nd} { reglette }-{ posission }</p>
+                    <div style={{display:'flex' }}>
+                        <p style={{margin:'0'}}>{nb}</p>
+                        <p style={{flex:10}} className = "tdp"> { reglette }-{ posission }</p>
+                        <img src={VoyantVert} width={"20"} height={"20"} alt={"OK"}></img>
+                        
+                    </div>
                     <TdpOption opt = {opt}/>
                     <DeteilView data = {this.props.data}/>
                 </div>              
