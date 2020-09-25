@@ -31,7 +31,7 @@ class Form extends React.Component {
                         <div className="cBouton">
                             <textarea id="msg" type="text" 
                             name="tdp_list" rows="10" cols="40" 
-                            spellCheck="false" placeholder="Coller le texte ici..." 
+                            spellCheck="false" placeholder="Coller votre liste de TDP ici..." 
                             value={this.state.texteAreaValue} onChange={this.textareaHandleChange}>
                             </textarea>
                             <input type="button" value="Valider" onClick={()=>{this.valider()}}/> 

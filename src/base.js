@@ -4,6 +4,7 @@ import Fetcher from './Fetcher';
 import Form from './form';
 import { connect } from 'react-redux';
 import TdpFlatList from './TdpFlatList';
+import Fetcher2 from './Fetcher2';
 
 
 class Base extends React.Component {
@@ -13,24 +14,40 @@ class Base extends React.Component {
 
   }
  
-    render(){
+  render(){
+console.log('RENDER BASE');
+    if (this.props.getFetch) {
+      console.log("etage1");
+      return <Fetcher arg={this.props.formValue}/>
+    }else{
+      if (this.props.createReglette){
+        console.log("etage2");
+        return <Fetcher2 data={this.props.tdpErr.data}/>
+      }
         if (this.props.fetchedResultData.length !== 0) {
-           return <TdpFlatList/> 
-        }
-        if (this.props.getFetch) {
-            return <Fetcher arg={this.props.formValue}/>
-        }else{
-        return (
+          console.log("etgae3");
+          return <TdpFlatList/> 
+        }else{  
+          console.log("etage4");     
+          return (
             <div className="Form">
-                <div id="temp">
-                    <form>
-                      <Form/>
-                    </form>
-                </div>
+              <div id="temp">
+                <form>
+                  <Form/>
+                </form>
+              </div>
             </div>
-        );    
+          ) 
+        }        
+             
     }
+  }
 }
-}
-const mapStateToProps = (state)=>{return {formValue:state.formValue, getFetch:state.getFetch, fetchedResultData:state.fetchedResultData}}
+const mapStateToProps = (state)=>{return {
+  tdpErr:state.tdpErr,
+  formValue:state.formValue, 
+  getFetch:state.getFetch, 
+  fetchedResultData:state.fetchedResultData,
+  createReglette:state.createReglette,
+}}
 export default connect(mapStateToProps)(Base);

@@ -5,38 +5,29 @@ import TdpErr from './TdpErr'
 import Modal from './Modal'
 
 
-class TdpFlatList extends React.Component{
-    showModal = (e)=>{
-        console.log(e);
-        this.setState(
-            {visible: true}
-        )
-    }
-    hideModal = () =>{
-        this.setState(
-            {visible:false}
-        )
-    }
-
-    Lister(props){
-        const {data,err,cache, tdpErr} = props;
-        let preRep, preSalle, PreRco;    
+class Lister extends React.Component{
+ 
+        const {data,err,showModalFunction, visibility} = props;
+        let preRep, preSalle, PreRco;
         if (err){ 
-            if (tdpErr !== 0)
-           { const compoRender = data.map( function(item, key) {
-                
+            function test(){
+                console.log('ok');
+            }
+
+            
+            data.map(function (item, key) {
+                const mKey= 'Modal'+key
                 const divKey= 'div'+key
                 return <div key={divKey}> 
-                    <TdpErr  data={item} key={key} cache={cache}/>
+                    <TdpErr onClick={()=>{test()}} data={item} key={key}/>
+                    <Modal visible={visibility} key={mKey}/>
                 </div>
             })
 
-            return (
-                <div>
-                    <h3>REGLETTE(S) NON TROUVEE(S)</h3>
-                    {compoRender}
-                </div>
-            )}else{ return null}
+            return <div>
+                <h3>REGLETTE(S) NON TROUVEE(S)</h3>
+                {compoRender}
+            </div>
             
         }else{
             const compoRender = data.map(function (item, key) {
@@ -90,34 +81,9 @@ class TdpFlatList extends React.Component{
 
   
     render(){
-        console.log(this.props.fetchedResultData);
-        const {status, msg} = this.props.fetchedResultData
-        if (status === 300){
-            return (
-                <div>
-                    <Modal/>
-                    <this.Lister data = {this.props.fetchedResultData.value}  err = {false}/>
-                    <this.Lister 
-                        data = {this.props.fetchedResultData.errorTab} 
-                        tdpErr = {this.props.tdpErr.data.length}
-                        err = {true} 
-                    />
-                </div>
-            )           
-        }else{
-            return(
-                <div>
-                    
-                    <div id = "tdp" role="button" onClick={()=>{this.props.dispatch({type:'RESET_APP'})}}>{msg}</div>
-                </div>
-            )
 
-        }
     }    
 }
 
-const mapStateToProps = (state)=>{return {
-    fetchedResultData:state.fetchedResultData,
-    tdpErr:state.tdpErr
-}}
-export default connect(mapStateToProps)(TdpFlatList);
+const mapStateToProps = (state)=>{return {fetchedResultData:state.fetchedResultData}}
+export default connect(mapStateToProps)(Lister);

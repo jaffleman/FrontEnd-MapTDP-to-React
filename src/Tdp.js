@@ -23,6 +23,17 @@ class Tdp extends React.Component{
             }
         }
     }
+    voyant(opt){
+        if (opt==='I') {
+            return null //VoyantOrange
+        }else{
+            if (opt==='TNI'){
+                return null //VoyantRouge
+            }else{
+                return VoyantVert
+            }
+        }
+    }
   
     render(){
         const { nd, reglette, posission, opt, rep, salle, rco } = this.props.data
@@ -34,11 +45,11 @@ class Tdp extends React.Component{
                 <div className = {this.styler(nd)} onClick = {()=>{this._toggleView(nd)}}>
                     <div style={{display:'flex' }}>
                         <p style={{margin:'0'}}>{nb}</p>
-                        <p style={{flex:10}} className = "tdp"> { reglette }-{ posission }</p>
-                        <img src={VoyantVert} width={"20"} height={"20"} alt={"OK"}></img>
+                        <p style={{flex:10}} className = "tdp"> {reglette}-{posission}</p>
+                        <img src={()=>this.Voyant(opt)} width={"20"} height={"20"} alt={"OK"}></img>
                         
                     </div>
-                    <TdpOption opt = {opt}/>
+                    {/*<TdpOption opt = {opt}/>*/}
                     <DeteilView data = {this.props.data}/>
                 </div>              
             </div>

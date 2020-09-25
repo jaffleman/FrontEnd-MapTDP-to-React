@@ -17,6 +17,7 @@ h2{
   margin: 10px 5px 5px 5px;
   color: #0b1352;
   background-color: hsl(36, 90%, 48%);
+  cursor: default;
 }
 h3{
   border-radius: 5px;
@@ -29,6 +30,7 @@ h3{
   margin: 10px 5px 5px 5px;
   color: #0b1352;
   background-color: hsl(36, 46%, 65%);
+  cursor: default;
 }
 
 h4{
@@ -42,6 +44,7 @@ h4{
   text-align: center;
   color: #0b1352;
   background-color: hsl(54, 90%, 48%);
+  cursor: default;
 } 
 h5{
   border-radius: 5px;
@@ -54,6 +57,7 @@ h5{
   text-align: center;
   color: #0b1352;
   background-color: hsl(108, 90%, 48%);
+  cursor: default;
 }
 
 spam.optI{
@@ -78,6 +82,7 @@ div#tdp{
   margin: 5px auto;
   width: 252px;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .Letes{
@@ -89,6 +94,7 @@ div#tdp{
   margin: 5px 50px;
   /* width: 252px; */
   border-radius: 5px;
+  cursor: pointer;
 } 
 .Letes2{
   background-color: #ffffff;
@@ -99,6 +105,7 @@ div#tdp{
   margin: 5px 25px;
   /* width: 252px; */
   border-radius: 5px;
+  cursor: pointer;
 } 
 .Letes3{
   background-color: #797979;
@@ -109,6 +116,7 @@ div#tdp{
   margin: 5px 50px;
   /* width: 252px; */
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .cBouton{

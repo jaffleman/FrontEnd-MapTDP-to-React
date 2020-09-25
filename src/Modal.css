@@ -1,0 +1,13 @@
+.Modal{
+    background-color: white;
+    padding: 16px;
+    width: 300px;
+    box-sizing: border-box;
+    transition: all 0.3s ease-out;
+    margin: auto;
+    margin-top: -320px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 10px 3px black;
+    font-family: Courier New, monospace;
+    border: 1px solid black;
+}

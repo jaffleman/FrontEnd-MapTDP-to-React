@@ -18,11 +18,19 @@ class TdpErr extends React.Component{
             }
         }
     }
+    handleClick(e){
+        const action= {
+            type: 'SHOW_MODAL',
+            data:this.props.data,
+            value:true,
+        }
+        this.props.dispatch(action)
+    }
   
     render(){
         const {reglette, posission} = this.props.data
         return(      
-            <div className = {"Letes3"} onClick = {()=>{}}>
+            <div className = {"Letes3"} onClick={this.handleClick.bind(this)}>
                 <p className = "tdp">+ { reglette }-{ posission }</p>
             </div>              
         )
@@ -30,5 +38,10 @@ class TdpErr extends React.Component{
 }
 
 
-const mapStateToProps = (state)=>{return {ndToShow:state.ndToShow, TdpPreviousState:state.TdpPreviousState, alreadyShow:state.alreadyShow}}
+const mapStateToProps = (state)=>{return {
+    ndToShow:state.ndToShow, 
+    TdpPreviousState:state.TdpPreviousState, 
+    alreadyShow:state.alreadyShow,
+    tdpErr:state.tdpErr
+}}
 export default connect(mapStateToProps)(TdpErr);
