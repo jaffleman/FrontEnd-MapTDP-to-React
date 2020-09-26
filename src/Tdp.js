@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import DeteilView from './DeteilView'
-import TdpOption from './TdpOption'
 import TdpHeader from './TdpHeader'
 import VoyantVert from './VoyantVert.png'
 
@@ -23,22 +22,24 @@ class Tdp extends React.Component{
             }
         }
     }
-    voyant(opt){
-        if (opt==='I') {
-            return null //VoyantOrange
-        }else{
-            if (opt==='TNI'){
-                return null //VoyantRouge
-            }else{
-                return VoyantVert
-            }
-        }
-    }
+
   
     render(){
         const { nd, reglette, posission, opt, rep, salle, rco } = this.props.data
         let nb= this.props.nd
         nb++
+        console.log(opt);
+        let voyant
+            if (opt==='INVERSEE') {
+                voyant = null //VoyantOrange
+            }else{
+                if (opt==='TNI'){
+                    voyant = null //VoyantRouge
+                }else{
+                    voyant = VoyantVert
+                }
+            }
+        
         return(
             <div>
                 <TdpHeader data={{rep, salle, rco}} compos={this.props.headCompos}/>
@@ -46,7 +47,7 @@ class Tdp extends React.Component{
                     <div style={{display:'flex' }}>
                         <p style={{margin:'0'}}>{nb}</p>
                         <p style={{flex:10}} className = "tdp"> {reglette}-{posission}</p>
-                        <img src={()=>this.Voyant(opt)} width={"20"} height={"20"} alt={"OK"}></img>
+                        <img src={voyant} width={"20"} height={"20"} alt={"OK"}></img>
                         
                     </div>
                     {/*<TdpOption opt = {opt}/>*/}
@@ -59,5 +60,9 @@ class Tdp extends React.Component{
 }
 
 
-const mapStateToProps = (state)=>{return {ndToShow:state.ndToShow, TdpPreviousState:state.TdpPreviousState, alreadyShow:state.alreadyShow}}
+const mapStateToProps = (state)=>{return {
+    ndToShow:state.ndToShow, 
+    TdpPreviousState:state.TdpPreviousState, 
+    alreadyShow:state.alreadyShow
+}}
 export default connect(mapStateToProps)(Tdp);

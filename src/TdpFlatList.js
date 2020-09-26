@@ -19,10 +19,10 @@ class TdpFlatList extends React.Component{
     }
 
     Lister(props){
-        const {data,err,cache, tdpErr} = props;
+        const {data,err,cache} = props;
         let preRep, preSalle, PreRco;    
         if (err){ 
-            if (tdpErr !== 0)
+            if (data.length)
            { const compoRender = data.map( function(item, key) {
                 
                 const divKey= 'div'+key
@@ -99,7 +99,7 @@ class TdpFlatList extends React.Component{
                     <this.Lister data = {this.props.fetchedResultData.value}  err = {false}/>
                     <this.Lister 
                         data = {this.props.fetchedResultData.errorTab} 
-                        tdpErr = {this.props.tdpErr.data.length}
+                        tdpErr = {this.props.tdpErr}
                         err = {true} 
                     />
                 </div>
