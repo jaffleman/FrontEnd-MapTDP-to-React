@@ -18,7 +18,7 @@ class Fetcher2 extends React.Component{
     
       componentDidMount() {
           const {rep, reglette, salle, rco, colone, posissionReglette} = this.props.data
-        fetch(`http://localhost:8081/tdpCorrection?arg={"rep":"${rep}","reglette":"${reglette}","salle":${salle},"rco":${rco},"colone":${colone},"posissionReglette":${posissionReglette}}`)
+        fetch(`http://192.168.0.15:8081/tdpCorrection?arg={"rep":"${rep}","reglette":"${reglette}","salle":${salle},"rco":${rco},"colone":${colone},"posissionReglette":${posissionReglette}}`)
           .then(res => res.json())
           .then(
             (value)=>this.props.dispatch({type:'CLOSE_REGLETTE'}),
