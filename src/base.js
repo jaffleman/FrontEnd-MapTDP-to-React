@@ -27,16 +27,19 @@ console.log('RENDER BASE');
         if (this.props.fetchedResultData.length !== 0) {
           console.log("etgae3");
           return <TdpFlatList/> 
+        
         }else{  
           console.log("etage4");     
           return (
+            <div>
+            <h1>MapTDP</h1>
             <div className="Form">
               <div id="temp">
                 <form>
                   <Form/>
                 </form>
               </div>
-            </div>
+            </div></div>
           ) 
         }        
              

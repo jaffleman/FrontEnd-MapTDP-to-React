@@ -3,8 +3,22 @@ body {
   background-color: #ecca96;font-family:Courier New, monospace;
   background-image:url(./background.jpg);
   background-attachment: fixed;
+  background-position: center;
+  background-size: auto;
 }
-
+h1{
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px 3px black;
+  font-family: Courier New, monospace;
+  border: 1px solid black;
+  text-align: center;
+  /* width: auto; */
+  padding: 4px;
+  margin: 10px 5px 5px 5px;
+  color: #0b1352;
+  background-color: hsl(36, 90%, 48%);
+  cursor: default;
+}
 
 h2{
   border-radius: 5px;
@@ -137,10 +151,21 @@ p.info{
 p.mustView{
   margin-bottom: 0px;
 }
-
+#ButtonStyle{
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px 3px black;
+  width: 40%;
+  height: 40px;
+  margin: 5px;
+  border: 1px black;
+  background-color: hsl(36, 90%, 48%);
+}
 textarea{
-  width:80%;
-  margin:5px 10%;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px 3px black;
+  width: 90%;
+  margin: auto;
+  background-color: lavender;
 }
 
 input#vld{

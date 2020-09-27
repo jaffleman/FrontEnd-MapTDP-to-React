@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux'
 import Tdp from './Tdp'
 import TdpErr from './TdpErr'
+import RepErr from './RepErr'
 import Modal from './Modal'
 
 
@@ -19,9 +20,9 @@ class TdpFlatList extends React.Component{
     }
 
     Lister(props){
-        const {data,err,cache} = props;
+        const {data,type,cache} = props;
         let preRep, preSalle, PreRco;    
-        if (err){ 
+        if (type==='tdpErr'){ 
             if (data.length)
            { const compoRender = data.map( function(item, key) {
                 
@@ -33,12 +34,31 @@ class TdpFlatList extends React.Component{
 
             return (
                 <div>
-                    <h3>REGLETTE(S) NON TROUVEE(S)</h3>
+                    <h3>REGLETTE(S) NON TROUVEE(S)
+                    Cliquez pour intégrer à la base</h3>                  
                     {compoRender}
                 </div>
             )}else{ return null}
-            
-        }else{
+        }
+        if (type==='repErr') {
+            if (data.length)
+                { const compoRender = data.map( function(item, key) {
+                    
+                    const divKey= 'div'+key
+                    return <div key={divKey}> 
+                        <RepErr  data={item} key={key} cache={cache}/>
+                    </div>
+                })
+    
+                return (
+                    <div>
+                        <h3>REPARTITEUR(S) INCONNU(S)
+                        Cliquez pour intégrer à la base</h3>
+                        {compoRender}
+                    </div>
+                )}else{ return null}   
+        }
+        if (type==='tdpOk'){
             const compoRender = data.map(function (item, key) {
                 let withRep, withSalle, withRco;
 
@@ -96,11 +116,18 @@ class TdpFlatList extends React.Component{
             return (
                 <div>
                     <Modal/>
-                    <this.Lister data = {this.props.fetchedResultData.value}  err = {false}/>
+                    <this.Lister 
+                        data = {this.props.fetchedResultData.value} 
+                        type = {'tdpOk'}
+                    />
                     <this.Lister 
                         data = {this.props.fetchedResultData.errorTab} 
-                        tdpErr = {this.props.tdpErr}
-                        err = {true} 
+                        err = {this.props.tdpErr}
+                        type = {'tdpErr'} 
+                    />
+                    <this.Lister 
+                        data = {this.props.fetchedResultData.errorRep} 
+                        type = {'repErr'}
                     />
                 </div>
             )           

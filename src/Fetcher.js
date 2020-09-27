@@ -21,7 +21,7 @@ class Fetcher extends React.Component{
       }
     
       componentDidMount() {
-        fetch("http://192.168.0.15:8081/datas?arg="+this.props.arg)
+        fetch("http://tdp.jaffleman.tech:8081/datas?arg="+this.props.arg)
           .then(res => res.json())
           .then(
             (result) => {

@@ -34,7 +34,7 @@ class Form extends React.Component {
                             spellCheck="false" placeholder="Coller votre liste de TDP ici..." 
                             value={this.state.texteAreaValue} onChange={this.textareaHandleChange}>
                             </textarea>
-                            <input type="button" value="Valider" onClick={()=>{this.valider()}}/> 
+                            <input type="button" id="ButtonStyle" value="Valider" onClick={()=>{this.valider()}}/> 
                         </div>
                     
                 </div>

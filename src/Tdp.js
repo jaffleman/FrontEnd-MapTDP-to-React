@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import DeteilView from './DeteilView'
 import TdpHeader from './TdpHeader'
 import VoyantVert from './VoyantVert.png'
+import VoyantRouge from './VoyantRouge.png'
+import VoyantOrange from './VoyantJaune.png'
 
 
 
@@ -30,11 +32,11 @@ class Tdp extends React.Component{
         nb++
         console.log(opt);
         let voyant
-            if (opt==='INVERSEE') {
-                voyant = null //VoyantOrange
+            if (opt==='I') {
+                voyant = VoyantOrange
             }else{
                 if (opt==='TNI'){
-                    voyant = null //VoyantRouge
+                    voyant = VoyantRouge
                 }else{
                     voyant = VoyantVert
                 }
