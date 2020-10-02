@@ -7,43 +7,27 @@ import TdpFlatList from './TdpFlatList';
 import Fetcher2 from './Fetcher2';
 
 
-class Base extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {}
-
-  }
- 
-  render(){
-console.log('RENDER BASE');
-    if (this.props.getFetch) {
-      console.log("etage1");
-      return <Fetcher arg={this.props.formValue}/>
-    }else{
-      if (this.props.createReglette){
-        console.log("etage2");
-        return <Fetcher2 data={this.props.tdpErr.data}/>
-      }
-        if (this.props.fetchedResultData.length !== 0) {
-          console.log("etgae3");
-          return <TdpFlatList/> 
-        
-        }else{  
-          console.log("etage4");     
-          return (
-            <div>
-            <h1>MapTDP</h1>
-            <div className="Form">
-              <div id="temp">
-                <form>
-                  <Form/>
-                </form>
-              </div>
-            </div></div>
-          ) 
-        }        
-             
+const Base = (props) => {
+  if (props.getFetch) {
+    return <Fetcher arg={props.formValue}/>
+  }else{
+    if (props.createReglette){
+      return <Fetcher2 data={props.tdpErr.data}/>
     }
+    if (props.fetchedResultData.length !== 0) {
+      return <TdpFlatList/> 
+    }else{     
+      return (
+        <div>
+          <h1>MapTDP</h1>
+          <div className="Form">
+            <div id="temp">
+                <Form/>
+            </div>
+          </div>
+        </div>
+      ) 
+    }   
   }
 }
 const mapStateToProps = (state)=>{return {

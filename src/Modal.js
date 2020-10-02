@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import './Modal.css'
 
 
-
 function Modal(props){
     const [salle,setSalle] = useState(1);
     const [rco,setRco] = useState(1);

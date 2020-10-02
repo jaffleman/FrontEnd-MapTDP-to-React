@@ -17,11 +17,10 @@ class Form extends React.Component {
         this.setState({texteAreaValue: e.target.value});
       }
     valider(){
-        const action = {
+        this.props.dispatch({
             type: "GET_FORM_VALUE",
             value: this.state.texteAreaValue
-        }
-        this.props.dispatch(action)
+        })
     }
     render(){
         return (

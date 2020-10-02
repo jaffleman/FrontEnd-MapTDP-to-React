@@ -6,6 +6,7 @@ import RepErr from './RepErr'
 import Modal from './Modal'
 
 
+
 class TdpFlatList extends React.Component{
     showModal = (e)=>{
         console.log(e);
@@ -101,32 +102,36 @@ class TdpFlatList extends React.Component{
                     showSalle: withSalle,
                     showRco: withRco
                 }
-                return <Tdp data={item} key={key} nd={key++} headCompos={withHeader}/>
+                return(
+                 
+                        <Tdp data={item} key={key} nd={key++} headCompos={withHeader}/>
+                    
+                )             
             })
-
             return compoRender
         }
     }
 
   
     render(){
-        console.log(this.props.fetchedResultData);
-        const {status, msg} = this.props.fetchedResultData
+       
+        
+        const {status, msg,value,errorTab,errorRep} = this.props.fetchedResultData
         if (status === 300){
             return (
                 <div>
                     <Modal/>
                     <this.Lister 
-                        data = {this.props.fetchedResultData.value} 
+                        data = {value} 
                         type = {'tdpOk'}
                     />
                     <this.Lister 
-                        data = {this.props.fetchedResultData.errorTab} 
+                        data = {errorTab} 
                         err = {this.props.tdpErr}
                         type = {'tdpErr'} 
                     />
                     <this.Lister 
-                        data = {this.props.fetchedResultData.errorRep} 
+                        data = {errorRep} 
                         type = {'repErr'}
                     />
                 </div>
@@ -134,7 +139,6 @@ class TdpFlatList extends React.Component{
         }else{
             return(
                 <div>
-                    
                     <div id = "tdp" role="button" onClick={()=>{this.props.dispatch({type:'RESET_APP'})}}>{msg}</div>
                 </div>
             )

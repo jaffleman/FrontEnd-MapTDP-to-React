@@ -1,4 +1,4 @@
- const  initialState = {
+const  initialState = {
     ndToShow: null,
     formValue: null,
     getFetch: false,

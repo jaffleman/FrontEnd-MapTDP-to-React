@@ -5,11 +5,39 @@ import TdpHeader from './TdpHeader'
 import VoyantVert from './VoyantVert.png'
 import VoyantRouge from './VoyantRouge.png'
 import VoyantOrange from './VoyantJaune.png'
+import LongPress from './LongPress'
 
 
 
 class Tdp extends React.Component{
- 
+    state = {
+        pressed: []
+      };
+    
+    addToPressed = (index) =>
+    {
+        if (index === this.props.ndToShow){
+            this.setState({pressed: [index]});
+            const action= {
+                type: 'SHOW_MODAL',
+                data:this.props.data,
+                value:true,
+            }
+            this.props.dispatch(action)
+        }
+    };
+    handleClick(e){
+        const action= {
+            type: 'SHOW_MODAL',
+            data:this.props.data,
+            value:true,
+        }
+        this.props.dispatch(action)
+    }
+
+    removeFromPressed = index =>
+    this.setState({pressed: this.state.pressed.filter(i => i !== index)});
+
     _toggleView(elem) {  
         const action = { type: "TOGGLE_FAVORITE", value: elem }
         this.props.dispatch(action)
@@ -44,17 +72,24 @@ class Tdp extends React.Component{
         
         return(
             <div>
-                <TdpHeader data={{rep, salle, rco}} compos={this.props.headCompos}/>
-                <div className = {this.styler(nd)} onClick = {()=>{this._toggleView(nd)}}>
-                    <div style={{display:'flex' }}>
-                        <p style={{margin:'0'}}>{nb}</p>
-                        <p style={{flex:10}} className = "tdp"> {reglette}-{posission}</p>
-                        <img src={voyant} width={"20"} height={"20"} alt={"OK"}></img>
-                        
-                    </div>
-                    {/*<TdpOption opt = {opt}/>*/}
-                    <DeteilView data = {this.props.data}/>
-                </div>              
+                <TdpHeader data={{rep, salle, rco, nd}} compos={this.props.headCompos}/>
+                <LongPress
+                    key={nd}
+                    time={500}
+                    onLongPress={() => this.addToPressed(nd)}
+                    onPress={() => this.removeFromPressed(nd)}
+                    > 
+                    <div className = {this.styler(nd)} onClick = {()=>{this._toggleView(nd)}}>
+                        <div style={{display:'flex' }}>
+                            <p style={{margin:'0'}}>{nb}</p>
+                            <p style={{flex:10}} className = "tdp"> {reglette}-{posission}</p>
+                            <img src={voyant} width={"20"} height={"20"} alt={"OK"}></img>
+                            
+                        </div>
+                        {/*<TdpOption opt = {opt}/>*/}
+                        <DeteilView data = {this.props.data}/>
+                    </div> 
+                </LongPress>
             </div>
 
         )
