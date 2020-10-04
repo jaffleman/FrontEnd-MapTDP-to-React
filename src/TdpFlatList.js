@@ -24,14 +24,13 @@ class TdpFlatList extends React.Component{
         const {data,type,cache} = props;
         let preRep, preSalle, PreRco;    
         if (type==='tdpErr'){ 
-            if (data.length)
-           { const compoRender = data.map( function(item, key) {
-                
-                const divKey= 'div'+key
-                return <div key={divKey}> 
-                    <TdpErr  data={item} key={key} cache={cache}/>
-                </div>
-            })
+            if (data.length){ 
+                const compoRender = data.map( function(item, key) {    
+                    const divKey= 'div'+key
+                    return <div key={divKey}> 
+                        <TdpErr  data={item} key={key} cache={cache}/>
+                    </div>
+                })
 
             return (
                 <div>
@@ -126,7 +125,7 @@ class TdpFlatList extends React.Component{
                         type = {'tdpOk'}
                     />
                     <this.Lister 
-                        data = {errorTab} 
+                        data = {errorTab.data} 
                         err = {this.props.tdpErr}
                         type = {'tdpErr'} 
                     />
