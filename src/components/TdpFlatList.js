@@ -56,12 +56,11 @@ class TdpFlatList extends React.Component{
                         Cliquez pour intégrer à la base</h3>
                         {compoRender}
                     </div>
-                )}else{ return null}   
+                )}else{return null}   
         }
         if (type==='tdpOk'){
             const compoRender = data.map(function (item, key) {
                 let withRep, withSalle, withRco;
-
                 if (item.rep !== preRep){
                     preRep = item.rep;
                     preSalle = item.salle;
@@ -125,7 +124,7 @@ class TdpFlatList extends React.Component{
                         type = {'tdpOk'}
                     />
                     <this.Lister 
-                        data = {errorTab.data} 
+                        data = {errorTab} 
                         err = {this.props.tdpErr}
                         type = {'tdpErr'} 
                     />

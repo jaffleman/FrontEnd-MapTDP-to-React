@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { connect } from 'react-redux';
 
 
@@ -11,11 +10,15 @@ class Form extends React.Component {
             texteAreaValue: ""
         }
         this.textareaHandleChange = this.textareaHandleChange.bind(this) 
-
+    }
+    myStyle = {
+        marginTop:'10px', 
+        fontWeight:'bold', 
+        textTransform:'uppercase'
     }
     textareaHandleChange(e){
         this.setState({texteAreaValue: e.target.value});
-      }
+    }
     valider(){
         this.props.dispatch({
             type: "GET_FORM_VALUE",
@@ -24,19 +27,14 @@ class Form extends React.Component {
     }
     render(){
         return (
-            <div className="Form">
-                <div id="temp">
-                    
-                        <div className="cBouton">
-                            <textarea id="msg" type="text" 
-                            name="tdp_list" rows="10" cols="40" 
-                            spellCheck="false" placeholder="Coller votre liste de TDP ici..." 
-                            value={this.state.texteAreaValue} onChange={this.textareaHandleChange}>
-                            </textarea>
-                            <input type="button" id="ButtonStyle" value="Valider" onClick={()=>{this.valider()}}/> 
-                        </div>
-                    
-                </div>
+            <div className="dark">
+                <div className="bandoRechercheTdp"><p style={this.myStyle}>recherche de positions</p></div>
+                <textarea id="msg" type="text" 
+                name="tdp_list" rows="10" cols="40" 
+                spellCheck="false" placeholder="Coller votre liste de TDP ici..." 
+                value={this.state.texteAreaValue} onChange={this.textareaHandleChange}>
+                </textarea>
+                <input type="button" className="ButtonStyle" value="RECHERCHER" onClick={()=>{this.valider()}}/>                  
             </div>
         );    
     }

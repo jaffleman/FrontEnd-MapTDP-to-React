@@ -2,12 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux'
 import DeteilView from './DeteilView'
 import TdpHeader from './TdpHeader'
-import VoyantVert from './VoyantVert.png'
-import VoyantRouge from './VoyantRouge.png'
-import VoyantOrange from './VoyantJaune.png'
-import LongPress from './LongPress'
-
-
+import VoyantVert from '../img/VoyantVert.png'
+import VoyantRouge from '../img/VoyantRouge.png'
+import VoyantOrange from '../img/VoyantJaune.png'
+import LongPress from '../LongPress'
 
 class Tdp extends React.Component{
     state = {

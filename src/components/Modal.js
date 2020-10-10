@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
-import './Modal.css'
+
 
 
 function Modal(props){

@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Base from './base';
+import Base from './components/base';
 import { Provider } from 'react-redux'
 import Store from './store/configureStore'
 

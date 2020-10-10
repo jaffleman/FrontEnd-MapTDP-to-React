@@ -1,10 +1,11 @@
 import React from 'react';
-import './App.css';
 import Fetcher from './Fetcher';
 import Form from './form';
 import { connect } from 'react-redux';
 import TdpFlatList from './TdpFlatList';
 import Fetcher2 from './Fetcher2';
+import Separator from '../Separator';
+import RepCreator from './RepCreator';
 
 
 const Base = (props) => {
@@ -20,9 +21,13 @@ const Base = (props) => {
       return (
         <div>
           <h1>MapTDP</h1>
-          <div className="Form">
-            <div id="temp">
-                <Form/>
+          <div>
+            <div style={{marginTop:'20px'}}>
+              <Form/> 
+            </div>
+            <Separator/>
+            <div style={{marginTop:'20px'}}>
+              <RepCreator/> 
             </div>
           </div>
         </div>
