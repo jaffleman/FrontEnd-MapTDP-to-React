@@ -24,8 +24,8 @@ class RepErr extends React.Component{
     render(){
       
         return(      
-            <div className = {"Letes3"} onClick={this.handleClick.bind(this)}>
-                <p className = "tdp">+ {this.props.data}</p>
+            <div className ="tdp Letes3" onClick={this.handleClick.bind(this)}>
+                <p style={{margin:0}}>+ {this.props.data}</p>
             </div>              
         )
     }

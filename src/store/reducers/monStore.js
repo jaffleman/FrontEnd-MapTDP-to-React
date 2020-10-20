@@ -1,11 +1,11 @@
 const  initialState = {
     ndToShow: null,
-    formValue: null,
+    formValue: '',
     getFetch: false,
     fetchedResultData:[],
     alreadyShow:[],
+    fetchModal:false,
     tdpErr:{
-        showModal: false,
         data:[]
     },
     createReglette:false,
@@ -44,13 +44,13 @@ export default function  monStore(state = initialState, action){
         return nextState||state
 
         case 'CREATE_REGLETTE':
-            const {salle, rco, colone, posissionReglette, opt,} = action.value;
+            const {salle, rco, colone, posissionReglette, opt} = action.value;
 
-            nextState = {...state, tdpErr:{...state.tdpErr, getFetch:false, showModal:false, data:{...state.tdpErr.data,salle,rco,colone,posissionReglette,opt, }}, createReglette:true}
+            nextState = {...state, fetchModal:true, tdpErr:{...state.tdpErr, data:{...state.tdpErr.data,salle,rco,colone,posissionReglette,opt, }},}
         return nextState||state
 
         case 'CLOSE_REGLETTE':
-            nextState = {...state,tdpErr:{...state.tdpErr, data:[]}, getFetch:true, createReglette:false}
+            nextState = {...state,tdpErr:{...state.tdpErr, data:[]}, fetchModal:true}
             return nextState||state
 
         case 'STORE_TDP_STATE':

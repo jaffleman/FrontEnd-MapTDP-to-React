@@ -7,8 +7,8 @@ class DeteilView extends React.Component{
         let  {rep,salle,magik,rco,colone,posissionReglette, nd} = this.props.data;
         if (this.props.ndToShow === nd) {
             return <div>
-                <p className = "mustView">{`COORDONNEES: [${colone}-${posissionReglette}][${magik}]`}</p>
-                <p className = "mustView">{`[${rep}]  Salle:[${salle}]  rco:[${rco}]`}</p>
+                <p style={{margin:0}}>{"COORDONNEES: ["}<span style={{fontWeight: 'bold'}}>{`${colone}`}</span>{"-"}<span style={{fontWeight: 'bold'}}>{`${posissionReglette}`}</span>{"]["}<span style={{fontWeight: 'bold'}}>{`${magik}`}</span>{"]"}</p>
+                <p style={{margin:0}}>{"["}<span style={{fontWeight: 'bold'}}>{`${rep}`}</span>{"]  Salle:["}<span style={{fontWeight: 'bold'}}>{`${salle}`}</span>{"]  rco:["}<span style={{fontWeight: 'bold'}}>{`${rco}`}</span>{"]"}</p>
             </div>         
         }else return null        
     }

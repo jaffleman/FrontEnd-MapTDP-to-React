@@ -2,9 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux'
 import DeteilView from './DeteilView'
 import TdpHeader from './TdpHeader'
-import VoyantVert from '../img/VoyantVert.png'
-import VoyantRouge from '../img/VoyantRouge.png'
-import VoyantOrange from '../img/VoyantJaune.png'
 import LongPress from '../LongPress'
 
 class Tdp extends React.Component{
@@ -56,15 +53,20 @@ class Tdp extends React.Component{
         const { nd, reglette, posission, opt, rep, salle, rco } = this.props.data
         let nb= this.props.nd
         nb++
-        console.log(opt);
-        let voyant
-            if (opt==='I') {
-                voyant = VoyantOrange
+            const badgeElement= {
+                badgeLabel:'',
+                badgeColor:''
+            }
+           if (opt==='I') {
+                badgeElement.badgeColor = "badge-warning";
+                badgeElement.badgeLabel = "Inver"
             }else{
                 if (opt==='TNI'){
-                    voyant = VoyantRouge
+                    badgeElement.badgeColor = "badge-danger";
+                    badgeElement.badgeLabel = "NoIso"
                 }else{
-                    voyant = VoyantVert
+                    badgeElement.badgeColor = "badge-success";
+                    badgeElement.badgeLabel = "Ok!"                   
                 }
             }
         
@@ -77,12 +79,11 @@ class Tdp extends React.Component{
                     onLongPress={() => this.addToPressed(nd)}
                     onPress={() => this.removeFromPressed(nd)}
                     > 
-                    <div className = {this.styler(nd)} onClick = {()=>{this._toggleView(nd)}}>
+                    <div className = {`tdp ${this.styler(nd)}`} onClick = {()=>{this._toggleView(nd)}}>
                         <div style={{display:'flex' }}>
                             <p style={{margin:'0'}}>{nb}</p>
-                            <p style={{flex:10}} className = "tdp"> {reglette}-{posission}</p>
-                            <img src={voyant} width={"20"} height={"20"} alt={"OK"}></img>
-                            
+                            <p style={{flex:10}} className = "tdp2"> {reglette}-{posission}</p>
+                            <span className ={`badge badge-pill ${badgeElement.badgeColor}`}>{badgeElement.badgeLabel}</span>
                         </div>
                         {/*<TdpOption opt = {opt}/>*/}
                         <DeteilView data = {this.props.data}/>

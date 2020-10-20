@@ -31,8 +31,8 @@ class TdpErr extends React.Component{
     render(){
         const {reglette, posission} = this.props.data
         return(      
-            <div className = {"Letes3"} onClick={this.handleClick.bind(this)}>
-                <p className = "tdp">+ { reglette }-{ posission }</p>
+            <div className ="tdp Letes3" onClick={this.handleClick.bind(this)}>
+                <p style={{margin:0}}>+ { reglette }-{ posission }</p>
             </div>              
         )
     }

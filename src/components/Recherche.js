@@ -3,11 +3,21 @@ import {connect} from 'react-redux'
 import Tdp from './Tdp'
 import TdpErr from './TdpErr'
 import RepErr from './RepErr'
-import Modal from './Modal'
+import LaModal from './ModalContent'
+import { withRouter } from 'react-router-dom';
+import $ from "jquery";
+import Card from './Card';
 
 
 
-class TdpFlatList extends React.Component{
+class Recherche extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            renderStatus: false,
+            fetchModal:false
+        }
+    }
     showModal = (e)=>{
         console.log(e);
         this.setState(
@@ -34,7 +44,8 @@ class TdpFlatList extends React.Component{
 
             return (
                 <div>
-                    <div className="tdpHead">REGLETTE(S) NON TROUVEE(S) Cliquez pour intégrer à la base</div>                  
+                    <h5 className="tdpHead err">REGLETTE(S) NON TROUVEE(S)
+                    <h6 style={{margin:0}}>Cliquez pour intégrer à la base</h6></h5>                  
                     {compoRender}
                 </div>
             )}else{ return null}
@@ -51,8 +62,8 @@ class TdpFlatList extends React.Component{
     
                 return (
                     <div>
-                        <h3 className={"tdpHead rep"}>REPARTITEUR(S) INCONNU(S)
-                        Cliquez pour intégrer à la base</h3>
+                        <h5 className="tdpHead err">REPARTITEUR(S) INCONNU(S)
+                        <p style={{margin:0}}>Cliquez pour intégrer à la base</p></h5>
                         {compoRender}
                     </div>
                 )}else{return null}   
@@ -91,9 +102,6 @@ class TdpFlatList extends React.Component{
                     } 
                 }
 
-
-                
-                
                 const withHeader = {
                     showRep: withRep,
                     showSalle: withSalle,
@@ -109,43 +117,82 @@ class TdpFlatList extends React.Component{
         }
     }
 
+    openModal({condition}){
+        if (condition) {
+            $( document ).ready(function() {
+               window.$('#laModal').modal()
+            });
+        }
+        return null
+    }
+    
+    componentDidMount() {
+        console.log('DIDMOUNT');
+        fetch(`http://192.168.0.15:8081/datas?arg=${this.props.formValue}`)
+        .then(res => res.json())
+        .then(
+            (result) => {
+                this.props.dispatch({type: "GET_FETCH_VALUE",value: result});
+                this.setState({renderStatus: true,})
+            },
+            (error) => {alert("Une erreur c'est produite... ")}
+        )
+    }
+
   
     render(){
-       
-        
-        const {status, msg,value,errorTab,errorRep} = this.props.fetchedResultData
-        if (status === 300){
-            return (
-                <div>
-                    <Modal/>
-                    <this.Lister 
-                        data = {value} 
-                        type = {'tdpOk'}
-                    />
-                    <this.Lister 
-                        data = {errorTab} 
-                        err = {this.props.tdpErr}
-                        type = {'tdpErr'} 
-                    />
-                    <this.Lister 
-                        data = {errorRep} 
-                        type = {'repErr'}
-                    />
-                </div>
-            )           
+     /*   if (this.props.fetchModal) {
+            this.setState({
+                fetchModal:this.props.fetchModal,
+            })
+        } */ 
+    if (this.state.renderStatus){
+            const {status, msg, value, errorTab, errorRep} = this.props.fetchedResultData
+            if (status === 300){
+                return (
+                    <div className='main'>
+                        <LaModal/>
+                        <this.Lister 
+                            data = {value} 
+                            type = {'tdpOk'}
+                        />
+                        <this.Lister 
+                            data = {errorTab} 
+                            err = {this.props.tdpErr}
+                            type = {'tdpErr'} 
+                        />
+                        <this.Lister 
+                            data = {errorRep} 
+                            type = {'repErr'}
+                        />
+                        <this.openModal
+                            condition = {this.props.tdpErr.showModal}
+                        />
+                    </div>
+                )           
+            }else{
+                return(
+                    <div className='main'>
+                        <Card data={{
+                            title:'TDP Introuvable',
+                            type:'text',
+                            textValue:msg,
+                            bName:'<=RETOUR',
+                            route:'/'}}/> 
+                    </div>
+                )
+    
+            }
         }else{
-            return(
-                <div>
-                    <div id = "tdp" role="button" onClick={()=>{this.props.dispatch({type:'RESET_APP'})}}>{msg}</div>
-                </div>
-            )
-
-        }
-    }    
+            return <h3>loding...</h3>
+        }   
+    }
 }
 
 const mapStateToProps = (state)=>{return {
+    formValue:state.formValue,
     fetchedResultData:state.fetchedResultData,
-    tdpErr:state.tdpErr
+    tdpErr:state.tdpErr,
+    fetchModal:state.fetchModal
 }}
-export default connect(mapStateToProps)(TdpFlatList);
+export default withRouter(connect(mapStateToProps)(Recherche));
