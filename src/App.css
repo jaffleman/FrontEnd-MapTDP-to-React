@@ -1,6 +1,8 @@
 body {
   font-family: Courier New, monospace;
   background-image: url(./img/background/background.jpg);
+  background-attachment: fixed;
+  background-position: center;
   background-size: cover;
   /*background-attachment: fixed;
   background-position: right ;
@@ -117,6 +119,13 @@ body {
   padding:0px; 
   margin:0;
   font-weight: bold;
+}
+.Creator{
+    padding: 4px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    background-color: hsl(30, 3%, 87%);
 }
 .err{
   padding: 4px;

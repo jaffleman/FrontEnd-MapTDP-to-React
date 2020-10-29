@@ -19,9 +19,9 @@ class Fetcher2 extends React.Component{
     const {rep, reglette, salle, rco, colone, posissionReglette} = this.props.data
     if (this.props.nd){
       const tdp = this.props.lesTdp[this.props.nd-1]
-      adress = `http://192.168.0.15:8081/tdpCorrection?arg={"newPosition":{"rep":"${rep}","reglette":"${reglette}","salle":${salle},"rco":${rco},"colone":${colone},"posissionReglette":${posissionReglette}},"oldPosition":{"oldSalle":${tdp.salle},"oldRco":${tdp.rco},"oldColone":${tdp.colone},"oldPosissionReglette":${tdp.posissionReglette}}}`
+      adress = `http://192.168.0.14:8081/tdpCorrection?arg={"newPosition":{"rep":"${rep}","reglette":"${reglette}","salle":${salle},"rco":${rco},"colone":${colone},"posissionReglette":${posissionReglette}},"oldPosition":{"oldSalle":${tdp.salle},"oldRco":${tdp.rco},"oldColone":${tdp.colone},"oldPosissionReglette":${tdp.posissionReglette}}}`
     }else{
-      adress = `http://192.168.0.15:8081/tdpCorrection?arg={"newPosition":{"rep":"${rep}","reglette":"${reglette}","salle":${salle},"rco":${rco},"colone":${colone},"posissionReglette":${posissionReglette}}}`
+      adress = `http://192.168.0.14:8081/tdpCorrection?arg={"newPosition":{"rep":"${rep}","reglette":"${reglette}","salle":${salle},"rco":${rco},"colone":${colone},"posissionReglette":${posissionReglette}}}`
     }
     
     fetch(adress)
