@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Recherche from './components/Recherche';
 import MapTdpHeader from './MapTdpTitle';
 import CreatRep from './components/CreatRep';
+import Peupler from './components/Peupler'
 
 class App extends React.Component {
   goToRecherche = ()=>{
@@ -28,6 +29,9 @@ class App extends React.Component {
               </Route>  
               <Route exact path="/CreatRep">
                 <CreatRep/>  
+              </Route> 
+              <Route exact path="/Peupler">
+                <Peupler/>  
               </Route> 
             </Switch>
           </Router>

@@ -21,6 +21,14 @@ const Accueil = () => {
             bName:'Go=>',
             route:'/CreatRep'}}/> 
         </div>
+        <div className='col-lg' style={{marginTop:'20px'}}>
+          <Card data={{
+            title:'Peupler un repartiteur:',
+            type:'text',
+            textValue:'Si tu souhaites completer les rco pour un rep precis, cliques sur "GO=>"',
+            bName:'Go=>',
+            route:'/Peupler'}}/> 
+        </div>
       </div>
     </div>
   ) 

@@ -1,7 +1,6 @@
 import React from 'react'
 import Increment from './Increment'
 import RcoCreator from './RcoCreator'
-import SalleCreator from './SalleCreator'
 class Salle extends React.Component{
     constructor(props){
         super(props)

@@ -1,5 +1,4 @@
 import React from 'react'
-import SalleCreator from './SalleCreator'
 
 class Increment extends React.Component{
     constructor(props){

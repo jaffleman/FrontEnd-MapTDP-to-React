@@ -172,3 +172,37 @@ body {
   font-family: Courier New, monospace;
   border: 1px solid black;
 }
+.RegletteConstructor{
+  display: flex;
+  padding: 2px;
+  border: 1px solid black;
+  box-shadow: 3px 3px 10px 3px black;
+  text-align: center;
+  /*margin: 1px 20px;*/
+  border-radius: 5px;
+  cursor: pointer;
+  min-width: 310px;
+  background-color: #e46b50;
+}
+
+.Bando-Titre2{
+  display: block;
+  font-size: 1.17em;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  /* border-top-left-radius: 5px; */
+  /* border-top-right-radius: 5px; */
+  /* box-shadow: 3px 3px 10px 3px black; */
+  font-family: Courier New, monospace;
+  text-align: center;
+  /* height: 40px; */
+  /* padding: 4px; */
+  color: #0b1352;
+  background-color: hsl(36, 46%, 65%);
+  cursor: default;
+  margin: auto;
+  font-weight: bold;
+  text-transform: uppercase;
+}

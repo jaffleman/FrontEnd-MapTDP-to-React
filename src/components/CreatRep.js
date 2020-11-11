@@ -29,7 +29,7 @@ class CreatRep extends React.Component{
                     fetch(`http://192.168.0.14:8081/CreatRep?arg={"repName":"${this.state.repName}","structure":${JSON.stringify(this.props.repStructure)}}`)
                     .then(result=>result.text())
                     .then(result=>alert(result))
-                    .catch((err)=>alert('Echec: Le serveur n\'a pas répondu: '+err))
+                    .catch((err)=>alert('Echec: Le serveur n\'a pas répondu. '+err))
             }
         }else{
             alert("T'as oublié le nom du rep bro...")
