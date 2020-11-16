@@ -21,7 +21,7 @@ class SalleCreator extends React.Component{
         }
         const compoRender = tab.map((item, key)=>{ 
             return (
-                <div className="Creator">
+                <div key={key} className="Creator">
                     <h5>Salle: {key+1}</h5>
                    <Salle key={key} salleNum={key}/>
                 </div>

@@ -23,12 +23,7 @@ class RcoCreator extends React.Component{
             const action = {type: "SET_REP_STRUCTURE",value: localstructure};
             this.props.dispatch(action)
         }
-        const compoRender = tab.map((item, key)=>{ 
-            return (
-                <Rco parentKey={this.props.parentKey} key={key} number={key}/>
-            )
-        })
-        return compoRender
+        return tab.map((item, key)=>{ return (<Rco parentKey={this.props.parentKey} key={key} number={key}/>)})
 
     
     }

@@ -1,18 +1,34 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Card from './Card';
+import { useHistory } from 'react-router-dom';
 
 
 const Accueil = () => {
+  const history = useHistory()
+  const [formValue,setFormValue] = useState('')
+  const textareaHandleChange=(e)=>{
+    setFormValue(e.target.value)
+  }
   return (
     <div className='main'>
       <div className='row'>
         <div className='col-lg' style={{marginTop:'20px'}}>
-          <Card data={{
-            title:'Recherche de TDP:',
-            type:'textarea',
-            bName:'Rechercher',
-            route:'/recherche'}}/> 
-        </div>       
+        <div className="MyCard">
+                <div className="Bando-Titre">
+                    <p>TDP Search</p>
+                </div>
+          <form>
+            <textarea id="msg" type="text" className='cardArea'
+              name="tdp_list" rows="6"  
+              placeholder="Coller votre liste de TDP ici..." 
+              value={formValue}  onChange={e=>textareaHandleChange(e)}>
+            </textarea>
+          </form>
+          <div className="Bando-Valider">
+                    <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>{history.push('/recherche',formValue)}}>Lancer la recherche</button>                
+                </div>
+            </div>
+        </div>      
         <div className='col-lg' style={{marginTop:'20px'}}>
           <Card data={{
             title:'Création de répartiteur:',
@@ -34,4 +50,4 @@ const Accueil = () => {
   ) 
 }   
 
-export default (Accueil);
+export default Accueil;

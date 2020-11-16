@@ -8,19 +8,18 @@ function Modal(props){
     const [colone,setColonne] = useState(1);
     const [posissionReglette,setPosition] = useState(1);
     const [opt,setOpt] = useState("x");
-    console.log(props);
 
     useEffect(()=>{
         console.log('FETCH_MODAL_DATA');
         if (MustFetch) {
-            let adress;
-            if (props.nd){
-            const tdp = props.lesTdp[props.nd-1]
-            adress = `http://192.168.0.15:8081/tdpCorrection?arg={"newPosition":{"rep":"${props.tdpErr.data.rep}","reglette":"${props.tdpErr.data.reglette}","salle":${salle},"rco":${rco},"colone":${colone},"posissionReglette":${posissionReglette}},"oldPosition":{"oldSalle":${tdp.salle},"oldRco":${tdp.rco},"oldColone":${tdp.colone},"oldPosissionReglette":${tdp.posissionReglette}}}`
-            }else{
-            adress = `http://192.168.0.15:8081/tdpCorrection?arg={"newPosition":{"rep":"${props.tdpErr.data.rep}","reglette":"${props.tdpErr.data.reglette}","salle":${salle},"rco":${rco},"colone":${colone},"posissionReglette":${posissionReglette}}}`
+            const adress = ()=>{
+                if (props.nd){
+                const tdp = props.lesTdp[props.nd-1]
+                return `http://82.64.128.239:8081/tdpCorrection?arg={"newPosition":{"rep":"${props.tdpErr.data.rep}","reglette":"${props.tdpErr.data.reglette}","salle":${salle},"rco":${rco},"colone":${colone},"posissionReglette":${posissionReglette}},"oldPosition":{"oldSalle":${tdp.salle},"oldRco":${tdp.rco},"oldColone":${tdp.colone},"oldPosissionReglette":${tdp.posissionReglette}}}`
+                }else{
+                return `http://82.64.128.239:8081/tdpCorrection?arg={"newPosition":{"rep":"${props.tdpErr.data.rep}","reglette":"${props.tdpErr.data.reglette}","salle":${salle},"rco":${rco},"colone":${colone},"posissionReglette":${posissionReglette}}}`
+                }
             }
-            
             fetch(adress)
             .then(res => res.json())
             .then(
@@ -28,10 +27,14 @@ function Modal(props){
                     window.$('#laModal').modal('toggle')
                     setFetch(false)
                 },
-                (error) => {alert("Une erreur c'est produite... ")}
+                (error) => {
+                    setFetch(false)
+                    alert("Une erreur c'est produite... ")
+                }
             )
         }
     },[MustFetch,props,salle,colone,posissionReglette,rco,opt])
+
     function valideModal(){
         setFetch(true)
     }

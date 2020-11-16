@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 
+
 function Card(props) {
+        const [formValue,setFormValue] = useState('')
         const title = props.data.title;
         const type = props.data.type;
         const buttonName = props.data.bName;
@@ -19,8 +21,8 @@ function Card(props) {
                     <form>
                         <textarea id="msg" type="text" className='cardArea'
                             name="tdp_list" rows="6"  
-                            spellCheck="false" placeholder="Coller votre liste de TDP ici..." 
-                            value={props.formValue} onClick={textareaHandleClick} onChange={textareaHandleChange}>
+                            placeholder="Coller votre liste de TDP ici..." 
+                            value={formValue}  onChange={e=>textareaHandleChange(e)}>
                         </textarea>
                     </form>
                 )
@@ -37,10 +39,7 @@ function Card(props) {
 
 
     const textareaHandleChange=(e)=>{
-        props.dispatch({
-            type: "GET_FORM_VALUE",
-            value: e.target.value
-        });
+        setFormValue(e.target.value)
     }
 
     async function getClipboardContent(){
@@ -48,7 +47,6 @@ function Card(props) {
             const clipText = await navigator.clipboard.readText()
             
                 const result = clipText??'LaMerde'
-                alert(result);
                 props.dispatch({
                     type: "GET_FORM_VALUE",
                     value: result
@@ -68,7 +66,6 @@ function Card(props) {
   
         return (
             <div className="MyCard">
-            
                 <div className="Bando-Titre">
                     <p>{title}</p>
                 </div>

@@ -14,7 +14,7 @@ class Salle extends React.Component{
     }
     render(){
         return (
-            <Increment name="RCO" call={this.CallNext}/>
+            <Increment name="rco" call={this.CallNext}/>
         )
     }
 }

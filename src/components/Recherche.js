@@ -7,6 +7,7 @@ import LaModal from './ModalContent'
 import { withRouter } from 'react-router-dom';
 import $ from "jquery";
 import Card from './Card';
+import Loader from './Loader';
 
 
 
@@ -14,8 +15,7 @@ class Recherche extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            renderStatus: false,
-            fetchModal:false
+            load:true,
         }
     }
     showModal = (e)=>{
@@ -44,8 +44,8 @@ class Recherche extends React.Component{
 
             return (
                 <div>
-                    <h5 className="tdpHead err">REGLETTE(S) NON TROUVEE(S)
-                    <h6 style={{margin:0}}>Cliquez pour intégrer à la base</h6></h5>                  
+                    <h5 className="tdpHead err">REGLETTE(S) NON TROUVEE(S)</h5>
+                    <h6 style={{margin:0}}>Cliquez pour intégrer à la base</h6>                  
                     {compoRender}
                 </div>
             )}else{ return null}
@@ -127,25 +127,23 @@ class Recherche extends React.Component{
     }
     
     componentDidMount() {
-        fetch(`http://192.168.0.14:8081/datas?arg=${this.props.formValue}`)
-        .then(res => res.json())
-        .then(
-            (result) => {
+            fetch(`http://82.64.128.239:8082/datas?arg=${this.props.location.state}`)
+            .then(res =>res.json())
+            .then(result => {
                 this.props.dispatch({type: "GET_FETCH_VALUE",value: result});
-                this.setState({renderStatus: true,})
+                this.setState({
+                    load:false
+                })
             },
-            (error) => {alert("Une erreur c'est produite... ")}
-        )
+                error => {alert("Une erreur c'est produite... ")}
+            )
     }
 
-  
+    Load = () => {
+        return this.state.load?<Loader/>:null
+    }
     render(){
-     /*   if (this.props.fetchModal) {
-            this.setState({
-                fetchModal:this.props.fetchModal,
-            })
-        } */ 
-    if (this.state.renderStatus){
+        if (!this.state.load){
             const {status, msg, value, errorTab, errorRep} = this.props.fetchedResultData
             if (status === 300){
                 return (
@@ -180,10 +178,9 @@ class Recherche extends React.Component{
                             route:'/'}}/> 
                     </div>
                 )
-    
             }
         }else{
-            return <h3>loding...</h3>
+            return <this.Load/>
         }   
     }
 }

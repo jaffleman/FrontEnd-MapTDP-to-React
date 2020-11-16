@@ -2,12 +2,16 @@ import React from 'react';
 import SalleCreator from './SalleCreator';
 import {connect} from 'react-redux'
 import Increment from './Increment';
+import { withRouter } from 'react-router-dom';
+import Loader from './Loader';
+import VerifRepName from './VerifRepName'
 
 class CreatRep extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             repName:'',
+            load:false,
         };
     }
 
@@ -19,29 +23,60 @@ class CreatRep extends React.Component{
     }
 
     CallNext = (nb) =>{
-        return <SalleCreator number={nb}/>
+        
+        return <SalleCreator key={nb} number={nb}/>
     }
+    handle_goBack = () => {
+        this.props.history.goBack()
+    }
+
     handle_valideClick = () => {
-        if (this.state.repName!=='') {
+        if (VerifRepName(this.state.repName)) {
             const validate = window.confirm('Tout est ok ?? Tu confirme la création de ce rep: '+this.state.repName)
             if (validate) {
-                    console.log(JSON.stringify(this.props.repStructure))
-                    fetch(`http://192.168.0.14:8081/CreatRep?arg={"repName":"${this.state.repName}","structure":${JSON.stringify(this.props.repStructure)}}`)
-                    .then(result=>result.text())
-                    .then(result=>alert(result))
+                this.setState({
+                    load:true
+                })
+                    fetch(`http://82.64.128.239:8082/CreatRep?arg={"repName":"${this.state.repName}","peupler":false, "structure":${JSON.stringify(this.props.repStructure)}}`)
+                    .then(result=>result.json())
+                    .then(result=>{
+                        if (result.status) {
+                            this.setState({load:true}, ()=>{
+                                const validate = window.confirm(result.msg+' Veux-tu le peupler maintenant?')
+                                if (validate) {
+                                    this.props.history.replace('/Peupler', this.state.repName )
+                                }                                
+                            })
+
+                        }else{
+                            this.setState({load:true}, ()=>{
+                                alert(result.msg);
+                            })
+                        }
+                    })
                     .catch((err)=>alert('Echec: Le serveur n\'a pas répondu. '+err))
             }
         }else{
-            alert("T'as oublié le nom du rep bro...")
+            alert("Le nom du rep n'est pas valide...")
         }
     }
-
+    componentWillUnmount(){ 
+        const action = {
+            type:"SET_REP_STRUCTURE",
+            value:[[[[["x"],["x"],["x"],["x"],["x"],["x"],["x"],["x"]]]]],
+        }
+        this.props.dispatch(action)
+    }
     componentDidMount(){
+    }
+    Load = () => {
+        return this.state.load?<Loader/>:null
     }
     render(){
         return(
             <div>
-                <div>
+                <div class="d-flex justify-content-between" style={{marginBottom:'20px'}}>
+                    <button type="button" className="btn btn-secondary" style={{float:'right', marginBottom:'5px'}} onClick={this.handle_goBack}>{'<< Retour'}</button>
                     <button type="button" className="btn btn-success" style={{float:'right', marginBottom:'5px'}} onClick={this.handle_valideClick}>Creer le rep</button>
                 </div>
                 <div className="input-group mb-3" style={{width:"250px"}}>
@@ -53,6 +88,7 @@ class CreatRep extends React.Component{
                 <div>
                     <Increment name="Salle" call={this.CallNext}/>
                 </div>
+                <this.Load/>
             </div>
         )        
     }
@@ -61,4 +97,4 @@ class CreatRep extends React.Component{
     const mapStateToProps = (state)=>{return {
         repStructure: state.repStructure}
 }
-export default connect(mapStateToProps)(CreatRep)
+export default withRouter(connect(mapStateToProps)(CreatRep))

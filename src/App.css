@@ -110,6 +110,7 @@ body {
 } 
 .Letes2{
   background-color: #ffffff;
+  margin: 5px 25px;
 } 
 .Letes3{
   background-color: #797979;
@@ -124,8 +125,12 @@ body {
     padding: 4px;
     margin-top: 8px;
     margin-bottom: 8px;
+    margin-left:10%;
+    margin-right:10%;
     border-radius: 5px;
     background-color: hsl(30, 3%, 87%);
+    border-color: black;
+    border-width: 10px;
 }
 .err{
   padding: 4px;
@@ -184,7 +189,17 @@ body {
   min-width: 310px;
   background-color: #e46b50;
 }
-
+#loader{
+  z-index: 100;
+  position: fixed;
+  background: lightgoldenrodyellow;
+  border-radius: 5px;
+  width: 200px;
+  box-shadow: 3px 3px 10px 3px black;
+  padding: 15px 7px;
+  top: 50%;
+  left: 25%;
+}
 .Bando-Titre2{
   display: block;
   font-size: 1.17em;
