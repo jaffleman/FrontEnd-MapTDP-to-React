@@ -32,7 +32,7 @@ class CreatRep extends React.Component{
 
     handle_valideClick = () => {
         if (VerifRepName(this.state.repName)) {
-            const validate = window.confirm('Tout est ok ?? Tu confirme la création de ce rep: '+this.state.repName)
+            const validate = window.confirm(`Tout est ok ?? Tu confirmes la création de: [${this.state.repName}] \n`)
             if (validate) {
                 this.setState({
                     load:true

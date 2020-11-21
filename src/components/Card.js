@@ -22,7 +22,7 @@ function Card(props) {
                         <textarea id="msg" type="text" className='cardArea'
                             name="tdp_list" rows="6"  
                             placeholder="Coller votre liste de TDP ici..." 
-                            value={formValue}  onChange={e=>textareaHandleChange(e)}>
+                            value={formValue} onClick={e=>textareaHandleClick(e)} onChange={e=>textareaHandleChange(e)}>
                         </textarea>
                     </form>
                 )

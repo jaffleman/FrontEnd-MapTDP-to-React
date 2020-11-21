@@ -127,6 +127,7 @@ class Recherche extends React.Component{
     }
     
     componentDidMount() {
+        const readyToFetch = 
             fetch(`http://82.64.128.239:8082/datas?arg=${this.props.location.state}`)
             .then(res =>res.json())
             .then(result => {
