@@ -1,10 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import DeteilView from './DeteilView'
-import TdpHeader from './TdpHeader'
 import LongPress from '../LongPress'
 
-class Tdp extends React.Component{
+class ShowTdp extends React.Component{
     state = {
         pressed: []
       };
@@ -50,48 +49,44 @@ class Tdp extends React.Component{
 
   
     render(){
-        const {nd, regletteType, regletteNbr,plot, ferme, found, level, option, rep, salle, rco } = this.props.data
+        const {_id, regletteType, regletteNbr,  option, plot} = this.props.tdp
 
-        let nb= this.props.nd
-        nb++
-            const badgeElement= {
-                badgeLabel:'',
-                badgeColor:''
-            }
-           if (option==='I') {
-                badgeElement.badgeColor = "badge-warning";
-                badgeElement.badgeLabel = "Inver"
+        const badgeElement= {
+            badgeLabel:'',
+            badgeColor:''
+        }
+        if (option==='I') {
+            badgeElement.badgeColor = "badge-warning";
+            badgeElement.badgeLabel = "Inver"
+        }else{
+            if (option==='TNI'){
+                badgeElement.badgeColor = "badge-danger";
+                badgeElement.badgeLabel = "NoIso"
             }else{
-                if (option==='TNI'){
-                    badgeElement.badgeColor = "badge-danger";
-                    badgeElement.badgeLabel = "NoIso"
-                }else{
-                    badgeElement.badgeColor = "badge-success";
-                    badgeElement.badgeLabel = "Ok!"                   
-                }
+                badgeElement.badgeColor = "badge-success";
+                badgeElement.badgeLabel = "Ok!"                   
             }
+        }
         
+            
         return(
             <div>
-                <TdpHeader data={{rep, salle, rco, nd}} compos={this.props.headCompos}/>
                 <LongPress
-                    key={nd}
+                    key={_id}
                     time={500}
-                    onLongPress={() => this.addToPressed(nd)}
-                    onPress={() => this.removeFromPressed(nd)}
+                    onLongPress={() => this.addToPressed(_id)}
+                    onPress={() => this.removeFromPressed(_id)}
                     > 
-                    <div className = {`tdp ${this.styler(nd)}`} onClick = {()=>{this._toggleView(nd)}}>
+                    <div className = {`tdp ${this.styler(_id)}`} onClick = {()=>{this._toggleView(_id)}}>
                         <div style={{display:'flex' }}>
-                            <p style={{margin:'0'}}>{nb}</p>
-                            <p style={{flex:10}} className = "tdp2"> {regletteType+regletteNbr}-{}</p>
+                            <p style={{margin:'0'}}>{}</p>
+                            <p style={{flex:10}} className = "tdp2"> {regletteType+regletteNbr}-{plot}</p>
                             <span className ={`badge badge-pill ${badgeElement.badgeColor}`}>{badgeElement.badgeLabel}</span>
                         </div>
-                        {/*<TdpOption opt = {opt}/>*/}
-                        <DeteilView data = {this.props.data}/>
+                        <DeteilView data = {this.props.tdp}/>
                     </div> 
                 </LongPress>
             </div>
-
         )
     }
 }
@@ -102,4 +97,4 @@ const mapStateToProps = (state)=>{return {
     TdpPreviousState:state.TdpPreviousState, 
     alreadyShow:state.alreadyShow
 }}
-export default connect(mapStateToProps)(Tdp);
+export default connect(mapStateToProps)(ShowTdp);

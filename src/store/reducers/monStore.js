@@ -1,4 +1,5 @@
 const  initialState = {
+    mustLoad:false,
     ndToShow: null,
     formValue: '',
     getFetch: false,
@@ -67,6 +68,10 @@ export default function  monStore(state = initialState, action){
 
         case 'STORE_TDP_STATE':
             nextState = {...state, TdpPreviousState: action.value }
+        return nextState||state
+
+        case 'UPDATE_LOADER':
+            nextState = {...state, mustLoad: action.value }
         return nextState||state
 
         case 'RESET_APP':

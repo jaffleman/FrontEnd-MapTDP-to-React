@@ -5,6 +5,7 @@ import RegletteConst from './RegletteConstructor'
 import { withRouter } from 'react-router-dom';
 import Loader from './Loader';
 import VerifRepName from './VerifRepName'
+import stuctToTdpConvert from './structToTdpConvert'
 
 class Peupler extends React.Component{
     constructor(props){
@@ -17,6 +18,7 @@ class Peupler extends React.Component{
             ferme:0,
             structure:[[[[['x'],['x'],['x'],['x'],['x'],['x'],['x'],['x']]]]],
             load:false,
+            loadRepResult:''
         }
     }
     handleBodyChange = (e) => {
@@ -61,27 +63,26 @@ class Peupler extends React.Component{
                 load:true
             },
             ()=>{
-                fetch(`http://82.64.128.239:8082/getrepstruct?arg=${this.state.repName}`)
-                .then(res => res.json())
+                fetch(`http://localhost:8082/getrepstruct?arg=${this.state.repName}`)
+                .then(res =>res.json())
                 .then( result=>{
+                    if (result.status === 'ok'){                        
                         this.setState({
                             load:false,
-                        })
-                        if (result.status === 'ok'){                        
-                            const action = {
-                                type:"SET_REP_STRUCTURE",
-                                value:result.data.tab,
-                            }
+                            repartiteur:result.repName,
+                            structure:result.data.tab
+                        },()=> {
+                            const action = {type:"SET_REP_STRUCTURE",value:result.data.tab,}
                             this.props.dispatch(action)
-                            this.setState({
-                                repartiteur:result.repName,
-                                structure:result.data.tab
-                            })
-                            alert(this.state.repName+' charger avec succes!')
-                        }else{
                             alert(result.text)
-                        }
-                },error => console.error(error))
+                        })
+                    }else{
+                        this.setState({
+                            load:false,
+                        },()=> alert(result.text))
+                    }
+                })
+                
                 .catch(err=>console.log(err))
             })
 
@@ -148,8 +149,21 @@ class Peupler extends React.Component{
                     load:true
                 },
                 ()=>{
-                    console.log(JSON.stringify(this.state.structure))
-                    fetch(`http://82.64.128.239:8082/CreatRep?arg={"repName":"${this.state.repName}","peupler":true, "structure":{"tab":${JSON.stringify(this.state.structure)}}}`)
+                    //console.log(JSON.stringify(this.state.structure))
+                    const structure = {tab:this.state.structure}
+                    const convertion = stuctToTdpConvert(this.state.repName,structure)
+                    console.log(convertion);
+                    //var myHeaders = new Headers({ 'Content-Type' : 'application/json', 'Accept-Charset' : 'utf-8', 'Accept' : '*/*' })
+                    //fetch(`http://82.64.128.239:8082/CreatRep?arg={"repName":"${this.state.repName}","peupler":true, "structure":{"tab":${JSON.stringify(this.state.structure)}}}`)
+                    fetch("http://localhost:8081/tdp/create",
+                    { 
+                        method: 'POST',
+                        mode: 'cors',
+                        body: JSON.stringify(convertion),
+                        headers:{
+                            'Content-Type' : 'application/json'
+                        }
+                    })
                     .then(result=>result.text())
                     .then((result)=>{
                         alert(result.msg);
@@ -186,6 +200,7 @@ class Peupler extends React.Component{
             salle : this.state.salle,
             structure : this.state.structure
         }
+        
         return (
             <div>
                 <div className="MyCard" style={{ marginBottom: '40px'}}>

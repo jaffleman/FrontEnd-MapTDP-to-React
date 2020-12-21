@@ -8,6 +8,8 @@ import { withRouter } from 'react-router-dom';
 import $ from "jquery";
 import Card from './Card';
 import Loader from './Loader';
+import { compare } from '../functions/compare';
+import { sort } from '../functions/sort';
 
 
 
@@ -15,7 +17,7 @@ class Recherche extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            load:true,
+            load:false,
         }
     }
     showModal = (e)=>{
@@ -31,8 +33,9 @@ class Recherche extends React.Component{
     }
 
     Lister(props){
+let preRep, preSalle, PreRco;/*
         const {data,type,cache} = props;
-        let preRep, preSalle, PreRco;    
+            
         if (type==='tdpErr'){ 
             if (data.length){ 
                 const compoRender = data.map( function(item, key) {    
@@ -67,9 +70,9 @@ class Recherche extends React.Component{
                         {compoRender}
                     </div>
                 )}else{return null}   
-        }
-        if (type==='tdpOk'){
-            const compoRender = data.map(function (item, key) {
+        } */
+        //if (type==='tdpOk'){
+            const compoRender = props.data.map(function (item, key) {
                 let withRep, withSalle, withRco;
                 if (item.rep !== preRep){
                     preRep = item.rep;
@@ -115,7 +118,9 @@ class Recherche extends React.Component{
             })
             return compoRender
         }
-    }
+    //}
+
+   //}
 
     openModal({condition}){
         if (condition) {
@@ -125,56 +130,86 @@ class Recherche extends React.Component{
         }
         return null
     }
-    
-    componentDidMount() {
-        const readyToFetch = 
-            fetch(`http://82.64.128.239:8082/datas?arg=${this.props.location.state}`)
-            .then(res =>res.json())
-            .then(result => {
-                this.props.dispatch({type: "GET_FETCH_VALUE",value: result});
-                this.setState({
-                    load:false
-                })
-            },
-                error => {alert("Une erreur c'est produite... ")}
-            )
-    }
+  /*  
+    componentDidMount() { 
+        const requestBody = this.props.location.state
+        if (requestBody.length>0) {
+            const myBody = JSON.stringify(requestBody)
+
+            try {
+                const functionFetch = async () => {
+                    const result = await fetch("http://localhost:8081/tdp/search",
+                    { 
+                        method: 'POST',
+                        mode: 'cors',
+                        body: myBody,
+                        headers:{
+                            'Content-Type' : 'application/json'
+                        }
+                    })
+                    this.setState({
+                        load:false
+                    },async()=>{ 
+                        if (result.ok){
+                        const data = await result.json()
+                        this.props.dispatch({type: "GET_FETCH_VALUE", value: data})
+                        }else{
+                            alert("Une erreur c'est produite... ")
+                        }
+                    })
+                }
+                functionFetch()
+            } catch (error) {
+                console.log(error)
+            }
+        }else{
+            this.setState({
+                load:false
+            })
+        }
+    }*/
 
     Load = () => {
         return this.state.load?<Loader/>:null
     }
     render(){
+        console.log(this.props.location.state);
         if (!this.state.load){
-            const {status, msg, value, errorTab, errorRep} = this.props.fetchedResultData
-            if (status === 300){
+            console.log('A');
+            if (this.props.fetchedResultData.length){
+                const found = this.props.fetchedResultData
+                const compResult = compare(this.props.location.state,found)
+                console.log('B')
+                console.log(compResult)
                 return (
                     <div className='main'>
                         <LaModal/>
                         <this.Lister 
-                            data = {value} 
+                            data = {compResult} 
                             type = {'tdpOk'}
                         />
-                        <this.Lister 
-                            data = {errorTab} 
+                    {/* <this.Lister 
+                            data = {error} 
                             err = {this.props.tdpErr}
                             type = {'tdpErr'} 
                         />
                         <this.Lister 
                             data = {errorRep} 
                             type = {'repErr'}
-                        />
+                        /> */}
                         <this.openModal
                             condition = {this.props.tdpErr.showModal}
                         />
                     </div>
                 )           
             }else{
+                console.log('C');
                 return(
                     <div className='main'>
                         <Card data={{
                             title:'TDP Introuvable',
                             type:'text',
-                            textValue:msg,
+                            textValue:"Acun Tdp à afficher",
                             bName:'<=RETOUR',
                             route:'/'}}/> 
                     </div>

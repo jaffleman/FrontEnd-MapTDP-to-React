@@ -5,7 +5,8 @@ import { Provider } from 'react-redux'
 import Store from './store/configureStore'
 import Accueil from './components/Accueil'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Recherche from './components/Recherche';
+//import Recherche from './components/Recherche';
+import Shower from './components/Shower'
 import MapTdpHeader from './MapTdpTitle';
 import CreatRep from './components/CreatRep';
 import Peupler from './components/Peupler'
@@ -17,15 +18,15 @@ class App extends React.Component {
   render(){
     return (
       <div> 
-        <MapTdpHeader/>
         <Provider store = {Store}>
+        <MapTdpHeader/>
           <Router>
             <Switch>
               <Route exact path="/">
                 <Accueil/>  
               </Route>    
-              <Route exact path="/Recherche">
-                <Recherche/>  
+              <Route exact path="/Shower">
+                <Shower/>  
               </Route>  
               <Route exact path="/CreatRep">
                 <CreatRep/>  

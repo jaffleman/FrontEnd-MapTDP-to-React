@@ -1,14 +1,29 @@
 import React, {useState} from 'react';
 import Card from './Card';
 import { useHistory } from 'react-router-dom';
+import { filter } from '../functions/filter';
+import { transforme } from '../functions/transforme';
+import { reduce } from '../functions/reduce';
+import { Session } from '../classes/session';
+import {connect} from 'react-redux';
 
 
-const Accueil = () => {
+const Accueil = (props) => {
   const history = useHistory()
   const [formValue,setFormValue] = useState('')
   const textareaHandleChange=(e)=>{
     setFormValue(e.target.value)
   }
+  const textareaHandleClick = () =>{
+    props.dispatch({
+      type: "UPDATE_LOADER",
+      value: true
+    })
+    const plotTab = reduce(transforme(filter(formValue)))
+    if (plotTab.length) new Session(plotTab, (session)=>history.push('/Shower', session)) 
+    else alert('Aucun TDP trouvé...')
+  }
+
   return (
     <div className='main'>
       <div className='row'>
@@ -25,7 +40,7 @@ const Accueil = () => {
             </textarea>
           </form>
           <div className="Bando-Valider">
-                    <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>{history.push('/recherche',formValue)}}>Lancer la recherche</button>                
+                    <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>textareaHandleClick()}>Lancer la recherche</button>                
                 </div>
             </div>
         </div>      
@@ -47,7 +62,8 @@ const Accueil = () => {
         </div>
       </div>
     </div>
-  ) 
-}   
+  )
 
-export default Accueil;
+}   
+const mapStateToProps = (state)=>{return {mustLoad:state.mustLoad}}
+export default connect(mapStateToProps)(Accueil);

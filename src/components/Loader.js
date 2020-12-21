@@ -1,11 +1,9 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
-const Loader = () => {
-    return(
-        <div class="d-flex align-items-center" id='loader'>
-        <strong>Loading...</strong>
-        <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
-    </div>
-    )
+const Loader = (props) => {
+    if (!props.mustLoad) return null
+    return <div className="spinner-border ml-auto" role="status" aria-hidden="true"></div> 
 }
-export default Loader
+const mapStateToProps = (state)=>{return {mustLoad:state.mustLoad}}
+export default connect(mapStateToProps)(Loader);
