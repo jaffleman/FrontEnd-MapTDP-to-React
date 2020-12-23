@@ -2,6 +2,7 @@ import React from 'react';
 import ShowRep from './ShowRep';
 import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
+import LaModal from '../ModalContent'
 
 
 class Shower extends React.Component{
@@ -17,8 +18,11 @@ class Shower extends React.Component{
             if (data.length) return session.map((rep, key)=><ShowRep key={key} rep = {rep}/>)
         }
         return (
-            <div className='main'>
-                {lister(data)}
+            <div>
+                <LaModal/>
+                <div className='main'>
+                    {lister(data)}
+                </div>
             </div>
         )       
     }

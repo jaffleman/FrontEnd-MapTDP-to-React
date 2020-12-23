@@ -1,10 +1,10 @@
 import React from 'react';
-import SalleCreator from './SalleCreator';
+import SalleCreator from './repCreator/SalleCreator';
 import {connect} from 'react-redux'
-import Increment from './Increment';
+import Increment from './repCreator/Increment';
 import { withRouter } from 'react-router-dom';
 import Loader from './Loader';
-import VerifRepName from './VerifRepName'
+import VerifRepName from './repCreator/VerifRepName'
 
 class CreatRep extends React.Component{
     constructor(props){
@@ -79,7 +79,7 @@ class CreatRep extends React.Component{
                     <button type="button" className="btn btn-secondary" style={{float:'right', marginBottom:'5px'}} onClick={this.handle_goBack}>{'<< Retour'}</button>
                     <button type="button" className="btn btn-success" style={{float:'right', marginBottom:'5px'}} onClick={this.handle_valideClick}>Creer le rep</button>
                 </div>
-                <div className="input-group mb-3" style={{width:"250px"}}>
+                <div className="input-group " style={{width:"250px"}}>
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="basic-addon3">Répartiteur:</span>
                     </div>

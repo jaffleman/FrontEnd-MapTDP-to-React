@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import  {mPc} from '../functions/magicPositionConverter'
+import  {mPc} from '../../functions/magicPositionConverter'
 
 class DeteilView extends React.Component{
 

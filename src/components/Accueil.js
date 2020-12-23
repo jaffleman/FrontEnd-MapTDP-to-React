@@ -19,9 +19,16 @@ const Accueil = (props) => {
       type: "UPDATE_LOADER",
       value: true
     })
+    const noTdp = ()=>{
+      alert('Aucun TDP trouvé...')
+      props.dispatch({
+        type: "UPDATE_LOADER",
+        value: false
+      })
+    }
+
     const plotTab = reduce(transforme(filter(formValue)))
-    if (plotTab.length) new Session(plotTab, (session)=>history.push('/Shower', session)) 
-    else alert('Aucun TDP trouvé...')
+    plotTab.length? new Session(plotTab, (session)=>history.push('/Shower', session)): noTdp()
   }
 
   return (

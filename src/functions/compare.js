@@ -1,12 +1,12 @@
 export function compare(tabReq,tabRes) {
     const tabTdp =[]
     while(tabReq.length>0){
-        const elementReq = tabReq.shift()
-        const comparator = elementRes=>elementRes.rep === elementReq.rep && elementRes.regletteType === elementReq.regletteType && elementRes.regletteNbr === elementReq.regletteNbr
+        const req = tabReq.shift()
+        const comparator = ({rep, regletteType, regletteNbr})=>rep === req.rep && regletteType === req.regletteType && regletteNbr === req.regletteNbr
         
         const index = tabRes.findIndex(comparator)
-        if (index === -1) tabTdp.push({...elementReq, "found":false})
-        else tabTdp.push({...tabRes[index], "plot":elementReq.plot, "found":true})
+        if (index === -1) tabTdp.push({...req, "found":false})
+        else tabTdp.push({...tabRes[index], "plot":req.plot, "found":true})
     }
     return tabTdp
 }

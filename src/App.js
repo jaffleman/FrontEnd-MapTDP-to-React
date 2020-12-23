@@ -6,10 +6,10 @@ import Store from './store/configureStore'
 import Accueil from './components/Accueil'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 //import Recherche from './components/Recherche';
-import Shower from './components/Shower'
-import MapTdpHeader from './MapTdpTitle';
+import Shower from './components/shower/Shower'
+import MapTdpHeader from './components/MapTdpTitle';
 import CreatRep from './components/CreatRep';
-import Peupler from './components/Peupler'
+import Peupler from './components/repCreator/Peupler'
 
 class App extends React.Component {
   goToRecherche = ()=>{

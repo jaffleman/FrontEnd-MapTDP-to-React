@@ -11,5 +11,4 @@ export function filter(text) {
             matchRegexTab.push(tab[0]);
     }
     return matchRegexTab;
-
 }

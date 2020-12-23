@@ -2,18 +2,10 @@ import { Rco } from  './rco'
 export class Salle {
   constructor(identifiant, newTabTdp) {
     const dataTab = []
-    newTabTdp.forEach(element => {
-      if (element.salle === identifiant) dataTab.push(element)
-    })
+    newTabTdp.forEach(element => element.salle === identifiant? dataTab.push(element):null)
     function find(dataTab){
       const tab=[]
-      dataTab.forEach(tdp=>{
-        if (tab.length<1) tab.push(tdp.rco)
-        else {
-          const compare = tab.findIndex(elem=>elem === tdp.rco)
-          if (compare === -1) tab.push(tdp.rco)
-        }
-      })
+      dataTab.forEach(tdp=>tab.findIndex(elem=>elem === tdp.rco) === -1? tab.push(tdp.rco):null)
       return tab.map(elem=>new Rco(elem,dataTab))
     }
     this.number = identifiant

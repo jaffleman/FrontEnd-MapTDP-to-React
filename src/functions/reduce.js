@@ -6,12 +6,13 @@ export function reduce(tabA) {
     */
     const tabB =[]
     while(tabA.length>0){
-        const elementA = tabA.shift()
-        const comparator = elementB=>elementB.rep === elementA.rep && elementB.regletteType === elementA.regletteType && elementB.regletteNbr === elementA.regletteNbr
+        const A = tabA.shift()
+        
+        const comparator = ({rep, regletteType, regletteNbr})=>rep === A.rep && regletteType === A.regletteType && regletteNbr === A.regletteNbr
         
         const index = tabB.findIndex(comparator)
-        if (index === -1) tabB.push(elementA)
-        else tabB[index].plot.push(elementA.plot[0])
+        if (index === -1) tabB.push(A)
+        else tabB[index].plot.push(A.plot[0])
     }
     return tabB
 }

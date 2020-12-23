@@ -6,6 +6,7 @@ const  initialState = {
     fetchedResultData:[],
     alreadyShow:[],
     fetchModal:false,
+    modalData:{},
     tdpErr:{
         data:[]
     },
@@ -41,7 +42,7 @@ export default function  monStore(state = initialState, action){
         return nextState||state
 
         case 'SHOW_MODAL':
-            nextState = {...state, tdpErr:{showModal:action.value, data:action.data}}
+            nextState = {...state, modalData:{...action.value}}
         return nextState||state
 
         case 'CLOSE_MODAL':

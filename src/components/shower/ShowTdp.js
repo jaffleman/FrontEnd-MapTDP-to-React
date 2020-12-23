@@ -1,33 +1,23 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import DeteilView from './DeteilView'
-import LongPress from '../LongPress'
+import LongPress from './LongPress'
+import $ from "jquery";
 
 class ShowTdp extends React.Component{
     state = {
         pressed: []
       };
     
-    addToPressed = (index) =>
+    addToPressed = (tdp) =>
     {
-        if (index === this.props.ndToShow){
-            this.setState({pressed: [index]});
-            const action= {
-                type: 'SHOW_MODAL',
-                data:this.props.data,
-                value:true,
-            }
-            this.props.dispatch(action)
+        console.log(tdp);
+        if (tdp._id === this.props.ndToShow){
+            //this.setState({pressed: [tdp._id]})
+            this.props.dispatch({type:'SHOW_MODAL', value:tdp})
+            $( document ).ready(function() {window.$('#laModal').modal()})
         }
     };
-    handleClick(e){
-        const action= {
-            type: 'SHOW_MODAL',
-            data:this.props.data,
-            value:true,
-        }
-        this.props.dispatch(action)
-    }
 
     removeFromPressed = index =>
     this.setState({pressed: this.state.pressed.filter(i => i !== index)});
@@ -74,7 +64,7 @@ class ShowTdp extends React.Component{
                 <LongPress
                     key={_id}
                     time={500}
-                    onLongPress={() => this.addToPressed(_id)}
+                    onLongPress={() => this.addToPressed(this.props.tdp)}
                     onPress={() => this.removeFromPressed(_id)}
                     > 
                     <div className = {`tdp ${this.styler(_id)}`} onClick = {()=>{this._toggleView(_id)}}>

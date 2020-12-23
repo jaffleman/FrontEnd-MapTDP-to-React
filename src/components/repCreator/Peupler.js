@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import Switcher from './Switcher'
 import RegletteConst from './RegletteConstructor'
 import { withRouter } from 'react-router-dom';
-import Loader from './Loader';
+import Loader from '../Loader';
 import VerifRepName from './VerifRepName'
 import stuctToTdpConvert from './structToTdpConvert'
 

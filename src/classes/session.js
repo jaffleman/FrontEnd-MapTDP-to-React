@@ -6,9 +6,7 @@ export class Session{
   constructor(sessionData, callback=null) {
     fetcher(sessionData)
     .then((fetchedResult)=>{
-      const compareResult = compare(sessionData,fetchedResult)
-      const expendResult = expend(compareResult)
-      this.rep = getRep(expendResult)
+      this.rep = getRep(expend(compare(sessionData,fetchedResult)))
 
       //function
       function getRep(sessionData){

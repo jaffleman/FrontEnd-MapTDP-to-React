@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import DeteilView from './DeteilView'
+import DeteilView from '../DeteilView'
 import TdpHeader from './TdpHeader'
-import LongPress from '../LongPress'
+import LongPress from '../../LongPress'
 
 class Tdp extends React.Component{
     state = {

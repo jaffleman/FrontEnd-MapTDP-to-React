@@ -2,18 +2,10 @@ import { Level } from './level'
 export class Ferme {
   constructor(identifiant, newTabTdp) {
     const dataTab = []
-    newTabTdp.forEach(element => {
-      if (element.ferme === identifiant) dataTab.push(element)
-    })
+    newTabTdp.forEach(element => element.ferme === identifiant? dataTab.push(element):null)
     function find(dataTab){
       const tab=[]
-      dataTab.forEach(tdp=>{
-        if (tab.length<1) tab.push(tdp.level)
-        else {
-          const compare = tab.findIndex(elem=>elem === tdp.level)
-          if (compare === -1) tab.push(tdp.level)
-        }
-      })
+      dataTab.forEach(tdp=>tab.findIndex(elem=>elem === tdp.level) === -1? tab.push(tdp.level):null)
       return tab.map(elem=>new Level(elem,dataTab))
     }
     this.number = identifiant
