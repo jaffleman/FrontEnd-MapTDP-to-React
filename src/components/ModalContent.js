@@ -9,31 +9,15 @@ function Modal(props){
     const [posissionReglette,setPosition] = useState(1);
     const [opt,setOpt] = useState("x");
 
-    useEffect(()=>{
-        if (MustFetch) {
-            const adress = ()=>{
-                if (props.nd){
-                const tdp = props.lesTdp[props.nd-1]
-                return `http://82.64.128.239:8081/tdpCorrection?arg={"newPosition":{"rep":"${props.tdpErr.data.rep}","reglette":"${props.tdpErr.data.reglette}","salle":${salle},"rco":${rco},"colone":${colone},"posissionReglette":${posissionReglette}},"oldPosition":{"oldSalle":${tdp.salle},"oldRco":${tdp.rco},"oldColone":${tdp.colone},"oldPosissionReglette":${tdp.posissionReglette}}}`
-                }else{
-                return `http://82.64.128.239:8081/tdpCorrection?arg={"newPosition":{"rep":"${props.tdpErr.data.rep}","reglette":"${props.tdpErr.data.reglette}","salle":${salle},"rco":${rco},"colone":${colone},"posissionReglette":${posissionReglette}}}`
-                }
-            }
-            fetch(adress)
-            .then(res => res.json())
-            .then(
-                (value)=>{
-                    window.$('#laModal').modal('toggle')
-                    setFetch(false)
-                },
-                (error) => {
-                    setFetch(false)
-                    alert("Une erreur c'est produite... ")
-                }
-            )
-        }
-    },[MustFetch,props,salle,colone,posissionReglette,rco,opt])
-
+    useEffect(()=>{},[])
+    
+    function closeModal() {
+        setFetch(false)
+        props.dispatch({
+            type:"SHOW_MODAL",
+            value:{}
+        })
+    }
     function valideModal(){
         setFetch(true)
     }
@@ -97,7 +81,7 @@ function Modal(props){
                     </div>
                 
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal" >Close</button>
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={()=>closeModal()}>Close</button>
                         <button type="button" className="btn btn-primary" onClick={()=>valideModal()} >Save changes</button>
                     </div>
                 </div>
@@ -105,10 +89,5 @@ function Modal(props){
         </div>
     )
 }
-const mapStateToProps = (state)=>{return {
-    lesTdp:state.fetchedResultData.value,
-    nd:state.ndToShow,
-    tdpErr:state.tdpErr,
-    modalData:state.modalData,
-}}
+const mapStateToProps = (state)=>{return {modalData:state.modalData}}
 export default connect(mapStateToProps)(Modal);

@@ -10,6 +10,7 @@ import Shower from './components/shower/Shower'
 import MapTdpHeader from './components/MapTdpTitle';
 import CreatRep from './components/CreatRep';
 import Peupler from './components/repCreator/Peupler'
+import Displayer from './components/repCreator/Displayer';
 
 class App extends React.Component {
   goToRecherche = ()=>{
@@ -31,8 +32,8 @@ class App extends React.Component {
               <Route exact path="/CreatRep">
                 <CreatRep/>  
               </Route> 
-              <Route exact path="/Peupler">
-                <Peupler/>  
+              <Route exact path="/Displayer">
+                <Displayer/>  
               </Route> 
             </Switch>
           </Router>

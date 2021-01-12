@@ -1,11 +1,33 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import Switcher from './Switcher'
-import RegletteConst from './RegletteConstructor'
+import React from 'react';
+import {connect} from 'react-redux';
+import Switcher from './Switcher';
+import RegletteConst from './RegletteConstructor';
 import { withRouter } from 'react-router-dom';
 import Loader from '../Loader';
-import VerifRepName from './VerifRepName'
-import stuctToTdpConvert from './structToTdpConvert'
+import VerifRepName from './VerifRepName';
+import stuctToTdpConvert from './structToTdpConvert';
+import {Rep} from '../../classes/rep';
+const extraSession = (sessionData)=>{
+        const tab = []
+        sessionData.forEach(tdp => tab.findIndex(elem => elem === tdp.rep) === -1? tab.push(tdp.rep):null)
+        const obj = tab.map(elem => new Rep(elem, sessionData))
+        return obj
+}
+
+const extractStructure = (data) =>{
+    console.log(data)
+    return data.map(elem=>{
+       return elem.salle.map(elem =>{
+           return elem.rco.map(elem=>{
+               return elem.ferme.map(elem=>{
+                   return elem.level.map(elem=>{
+                       return elem
+                    })
+               })
+           })
+       })
+    })
+}
 
 class Peupler extends React.Component{
     constructor(props){
@@ -53,43 +75,16 @@ class Peupler extends React.Component{
         })
     }
     handleClick = ()=>{
-        if (VerifRepName(this.state.repName)) {
-            this.setState({
-                repartiteur:'',
-                salle:0,
-                rco:0,
-                ferme:0,
-                structure:[[[[['x'],['x'],['x'],['x'],['x'],['x'],['x'],['x']]]]],
-                load:true
-            },
-            ()=>{
-                fetch(`http://localhost:8082/getrepstruct?arg=${this.state.repName}`)
-                .then(res =>res.json())
-                .then( result=>{
-                    if (result.status === 'ok'){                        
-                        this.setState({
-                            load:false,
-                            repartiteur:result.repName,
-                            structure:result.data.tab
-                        },()=> {
-                            const action = {type:"SET_REP_STRUCTURE",value:result.data.tab,}
-                            this.props.dispatch(action)
-                            alert(result.text)
-                        })
-                    }else{
-                        this.setState({
-                            load:false,
-                        },()=> alert(result.text))
-                    }
-                })
-                
-                .catch(err=>console.log(err))
-            })
-
-
-        } else {
-            alert('Nom du Rep incorrect...');
-        }    
+        const callback = (data)=>{
+            const mySession = extraSession(data)
+            console.log(mySession);
+            if (mySession.length===0) alert('Nom du Rep introuvable...')
+            else  {
+               const myStructure = extractStructure(mySession)
+               console.log(myStructure)
+            }
+        }
+        VerifRepName(this.state.repName, callback)
     }
     fermeUp = () => {
         if ((this.state.ferme+1) < this.state.structure[this.state.salle][this.state.rco].length) {
@@ -155,7 +150,7 @@ class Peupler extends React.Component{
                     console.log(convertion);
                     //var myHeaders = new Headers({ 'Content-Type' : 'application/json', 'Accept-Charset' : 'utf-8', 'Accept' : '*/*' })
                     //fetch(`http://82.64.128.239:8082/CreatRep?arg={"repName":"${this.state.repName}","peupler":true, "structure":{"tab":${JSON.stringify(this.state.structure)}}}`)
-                    fetch("http://localhost:8081/tdp/create",
+                    fetch("http://192.168.0.14:8081/tdp/create",
                     { 
                         method: 'POST',
                         mode: 'cors',
@@ -178,9 +173,11 @@ class Peupler extends React.Component{
     }
     componentDidMount(){
         if (this.props.location.state) {
+            console.log(this.props.location.state.structure['tab']);
             this.setState({
-                repName : this.props.location.state
-            },()=>this.handleClick())
+                repName : this.props.location.state.repartiteur,
+                structure: [...this.props.location.state.structure['tab']]
+            })
         }
     }
     componentWillUnmount(){
@@ -203,15 +200,15 @@ class Peupler extends React.Component{
         
         return (
             <div>
-                <div className="MyCard" style={{ marginBottom: '40px'}}>
-                    <div className="input-group mb-3">
-                        <input type="text" className="form-control" onChange={this.handleRepChange} placeholder="ex:cho94" aria-label="ex:cho94" aria-describedby="button-addon2"/>
-                        <div className="input-group-append">
-                            <button className="btn btn-primary" type="button" id="button-addon2" onClick={this.handleClick}>Charger</button>
-                        </div>
+                <div className="input-group mb-3">
+                    <input type="text" className="form-control" onChange={this.handleRepChange} placeholder="ex:cho94" aria-label="ex:cho94" aria-describedby="button-addon2"/>
+                    <div className="input-group-append">
+                        <button className="btn btn-primary" type="button" id="button-addon2" onClick={this.handleClick}>Charger</button>
                     </div>
+                </div>
+                <div className="MyCard" style={{ marginBottom: '40px'}}>
                     <div className="Bando-Titre2 rounded" style={{marginBottom:"5px", }}>
-                        Repartiteur de <span style={{color:'red', textTransform:'lowerCase'}}>{this.state.repartiteur}</span>
+                        Repartiteur de <span style={{color:'red', textTransform:'lowerCase'}}>{this.state.repName}</span>
                     </div>
                     <div>
                         <Switcher number={this.state.salle} total={this.state.structure.length} next={this.salleUp} back={this.salleBack} text='salle'/>

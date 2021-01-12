@@ -1,7 +1,9 @@
+import {fetcher} from '../../functions/fetcher'
 
-
-const VerifRepName = (repName) => {
+const VerifRepName = async (repName, callBack=(result)=>result) => {
         const regex = /^([a-z]){3}([0-9]){2}$/;
-        return regex.test(repName)
+        if (!regex.test(repName)) return false
+        fetcher("searchRep","POST",[{rep:repName}])
+        .then(result=>callBack(result))
 }
 export default VerifRepName

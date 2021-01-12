@@ -14,14 +14,12 @@ class Shower extends React.Component{
     }
     render(){
         const data = this.props.location.state
-        const lister = (session)=>{
-            if (data.length) return session.map((rep, key)=><ShowRep key={key} rep = {rep}/>)
-        }
+        const lister = ()=> data.map((rep, key)=><ShowRep key={key} rep = {rep}/>)
         return (
             <div>
                 <LaModal/>
                 <div className='main'>
-                    {lister(data)}
+                    {lister()}
                 </div>
             </div>
         )       

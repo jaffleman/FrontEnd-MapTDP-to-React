@@ -42,7 +42,7 @@ const Accueil = (props) => {
           <form>
             <textarea id="msg" type="text" className='cardArea'
               name="tdp_list" rows="6"  
-              placeholder="Coller votre liste de TDP ici..." 
+              placeholder="Coller votre liste de TDP ici ou taper la position recherchée: ex: cho94 linx19127..." 
               value={formValue}  onChange={e=>textareaHandleChange(e)}>
             </textarea>
           </form>
@@ -65,7 +65,7 @@ const Accueil = (props) => {
             type:'text',
             textValue:'Si tu souhaites completer les rco pour un rep precis, cliques sur "GO=>"',
             bName:'Go=>',
-            route:'/Peupler'}}/> 
+            route:'/Displayer'}}/> 
         </div>
       </div>
     </div>

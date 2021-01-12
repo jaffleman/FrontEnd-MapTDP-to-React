@@ -1,10 +1,11 @@
 
 
-export async function fetcher (data){
+export async function fetcher (route, method, data=null ){
+    console.log(data);
     const myBody = JSON.stringify(data)
-    const result = await fetch("http://192.168.0.14:8081/tdp/search",
+    const result = await fetch(`http://192.168.0.14:8081/tdp/${route}`,
     { 
-        method: 'POST',
+        method: method,
         mode: 'cors',
         body: myBody,
         headers:{

@@ -1,26 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import DeteilView from './DeteilView'
 import LongPress from './LongPress'
 import $ from "jquery";
+import FoundedTdp from './FoundedTdp';
+import NotFoundedTdp from './NotFoundedTdp';
+import DeteilView from './DeteilView'
 
 class ShowTdp extends React.Component{
     state = {
         pressed: []
       };
-    
-    addToPressed = (tdp) =>
-    {
-        console.log(tdp);
-        if (tdp._id === this.props.ndToShow){
-            //this.setState({pressed: [tdp._id]})
-            this.props.dispatch({type:'SHOW_MODAL', value:tdp})
-            $( document ).ready(function() {window.$('#laModal').modal()})
-        }
-    };
-
-    removeFromPressed = index =>
-    this.setState({pressed: this.state.pressed.filter(i => i !== index)});
 
     _toggleView(elem) {  
         const action = { type: "TOGGLE_FAVORITE", value: elem }
@@ -36,10 +25,21 @@ class ShowTdp extends React.Component{
             }
         }
     }
+    
+    addToPressed = (tdp) =>{
+        if (tdp._id === this.props.ndToShow||!tdp.found){
+            //this.setState({pressed: [tdp._id]})
+            this.props.dispatch({type:'SHOW_MODAL', value:tdp})
+            $(()=> window.$('#laModal').modal())
+        }
+    }
+
+    removeFromPressed = index =>this.setState({pressed: this.state.pressed.filter(i => i !== index)});
+    tdpCaller = (found)=>found?<FoundedTdp tdp = {this.props.tdp} />:<NotFoundedTdp tdp = {this.props.tdp} />
 
   
     render(){
-        const {_id, regletteType, regletteNbr,  option, plot} = this.props.tdp
+        const {_id, regletteType, regletteNbr,  option, plot, found} = this.props.tdp
 
         const badgeElement= {
             badgeLabel:'',
@@ -57,17 +57,16 @@ class ShowTdp extends React.Component{
                 badgeElement.badgeLabel = "Ok!"                   
             }
         }
-        
-            
-        return(
-            <div>
-                <LongPress
-                    key={_id}
-                    time={500}
-                    onLongPress={() => this.addToPressed(this.props.tdp)}
-                    onPress={() => this.removeFromPressed(_id)}
-                    > 
-                    <div className = {`tdp ${this.styler(_id)}`} onClick = {()=>{this._toggleView(_id)}}>
+        if (found){
+            return(
+                <div>
+                    <LongPress
+                        key={_id}
+                        time={500}
+                        onLongPress={() => this.addToPressed(this.props.tdp)}
+                        onPress={() => this.removeFromPressed(_id)}
+                        > 
+                        <div className = {`tdp ${this.styler(_id)}`} onClick = {()=>{this._toggleView(_id)}}>
                         <div style={{display:'flex' }}>
                             <p style={{margin:'0'}}>{}</p>
                             <p style={{flex:10}} className = "tdp2"> {regletteType+regletteNbr}-{plot}</p>
@@ -75,16 +74,34 @@ class ShowTdp extends React.Component{
                         </div>
                         <DeteilView data = {this.props.tdp}/>
                     </div> 
-                </LongPress>
-            </div>
-        )
+                    </LongPress>
+                </div>
+            )
+        }else{
+            return(
+                <div>
+                    <LongPress
+                        key={_id}
+                        time={500}
+                        onLongPress={() => this.addToPressed(this.props.tdp)}
+                        onPress={() => this.removeFromPressed(_id)}
+                        > 
+                        <div className ="tdp Letes3" onClick = {()=>{}}>
+                            <div style={{display:'flex' }}>
+                                <p style={{margin:'0'}}>{"what!"}</p>
+                                <p style={{flex:10}} className = "tdp2"> {regletteType+regletteNbr}-{plot}</p>
+                            </div>
+                        </div>
+                    </LongPress>
+                </div>
+            )
+        }
     }
 }
 
 
 const mapStateToProps = (state)=>{return {
     ndToShow:state.ndToShow, 
-    TdpPreviousState:state.TdpPreviousState, 
-    alreadyShow:state.alreadyShow
+    alreadyShow:state.alreadyShow,
 }}
 export default connect(mapStateToProps)(ShowTdp);
