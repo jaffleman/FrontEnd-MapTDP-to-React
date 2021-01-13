@@ -15,7 +15,6 @@ const extraSession = (sessionData)=>{
 }
 
 const extractStructure = (data) =>{
-    console.log(data)
     return data.map(elem=>{
        return elem.salle.map(elem =>{
            return elem.rco.map(elem=>{
@@ -77,11 +76,9 @@ class Peupler extends React.Component{
     handleClick = ()=>{
         const callback = (data)=>{
             const mySession = extraSession(data)
-            console.log(mySession);
             if (mySession.length===0) alert('Nom du Rep introuvable...')
             else  {
                const myStructure = extractStructure(mySession)
-               console.log(myStructure)
             }
         }
         VerifRepName(this.state.repName, callback)
@@ -144,10 +141,8 @@ class Peupler extends React.Component{
                     load:true
                 },
                 ()=>{
-                    //console.log(JSON.stringify(this.state.structure))
                     const structure = {tab:this.state.structure}
                     const convertion = stuctToTdpConvert(this.state.repName,structure)
-                    console.log(convertion);
                     //var myHeaders = new Headers({ 'Content-Type' : 'application/json', 'Accept-Charset' : 'utf-8', 'Accept' : '*/*' })
                     //fetch(`http://82.64.128.239:8082/CreatRep?arg={"repName":"${this.state.repName}","peupler":true, "structure":{"tab":${JSON.stringify(this.state.structure)}}}`)
                     fetch("http://192.168.0.14:8081/tdp/create",
@@ -173,7 +168,6 @@ class Peupler extends React.Component{
     }
     componentDidMount(){
         if (this.props.location.state) {
-            console.log(this.props.location.state.structure['tab']);
             this.setState({
                 repName : this.props.location.state.repartiteur,
                 structure: [...this.props.location.state.structure['tab']]

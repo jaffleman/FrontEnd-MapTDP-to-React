@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Switcher from '../repCreator/Switcher';
-import RegletteConst from '../repCreator/RegletteConstructor';
 import { withRouter } from 'react-router-dom';
+import DisplayLevel from './DisplayLevel';
 
 class DisplayFerme extends React.Component{
     constructor(props){
@@ -47,7 +47,12 @@ class DisplayFerme extends React.Component{
     }
     componentWillUnmount(){
     }
-
+    /*levelConstructor(ferme){
+        const levels = [1,2,3,4,5,6,7,8]
+        return levels.map(level=>{
+            if (level===ferme)
+        })
+    }*/
     render(){
         const fermes = this.props.data.ferme
         const inc = this.state.increment
@@ -59,15 +64,7 @@ class DisplayFerme extends React.Component{
                         <Switcher number={fermes[inc].number} total={fermes[fermes.length-1].number} next={this.fermeUp} back={this.fermeBack} text='ferme'/>
                     </div>
                     <div>
-                        <RegletteConst nd="0" handleHeadChange = {this.handleHeadChange}/>
-                        <RegletteConst nd="1"  keyOrigin={`${this.props.salleNumb}${this.props.rcoNumb}${fermes[inc].number}`} val = {fermes[inc].level[0]} handleHeadChange = {this.handleHeadChange} handleBodyChange={this.handleBodyChange}/>
-                        <RegletteConst nd="2"  keyOrigin={`${this.props.salleNumb}${this.props.rcoNumb}${fermes[inc].number}`} val = {fermes[inc].level[1]} handleHeadChange = {this.handleHeadChange} handleBodyChange={this.handleBodyChange}/>
-                        <RegletteConst nd="3"  keyOrigin={`${this.props.salleNumb}${this.props.rcoNumb}${fermes[inc].number}`} val = {fermes[inc].level[2]} handleHeadChange = {this.handleHeadChange} handleBodyChange={this.handleBodyChange}/>
-                        <RegletteConst nd="4"  keyOrigin={`${this.props.salleNumb}${this.props.rcoNumb}${fermes[inc].number}`} val = {fermes[inc].level[3]} handleHeadChange = {this.handleHeadChange} handleBodyChange={this.handleBodyChange}/>
-                        <RegletteConst nd="5"  keyOrigin={`${this.props.salleNumb}${this.props.rcoNumb}${fermes[inc].number}`} val = {fermes[inc].level[4]} handleHeadChange = {this.handleHeadChange} handleBodyChange={this.handleBodyChange}/>
-                        <RegletteConst nd="6"  keyOrigin={`${this.props.salleNumb}${this.props.rcoNumb}${fermes[inc].number}`} val = {fermes[inc].level[5]} handleHeadChange = {this.handleHeadChange} handleBodyChange={this.handleBodyChange}/>
-                        <RegletteConst nd="7"  keyOrigin={`${this.props.salleNumb}${this.props.rcoNumb}${fermes[inc].number}`} val = {fermes[inc].level[6]} handleHeadChange = {this.handleHeadChange} handleBodyChange={this.handleBodyChange}/>
-                        <RegletteConst nd="8"  keyOrigin={`${this.props.salleNumb}${this.props.rcoNumb}${fermes[inc].number}`} val = {fermes[inc].level[7]} handleHeadChange = {this.handleHeadChange} handleBodyChange={this.handleBodyChange}/>
+                        <DisplayLevel data={fermes[inc].level}/>
                     </div>
                     <div className="d-flex justify-content-around" style={{marginTop: '5px'}}>
                         <button type="button" className="btn btn-secondary" onClick={()=>this.props.history.push('/')}>Annuler</button>

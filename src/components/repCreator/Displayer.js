@@ -12,7 +12,6 @@ const extraSession = (sessionData)=>{
         const tab = []
         const reverseData = sessionData.reverse()
         reverseData.forEach(tdp => tab.findIndex(elem => elem === tdp.rep) === -1? tab.push(tdp.rep):null)
-        console.log(sessionData)
         const obj = tab.map(elem => new Rep(elem, reverseData))
         return obj
 }
@@ -80,11 +79,9 @@ class Displayer extends React.Component{
     handleClick = ()=>{
         const callback = (data)=>{
             const mySession = extraSession(data)
-            console.log(mySession);
             if (mySession.length===0) alert('Nom du Rep introuvable...')
             else  {
                 this.setState({session : mySession[0]})
-                console.log(mySession[0]);
             }
         }
         VerifRepName(this.state.repName, callback)
@@ -93,7 +90,6 @@ class Displayer extends React.Component{
     handle_valideClick = () => {}
     componentDidMount(){
         if (this.props.location.state) {
-            console.log(this.props.location.state.structure['tab']);
             this.setState({
                 repName : this.props.location.state.repartiteur,
                 structure: [...this.props.location.state.structure['tab']]

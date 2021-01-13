@@ -63,72 +63,62 @@ class RegletteConstructor extends React.Component{
     componentDidMount(){
         const nd = this.props.nd
         const val = this.props.val
-
-        if (nd>0) {
+            const id = `#${this.props.val.tdp[0]._id}head${this.props.keyOrigin}`
+            const id2 = `#${this.props.val.tdp[0]._id}option${this.props.keyOrigin}`
+            const id3 = `#${this.props.val.tdp[0]._id}value${this.props.keyOrigin}`
             if (val){
-                const id = `#head${nd}`
                 const optionValue = `option[value="${val.tdp[0].regletteType}"]`
                 $(id+' '+optionValue).prop('selected', true)
     
     
-                const id2 = `#option${nd}`
                 const optionValue2 = val.tdp[0].option===""?"null":`option[value="${val.tdp[0].option}"]`
                 $(id2+' '+optionValue2).prop('selected', true)
     
-                const id3 = `${this.props.keyOrigin}${this.props.nd}`
                 $(id3).val(val.tdp[0].regletteNbr)
             }else{
-                const id = `#head${nd}`
                 const optionValue = `option[value="x"]`
                 $(id+' '+optionValue).prop('selected', true)
     
     
-                const id2 = `#option${nd}`
                 const optionValue2 = 'option[value="null"]'
                 $(id2+' '+optionValue2).prop('selected', true)
     
-                const id3 = `${this.props.keyOrigin}${this.props.nd}`
                 $(id3).val("")
             }
-        }
+        
 
     }
     componentDidUpdate(){
         const nd = this.props.nd
         const val = this.props.val
-        if (this.props.nd>0) {
-            if (val){
-                console.log(this.props.val)
-                const id = `#head${nd}`
-                const optionValue = `option[value="${val.tdp[0].regletteType}"]`
-                $(id+' '+optionValue).prop('selected', true)
-    
-    
-                const id2 = `#option${nd}`
-                const optionValue2 = val.tdp[0].option===""?"null":`option[value="${val.tdp[0].option}"]`
-                $(id2+' '+optionValue2).prop('selected', true)
-    
-                const id3 = `#${this.props.keyOrigin}${this.props.nd}`
-                $(id3).val(val.tdp[0].regletteNbr)
-            }else{
-                const id = `#head${nd}`
-                const optionValue = `option[value="x"]`
-                $(id+' '+optionValue).prop('selected', true)
-    
-    
-                const id2 = `#option${nd}`
-                const optionValue2 = 'option[value="null"]'
-                $(id2+' '+optionValue2).prop('selected', true)
-    
-                const id3 = `#${this.props.keyOrigin}${this.props.nd}`
-                $(id3).val("")
-            }
-        } 
+        const id = `#${this.props.val.tdp[0]._id}head${this.props.keyOrigin}`
+        const id2 = `#${this.props.val.tdp[0]._id}option${this.props.keyOrigin}`
+        const id3 = `#${this.props.val.tdp[0]._id}value${this.props.keyOrigin}`
+        if (val){
+            const optionValue = `option[value="${val.tdp[0].regletteType}"]`
+            $(id+' '+optionValue).prop('selected', true)
+
+
+            const optionValue2 = val.tdp[0].option===""?"null":`option[value="${val.tdp[0].option}"]`
+            $(id2+' '+optionValue2).prop('selected', true)
+
+            $(id3).val(val.tdp[0].regletteNbr)
+        }else{
+            const optionValue = `option[value="x"]`
+            $(id+' '+optionValue).prop('selected', true)
+
+
+            const optionValue2 = 'option[value="null"]'
+            $(id2+' '+optionValue2).prop('selected', true)
+
+            $(id3).val("")
+        }
+        
     }
 
 
     render(){
-        
+        console.log(this.props.val.tdp[0])
         return (
             <div className='RegletteConstructor'>
                 <div>
@@ -136,7 +126,7 @@ class RegletteConstructor extends React.Component{
                 </div>
                 
                 <div style={{}}>
-                    <select className="custom-select custom-select-sm"  id={`head${this.props.nd}`} style={{width:"105px", textAlign:"right"}} onChange={e=>{}} >
+                    <select className="custom-select custom-select-sm"  id={`${this.props.val.tdp[0]._id}head${this.props.keyOrigin}`} style={{width:"105px", textAlign:"right"}} onChange={e=>{}} >
                         <option value="x" defaultValue>-----</option>
                         <option value="L/INX">L/INX</option>
                         <option value="R/DEG">R/DEG</option>
@@ -145,8 +135,8 @@ class RegletteConstructor extends React.Component{
                     </select>
                 </div>
                 {
-                    this.props.nd==="0"?" |===| ":<input 
-                        id={`${this.props.keyOrigin}${this.props.nd}`}
+                    <input 
+                        id={`${this.props.val.tdp[0]._id}value${this.props.keyOrigin}`}
                         type="text" 
                         maxLength="2" 
                         style={{width:"46px"}} 
@@ -157,7 +147,7 @@ class RegletteConstructor extends React.Component{
                         />
                 }
                 <div style={{marginLeft:'10px'}}>
-                    <select className="custom-select custom-select-sm"  id={`option${this.props.nd}`} onChange={e=>{}} style={{}}>
+                    <select className="custom-select custom-select-sm"  id={`${this.props.val.tdp[0]._id}option${this.props.keyOrigin}`} onChange={e=>{}} style={{}}>
                         <option value="null">...</option>
                         <option value="I">Inversée</option>
                         <option value="TNI">Tête Non Isolable</option>
