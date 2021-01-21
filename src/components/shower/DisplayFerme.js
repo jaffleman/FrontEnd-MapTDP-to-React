@@ -58,19 +58,19 @@ class DisplayFerme extends React.Component{
         const inc = this.state.increment
         return (
             
-            <div>
-                <div>
+            <div style={{marginLeft:'5px'}}>
+                
                     <div>
                         <Switcher number={fermes[inc].number} total={fermes[fermes.length-1].number} next={this.fermeUp} back={this.fermeBack} text='ferme'/>
                     </div>
                     <div>
-                        <DisplayLevel data={fermes[inc].level}/>
+                        <DisplayLevel key={fermes[inc].level} data={fermes[inc].level}/>
                     </div>
                     <div className="d-flex justify-content-around" style={{marginTop: '5px'}}>
                         <button type="button" className="btn btn-secondary" onClick={()=>this.props.history.push('/')}>Annuler</button>
                         <button type="button" className="btn btn-primary" onClick={this.handle_valideClick}>Valider</button>
                     </div>
-                </div>
+                
             </div>
         )
     }

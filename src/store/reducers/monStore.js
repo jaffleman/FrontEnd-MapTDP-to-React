@@ -1,4 +1,8 @@
 const  initialState = {
+    repCreatorData:{
+        brut:[],
+        session : {name : undefined}
+    },
     mustLoad:false,
     ndToShow: null,
     //formValue: '',
@@ -20,6 +24,15 @@ const  initialState = {
 export default function  monStore(state = initialState, action){
     let nextState;
     switch (action.type) {
+
+
+        case 'SET_BRUT_DATA':
+            nextState = {...state, repCreatorData:{...state.repCreatorData, brut:[...action.value]}}
+        return nextState||state
+
+        case 'SET_SESSION_DATA':
+            nextState = {...state, repCreatorData:{...state.repCreatorData, session:{...action.value}}}
+        return nextState||state
 
         case 'TOGGLE_FAVORITE':{
            const check = state.alreadyShow.indexOf(action.value)===-1?true:false

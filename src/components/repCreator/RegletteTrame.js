@@ -29,9 +29,9 @@ class RegletteTrame extends React.Component{
                     <h5><span className="badge badge-secondary">T</span></h5>
                 </div>
                 
-                <div style={{}}>
-                    <select className="custom-select custom-select-sm" style={{width:"105px", textAlign:"right"}} onChange={e=>{}} >
-                        <option value="x" defaultValue>-----</option>
+                <div style={{marginLeft:'15px'}}>
+                    <select className="custom-select custom-select-sm" style={{textAlign:"right"}} onChange={e=>{}} >
+                        <option value="x" defaultValue>----</option>
                         <option value="L/INX">L/INX</option>
                         <option value="R/DEG">R/DEG</option>
                         <option value="T/LIF">T/LIF</option>
@@ -39,7 +39,7 @@ class RegletteTrame extends React.Component{
                     </select>
                 </div>
                 |===|
-                <div style={{marginLeft:'10px'}}>
+                <div style={{marginLeft:'10px', width:'70px'}}>
                     <select className="custom-select custom-select-sm" onChange={e=>{}} style={{}}>
                         <option value="null">...</option>
                         <option value="I">Inversée</option>

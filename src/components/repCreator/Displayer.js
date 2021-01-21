@@ -4,70 +4,27 @@ import { withRouter } from 'react-router-dom';
 import VerifRepName from './VerifRepName';
 import {Rep} from '../../classes/rep';
 import DisplaySalle from './DisplaySalle';
-import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
 
 
 const extraSession = (sessionData)=>{
         const tab = []
-        const reverseData = sessionData.reverse()
+        const reverseData = sessionData
         reverseData.forEach(tdp => tab.findIndex(elem => elem === tdp.rep) === -1? tab.push(tdp.rep):null)
         const obj = tab.map(elem => new Rep(elem, reverseData))
         return obj
-}
-
-const extractStructure = (data) =>{
-    return data.map(elem=>{
-       return elem.salle.map(elem =>{
-           return elem.rco.map(elem=>{
-               return elem.ferme.map(elem=>{
-                   return elem.level.map(elem=>{
-                       return elem
-                    })
-               })
-           })
-       })
-    })
 }
 
 class Displayer extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            session : {name : undefined},
-            repName:'',
-            repartiteur:'',
-            salle:0,
-            rco:0,
-            ferme:0,
-            structure:[[[[['x'],['x'],['x'],['x'],['x'],['x'],['x'],['x']]]]],
-            load:false,
-            loadRepResult:''
+            repName :''
         }
     }
-    handleBodyChange = (e) => {
-        const body = e.target.value
-        const newStructure = this.state.structure
-        const modif = this.state.structure[this.state.salle][this.state.rco][this.state.ferme][parseInt(e.target.id.slice(-1))-1][0]
-        newStructure[this.state.salle][this.state.rco][this.state.ferme][parseInt(e.target.id.slice(-1))-1][0]=modif+body
-        this.setState({
-            structure: newStructure
-        })
-    }
-    handleHeadChange = (e) => {
-        const head = e.target.value
-        const newStructure = this.state.structure
-        if (e.target.id==='head0') {
-            const modif = [[head],[head],[head],[head],[head],[head],[head],[head]]
-            newStructure[this.state.salle][this.state.rco][this.state.ferme] = [...modif]    
-        }else{
-            const modif = [head]
-            newStructure[this.state.salle][this.state.rco][this.state.ferme][parseInt(e.target.id.slice(-1))-1] = [...modif]
-        }
-        this.setState({
-            structure: newStructure
-        })
 
+    handleBodyChange(e){
+    }
+    handleHeadChange(e){
     }
 
 
@@ -78,40 +35,31 @@ class Displayer extends React.Component{
     }
     handleClick = ()=>{
         const callback = (data)=>{
+            this.props.dispatch({
+                type:'SET_BRUT_DATA',
+                value: data
+            })
             const mySession = extraSession(data)
             if (mySession.length===0) alert('Nom du Rep introuvable...')
-            else  {
-                this.setState({session : mySession[0]})
-            }
+            else  this.props.dispatch({
+                type:'SET_SESSION_DATA',
+                value: mySession[0]
+            })
         }
         VerifRepName(this.state.repName, callback)
     }
+    SalleDisplayer({data}){
+        if (data.length>0) {
+            const mySession = extraSession(data)
+            if (mySession.length===0){
+                alert('Nom du Rep introuvable...')
+                return null
+            }
+            else  return <DisplaySalle data={mySession[0]}/>
+        }else return null
+    }
 
-    handle_valideClick = () => {}
-    componentDidMount(){
-        if (this.props.location.state) {
-            this.setState({
-                repName : this.props.location.state.repartiteur,
-                structure: [...this.props.location.state.structure['tab']]
-            })
-        }
-        //$( "#salle1" ).addClass( "active" );
-    }
-    componentWillUnmount(){
-        const action = {
-            type:"SET_REP_STRUCTURE",
-            value:[[[[["x"],["x"],["x"],["x"],["x"],["x"],["x"],["x"]]]]],
-        }
-        this.props.dispatch(action)
-    }
-    Tableur({data}){
-        const {name,salle}= data
-        return name===undefined?null:<Tabs defaultActiveKey="salle1" id="uncontrolled-tab-example">{salle.map(elem=><Tab key={elem.number} eventKey={`salle${elem.number}`} title={`salle${elem.number}`}>data</Tab>)}</Tabs>
-
-    }
     render(){
-
-        
         return (
             <div>
                 <div className="input-group mb-3">
@@ -122,12 +70,13 @@ class Displayer extends React.Component{
                 </div>
                 <div className="MyCard" style={{ marginBottom: '40px'}}>
                     <div className="Bando-Titre2 rounded" style={{marginBottom:"1px", }}>
-                        Repartiteur de <span style={{color:'red', textTransform:'lowerCase'}}>{this.state.session.name}</span>
+                        Repartiteur de <span style={{color:'red', textTransform:'lowerCase'}}>{'this.state.session.name'}</span>
                     </div>
-                    <DisplaySalle data={this.state.session}/> 
+                    <this.SalleDisplayer data={this.props.brut}/>
                 </div>
             </div>
         )
     }
 }
-export default withRouter(connect()(Displayer))
+const mapStateToProps = (state)=>{return { brut: state.repCreatorData.brut}}
+export default withRouter(connect(mapStateToProps)(Displayer))

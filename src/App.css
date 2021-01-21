@@ -45,7 +45,7 @@ body {
   color: #ffffff;
   background-color: hsla(0, 0%, 0%, 0.844);
   margin-bottom: 20px;
-  min-width: 300px;
+  /*min-width: 300px;*/
   cursor: default; 
 }
 .Bando-Titre{
@@ -175,15 +175,16 @@ body {
 }
 .RegletteConstructor{
   display: flex;
-  padding: 2px;
+  padding: 1px;
   border: 1px solid black;
   box-shadow: 3px 3px 10px 3px black;
   text-align: center;
   /*margin: 1px 20px;*/
   border-radius: 5px;
   cursor: pointer;
-  min-width: 310px;
+  /*min-width: 310px;*/
   background-color: #e46b50;
+  margin-top: 3px;
 }
 #loader{
   z-index: 100;

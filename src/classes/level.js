@@ -3,6 +3,6 @@ export class Level {
     const dataTab = []
     newTabTdp.forEach(element => element.level === identifiant? dataTab.push(element):null)
     this.number = identifiant
-    this.tdp = dataTab
+    this.tdps = dataTab
   }
 }
