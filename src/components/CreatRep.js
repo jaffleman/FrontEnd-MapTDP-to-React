@@ -2,7 +2,7 @@ import React from 'react';
 import SalleCreator from './repCreator/SalleCreator';
 import {connect} from 'react-redux'
 import Increment from './repCreator/Increment';
-import { Link, Redirect, Route, withRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import Loader from './Loader';
 import VerifRepName from './repCreator/VerifRepName'
 

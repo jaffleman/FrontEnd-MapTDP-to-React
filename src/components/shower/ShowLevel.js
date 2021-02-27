@@ -8,7 +8,7 @@ class ShowLevel extends React.Component{
         
         return (
             <div className='main' style={{color:'red'}}>
-                {lister(level.tdp)}
+                {lister(level.tdps)}
             </div>
         )       
     }

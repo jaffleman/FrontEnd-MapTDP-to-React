@@ -2,31 +2,18 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import VerifRepName from './VerifRepName';
-import {Rep} from '../../classes/rep';
 import DisplaySalle from './DisplaySalle';
-
-
-const extraSession = (sessionData)=>{
-        const tab = []
-        const reverseData = sessionData
-        reverseData.forEach(tdp => tab.findIndex(elem => elem === tdp.rep) === -1? tab.push(tdp.rep):null)
-        const obj = tab.map(elem => new Rep(elem, reverseData))
-        return obj
-}
+import { Container } from 'react-bootstrap';
+import ExtraSession from '../../classes/extraSession'
 
 class Displayer extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            repName :''
+            repName :'',
+            theSession: undefined
         }
     }
-
-    handleBodyChange(e){
-    }
-    handleHeadChange(e){
-    }
-
 
     handleRepChange = (e)=> {
         this.setState({
@@ -39,44 +26,37 @@ class Displayer extends React.Component{
                 type:'SET_BRUT_DATA',
                 value: data
             })
-            const mySession = extraSession(data)
+            const mySession = new ExtraSession(data)
             if (mySession.length===0) alert('Nom du Rep introuvable...')
-            else  this.props.dispatch({
-                type:'SET_SESSION_DATA',
-                value: mySession[0]
+            else  this.setState({ theSession : mySession}, ()=>{
+                this.props.dispatch({
+                    type:'SET_SESSION_DATA',
+                    value: mySession
+                })
             })
         }
         VerifRepName(this.state.repName, callback)
     }
     SalleDisplayer({data}){
-        if (data.length>0) {
-            const mySession = extraSession(data)
-            if (mySession.length===0){
-                alert('Nom du Rep introuvable...')
-                return null
-            }
-            else  return <DisplaySalle data={mySession[0]}/>
-        }else return null
+        if (data) return <DisplaySalle data={data.rep[0]}/> 
+        else return null
     }
 
     render(){
         return (
-            <div>
+            <Container>
                 <div className="input-group mb-3">
-                    <input type="text" className="form-control" onChange={this.handleRepChange} placeholder="ex:cho94" aria-label="ex:cho94" aria-describedby="button-addon2"/>
+                    <input type="text" className="form-control" onChange={this.handleRepChange} placeholder="Rep à créer/modifier ex:cho94" aria-label="ex:cho94" aria-describedby="button-addon2"/>
                     <div className="input-group-append">
-                        <button className="btn btn-primary" type="button" id="button-addon2" onClick={this.handleClick}>Charger</button>
+                        <button className="btn btn-primary" type="button" id="button-addon2" onClick={this.handleClick}>OK</button>
                     </div>
                 </div>
-                <div className="MyCard" style={{ marginBottom: '40px'}}>
-                    <div className="Bando-Titre2 rounded" style={{marginBottom:"1px", }}>
-                        Repartiteur de <span style={{color:'red', textTransform:'lowerCase'}}>{'this.state.session.name'}</span>
-                    </div>
-                    <this.SalleDisplayer data={this.props.brut}/>
-                </div>
-            </div>
+                <this.SalleDisplayer data={this.props.mySession}/>
+            </Container>
         )
     }
 }
-const mapStateToProps = (state)=>{return { brut: state.repCreatorData.brut}}
+const mapStateToProps = (state)=>{return {
+    mySession: state.session
+}}
 export default withRouter(connect(mapStateToProps)(Displayer))

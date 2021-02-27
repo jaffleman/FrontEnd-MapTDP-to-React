@@ -1,7 +1,7 @@
 import React from 'react'
 import Increment from './Increment'
 import RcoCreator from './RcoCreator'
-class Salle extends React.Component{
+class CreatSalle extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -18,4 +18,4 @@ class Salle extends React.Component{
         )
     }
 }
-export default Salle;
+export default CreatSalle;

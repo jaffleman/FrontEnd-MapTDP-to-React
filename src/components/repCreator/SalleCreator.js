@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Salle from './Salle';
+import CreatSalle from './CreatSalle';
 import {connect} from 'react-redux'
 
 class SalleCreator extends React.Component{
@@ -20,7 +20,7 @@ class SalleCreator extends React.Component{
             return (
                 <div key={key} className="Creator">
                     <h5>Salle: {key+1}</h5>
-                    <Salle key={key} salleNum={key}/>
+                    <CreatSalle key={key} salleNum={key}/>
                 </div>
             )
         })

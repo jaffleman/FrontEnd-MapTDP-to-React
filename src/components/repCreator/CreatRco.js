@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-class Rco extends React.Component{
+class CreatRco extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -56,4 +56,4 @@ class Rco extends React.Component{
 const mapStateToProps = (state)=>{return {
     repStructure: state.repStructure}
 }
-export default connect(mapStateToProps)(Rco);
+export default connect(mapStateToProps)(CreatRco);

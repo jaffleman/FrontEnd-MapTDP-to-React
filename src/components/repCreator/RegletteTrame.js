@@ -26,10 +26,10 @@ class RegletteTrame extends React.Component{
         return (
             <div className='RegletteConstructor'>
                 <div>
-                    <h5><span className="badge badge-secondary">T</span></h5>
+                    <h5><span className="badge badge-secondary">Trame</span></h5>
                 </div>
                 
-                <div style={{marginLeft:'15px'}}>
+                <div style={{marginLeft:'40px'}}>
                     <select className="custom-select custom-select-sm" style={{textAlign:"right"}} onChange={e=>{}} >
                         <option value="x" defaultValue>----</option>
                         <option value="L/INX">L/INX</option>

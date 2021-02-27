@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux';
+import ExtraSession from '../../classes/extraSession'
 
 class RegletteConstructor extends React.Component{
     constructor(props){
@@ -10,37 +11,36 @@ class RegletteConstructor extends React.Component{
         }
     }
     HeadHandleChange = (e) =>{
-        const newTdp={...this.state.val.tdps[0], regletteType:e.target.value} 
-        const newVal={...this.state.val, tdps:[newTdp]}
-        this.setState({val:newVal})
+        const newSession = this.props.session.modifRegType(this.props.val.tdps[0]._id, e.target.value)
+        this.props.dispatch({
+            type:'SET_SESSION_DATA',
+            value: newSession
+        })
     }
     EndHandleChange = (e) =>{
-        const newTdp={...this.state.val.tdps[0], option:e.target.value} 
-        const newVal={...this.state.val, tdps:[newTdp]}
-        this.setState({val:newVal})
+        const newSession = this.props.session.modifOption(this.props.val.tdps[0]._id, e.target.value)
+        this.props.dispatch({
+            type:'SET_SESSION_DATA',
+            value: newSession
+        })
     }
     BodyHandleChange(e){
-        const leTdp = this.props.repCreatorData.brut.findIndex(tdp=>tdp._id===this.props.val.tdps[0]._id)
-        if (leTdp !== -1){
-            const newBrut = [...this.props.repCreatorData.brut]
-            newBrut[leTdp] = {...this.props.repCreatorData.brut[leTdp], regletteNbr:e.target.value}
-            this.props.dispatch({
-                type: 'SET_BRUT_DATA',
-                value: newBrut
-            })
-        }
+        const newSession = this.props.session.modifRegNbr(this.props.val.tdps[0]._id, e.target.value)
+        this.props.dispatch({
+            type:'SET_SESSION_DATA',
+            value: newSession
+        })
     }
-
 
     render(){
         return (
             <div className='RegletteConstructor'>
                 <div>
-                    <h5><span className="badge badge-secondary">{this.props.nd}</span></h5>
+                    <h5><span className="badge badge-secondary">Niveau {this.props.nd}</span></h5>
                 </div>
                 
                 <div style={{marginLeft:'15px'}}>
-                    <select className="custom-select custom-select-sm" value={this.props.val.tdps[0].regletteType}  id={`select1:${this.props.val.tdps[0]._id}${this.props.keyOrigin}`} style={{textAlign:"right"}} onChange={()=>{}}>
+                    <select className="custom-select custom-select-sm" value={this.props.val.tdps[0].regletteType}  id={`select1:${this.props.val.tdps[0]._id}${this.props.keyOrigin}`} style={{textAlign:"right"}} onChange={this.HeadHandleChange.bind(this)}>
                         <option value="x" defaultValue>-----</option>
                         <option value="L/INX">L/INX</option>
                         <option value="R/DEG">R/DEG</option>
@@ -72,6 +72,6 @@ class RegletteConstructor extends React.Component{
     }
 }
 const mapStateToProps = (state)=>{return {
-    repCreatorData: state.repCreatorData}
+    session: state.session}
 }
 export default connect(mapStateToProps)(RegletteConstructor)

@@ -1,8 +1,6 @@
 const  initialState = {
-    repCreatorData:{
-        brut:[],
-        session : {name : undefined}
-    },
+    session : undefined
+    ,
     mustLoad:false,
     ndToShow: null,
     //formValue: '',
@@ -25,13 +23,8 @@ export default function  monStore(state = initialState, action){
     let nextState;
     switch (action.type) {
 
-
-        case 'SET_BRUT_DATA':
-            nextState = {...state, repCreatorData:{...state.repCreatorData, brut:[...action.value]}}
-        return nextState||state
-
         case 'SET_SESSION_DATA':
-            nextState = {...state, repCreatorData:{...state.repCreatorData, session:{...action.value}}}
+            nextState = {...state, session:action.value}
         return nextState||state
 
         case 'TOGGLE_FAVORITE':{
@@ -90,6 +83,14 @@ export default function  monStore(state = initialState, action){
             nextState = initialState
         return nextState||state
 
+        case 'ADD_SAlLE' :
+            nextState = {...state, repCreatorData:{...state.repCreatorData, brut:[...state.repCreatorData.brut, {ferme:1, level:1, rco:1, rep:action.value.rep , salle:action.value.salle}] } }
+        return nextState||state
+
+        case 'ADD_RCO' :
+            nextState = {...state, repCreatorData:{...state.repCreatorData, brut:[...state.repCreatorData.brut, {ferme:1, level:1, rco:action.value.rco, rep:action.value.rep , salle:action.value.salle}]}}
+        return nextState||state
+        
         default:
             return state
     }

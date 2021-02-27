@@ -3,7 +3,9 @@ import {fetcher} from '../functions/fetcher'
 import {compare} from '../functions/compare'
 import {expend} from '../functions/expend'
 export class Session{
+  
   constructor(sessionData, callback=(obj)=>{return obj}) {
+    this.brutdata = sessionData
     fetcher("search","POST",sessionData)
     .then((fetchedResult)=>{
       this.rep = getRep(expend(compare(sessionData,fetchedResult)))
@@ -17,4 +19,9 @@ export class Session{
       }//
     })
   }
+  /*addSalle(ndFerme){
+    //this.rep.addSalle(ndFerme)
+    
+    return "this.rep"
+  }*/
 }  

@@ -1,5 +1,5 @@
 import React from 'react';
-import Rco from './Rco';
+import CreatRco from './CreatRco';
 import {connect} from 'react-redux'
 
 class RcoCreator extends React.Component{
@@ -23,7 +23,7 @@ class RcoCreator extends React.Component{
             const action = {type: "SET_REP_STRUCTURE",value: localstructure};
             this.props.dispatch(action)
         }
-        return tab.map((item, key)=>{ return (<Rco parentKey={this.props.parentKey} key={key} number={key}/>)})
+        return tab.map((item, key)=>{ return (<CreatRco parentKey={this.props.parentKey} key={key} number={key}/>)})
 
     
     }

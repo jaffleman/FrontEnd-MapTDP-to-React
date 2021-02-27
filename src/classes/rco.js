@@ -11,4 +11,6 @@ export class Rco {
     this.number = identifiant
     this.ferme = find(dataTab)
   }
+  addFerme(){
+  }
 }

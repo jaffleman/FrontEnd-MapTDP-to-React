@@ -58,7 +58,7 @@ class DisplayFerme extends React.Component{
         const inc = this.state.increment
         return (
             
-            <div style={{marginLeft:'5px'}}>
+            <>
                 
                     <div>
                         <Switcher number={fermes[inc].number} total={fermes[fermes.length-1].number} next={this.fermeUp} back={this.fermeBack} text='ferme'/>
@@ -71,7 +71,7 @@ class DisplayFerme extends React.Component{
                         <button type="button" className="btn btn-primary" onClick={this.handle_valideClick}>Valider</button>
                     </div>
                 
-            </div>
+            </>
         )
     }
 }

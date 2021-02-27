@@ -2,7 +2,7 @@
 
 export async function fetcher (route, method, data=null ){
     const myBody = JSON.stringify(data)
-    const result = await fetch(`http://192.168.0.14:8081/tdp/${route}`,
+    const result = await fetch(`http://82.64.128.239:8083/tdp/${route}`,
     { 
         method: method,
         mode: 'cors',

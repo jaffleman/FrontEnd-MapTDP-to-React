@@ -13,7 +13,12 @@ export default function  repCreatorStore(state = initialState, action){
         case 'SET_SESSION_DATA':
             nextState = {...state, session:{...action.value}}
         return nextState||state
-        
+
+        case 'ADD_SAlLE' :
+            console.log(action.value)
+            nextState = {...state, brut:[...state.brut, {ferme:1, level:1, rco:1, rep: "cho94", salle:action.value}]}
+        return nextState||state
+
         default:
             return state
     }

@@ -35,7 +35,7 @@ class ShowTdp extends React.Component{
     }
 
     removeFromPressed = index =>this.setState({pressed: this.state.pressed.filter(i => i !== index)});
-    tdpCaller = (found)=>found?<FoundedTdp tdp = {this.props.tdp} />:<NotFoundedTdp tdp = {this.props.tdp} />
+    //tdpCaller = (found)=>found?<FoundedTdp tdp = {this.props.tdp} />:<NotFoundedTdp tdp = {this.props.tdp} />
 
   
     render(){
@@ -78,23 +78,27 @@ class ShowTdp extends React.Component{
                 </div>
             )
         }else{
-            return(
-                <div>
-                    <LongPress
-                        key={_id}
-                        time={500}
-                        onLongPress={() => this.addToPressed(this.props.tdp)}
-                        onPress={() => this.removeFromPressed(_id)}
-                        > 
-                        <div className ="tdp Letes3" onClick = {()=>{}}>
-                            <div style={{display:'flex' }}>
-                                <p style={{margin:'0'}}>{"what!"}</p>
-                                <p style={{flex:10}} className = "tdp2"> {regletteType+regletteNbr}-{plot}</p>
+            if (found===undefined){
+                return null
+            }else{                
+                return(
+                    <div>
+                        <LongPress
+                            key={_id}
+                            time={500}
+                            onLongPress={() => this.addToPressed(this.props.tdp)}
+                            onPress={() => this.removeFromPressed(_id)}
+                            > 
+                            <div className ="tdp Letes3" onClick = {()=>{}}>
+                                <div style={{display:'flex' }}>
+                                    <p style={{margin:'0'}}>{"what!"}</p>
+                                    <p style={{flex:10}} className = "tdp2"> {regletteType+regletteNbr}-{plot}</p>
+                                </div>
                             </div>
-                        </div>
-                    </LongPress>
-                </div>
-            )
+                        </LongPress>
+                    </div>
+                )
+            }
         }
     }
 }
