@@ -11,14 +11,14 @@ class RegletteConstructor extends React.Component{
         }
     }
     HeadHandleChange = (e) =>{
-        const newSession = this.props.session.modifRegType(this.props.val.tdps[0]._id, e.target.value)
+        const newSession = this.props.session.modifRegType([this.props.val.tdps[0]._id], e.target.value)
         this.props.dispatch({
             type:'SET_SESSION_DATA',
             value: newSession
         })
     }
     EndHandleChange = (e) =>{
-        const newSession = this.props.session.modifOption(this.props.val.tdps[0]._id, e.target.value)
+        const newSession = this.props.session.modifOption([this.props.val.tdps[0]._id], e.target.value)
         this.props.dispatch({
             type:'SET_SESSION_DATA',
             value: newSession

@@ -7,8 +7,9 @@ class DisplayLevel extends React.Component{
         return data.map(elem=><RegletteConst tdpRegNbrChange={this.props.tdpRegNbrChange} nd={elem.number} key={elem.number}  keyOrigin={`level${elem.number}`} val = {elem}/>)
     }
     render(){
+        const tabId = this.props.data.map(elem=>elem.tdps[0]._id)
         return <div >
-            <RegletteTrame/>
+            <RegletteTrame tabId = {tabId}/>
             {this.reglette(this.props.data)}
         </div>
     }

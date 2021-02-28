@@ -27,6 +27,7 @@ class Displayer extends React.Component{
                 value: data
             })
             const mySession = new ExtraSession(data)
+            console.log(mySession)
             if (mySession.length===0) alert('Nom du Rep introuvable...')
             else  this.setState({ theSession : mySession}, ()=>{
                 this.props.dispatch({
