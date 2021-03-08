@@ -31,6 +31,12 @@ class DisplayFerme extends React.Component{
             this.setState({
                 increment : inc+1
             })
+        }else{
+            const newSession = this.props.session.addFerme(this.props.rcoNumb, this.props.salleNumb, this.props.data.ferme[inc].number+1)
+            this.props.dispatch({
+                type:'SET_SESSION_DATA',
+                value: newSession
+            })
         }
     }
     fermeBack = () => {
@@ -75,4 +81,7 @@ class DisplayFerme extends React.Component{
         )
     }
 }
-export default withRouter(connect()(DisplayFerme))
+const mapStateToProps = (state)=>{return {
+    session: state.session
+}}
+export default withRouter(connect(mapStateToProps)(DisplayFerme))

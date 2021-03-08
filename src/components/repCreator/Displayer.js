@@ -21,25 +21,19 @@ class Displayer extends React.Component{
         })
     }
     handleClick = ()=>{
-        const callback = (data)=>{
-            this.props.dispatch({
-                type:'SET_BRUT_DATA',
-                value: data
-            })
-            const mySession = new ExtraSession(data)
-            console.log(mySession)
-            if (mySession.length===0) alert('Nom du Rep introuvable...')
-            else  this.setState({ theSession : mySession}, ()=>{
-                this.props.dispatch({
-                    type:'SET_SESSION_DATA',
-                    value: mySession
-                })
-            })
+        const callback = (data, repName)=>{
+            const mySession = new ExtraSession(data, repName)
+            if (!mySession.rep) {
+                if (window.confirm("Le rep n'existe pas, voulez-vous le creer")){
+                    this.props.dispatch({type:'SET_SESSION_DATA',value: mySession.creatNewRep(repName)})
+                }
+            }
+            else {this.props.dispatch({type:'SET_SESSION_DATA',value: mySession})}            
         }
         VerifRepName(this.state.repName, callback)
     }
     SalleDisplayer({data}){
-        if (data) return <DisplaySalle data={data.rep[0]}/> 
+        if (data.rep) return <DisplaySalle data={data.rep[0]}/> 
         else return null
     }
 

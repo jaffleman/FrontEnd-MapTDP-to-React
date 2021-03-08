@@ -3,25 +3,25 @@ import {connect} from 'react-redux';
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
 
-class AddElement extends React.Component{
-    addSalle(){
-        const newSession = this.props.session.addSalle()
+class DeleteElement extends React.Component{
+    deleteSalle(){
+        const newSession = this.props.session.deleteSalle()
         this.props.dispatch({
             type:'SET_SESSION_DATA',
             value: newSession
         })
     }
 
-    addRco(){
-        const newSession = this.props.session.addRco()
+    deleteRco(){
+        const newSession = this.props.session.deleteRco()
         this.props.dispatch({
             type:'SET_SESSION_DATA',
             value: newSession
         })
     }
-    addFerme(){
+    deleteFerme(){
         console.log("cliquer")
-        const newSession = this.props.session.addFerme()
+        const newSession = this.props.session.deleteFerme()
         this.props.dispatch({
             type:'SET_SESSION_DATA',
             value: newSession
@@ -30,9 +30,9 @@ class AddElement extends React.Component{
     render(){
         return <>
             <DropdownButton id="dropdown-basic-button" title="Que voulez-vous ajouter ?">
-                <Dropdown.Item onClick={()=>this.addSalle()}>Salle</Dropdown.Item>
-                <Dropdown.Item onClick={()=>this.addRco()}>RCO</Dropdown.Item>
-                <Dropdown.Item onClick={()=>this.addFerme()}>Ferme</Dropdown.Item>
+                <Dropdown.Item onClick={()=>this.deleteSalle()}>Salle</Dropdown.Item>
+                <Dropdown.Item onClick={()=>this.deleteRco()}>RCO</Dropdown.Item>
+                <Dropdown.Item onClick={()=>this.deleteFerme()}>Ferme</Dropdown.Item>
             </DropdownButton>
         </>
     }
@@ -40,4 +40,4 @@ class AddElement extends React.Component{
 const mapStateToProps = (state)=>{return {
     session: state.session
 }}
-export default connect(mapStateToProps)(AddElement)
+export default connect(mapStateToProps)(DeleteElement)

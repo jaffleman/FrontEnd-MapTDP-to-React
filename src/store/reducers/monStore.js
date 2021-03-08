@@ -1,6 +1,5 @@
 const  initialState = {
-    session : undefined
-    ,
+    session : {},
     mustLoad:false,
     ndToShow: null,
     //formValue: '',
@@ -13,11 +12,6 @@ const  initialState = {
         data:[]
     },*/
     //createReglette:false,
-    repStructure:{
-        "tab":[[[[["x"],["x"],["x"],["x"],["x"],["x"],["x"],["x"]]]]]
-    }
-    
-
 };
 export default function  monStore(state = initialState, action){
     let nextState;

@@ -1,5 +1,4 @@
 import { Level } from './level'
-import { Tdp } from './Tdp'
 export class Ferme {
   constructor(identifiant, newTabTdp) {
     

@@ -2,6 +2,7 @@ import React from 'react'
 import Tab from 'react-bootstrap/Tab';
 import {Nav} from 'react-bootstrap';
 import AddElement from './AddElement';
+import DeleteElement from './DeleteElement';
 
 class ItemsManager extends React.Component{
     render(){
@@ -12,7 +13,7 @@ class ItemsManager extends React.Component{
             </Nav>
             <Tab.Content>
                 <Tab.Pane key={"Ajouter"} eventKey={"Ajouter"}><div style={{ marginTop:"10px"}}><AddElement function={this.props.function}/></div></Tab.Pane>
-                <Tab.Pane key={"Supprimer"} eventKey={"Supprimer"}><div style={{ marginTop:"10px"}}><h5>Que voulez-vous supprimer ?</h5></div></Tab.Pane>
+                <Tab.Pane key={"Supprimer"} eventKey={"Supprimer"}><div style={{ marginTop:"10px"}}><DeleteElement function={this.props.function}/></div></Tab.Pane>
             </Tab.Content>
         </Tab.Container>
     }
