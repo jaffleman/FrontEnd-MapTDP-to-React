@@ -6,10 +6,11 @@ import Dropdown from 'react-bootstrap/Dropdown'
 class DeleteElement extends React.Component{
     deleteSalle(){
         const newSession = this.props.session.deleteSalle()
+        if (newSession){
         this.props.dispatch({
             type:'SET_SESSION_DATA',
             value: newSession
-        })
+        })}
     }
 
     deleteRco(){
@@ -20,7 +21,6 @@ class DeleteElement extends React.Component{
         })
     }
     deleteFerme(){
-        console.log("cliquer")
         const newSession = this.props.session.deleteFerme()
         this.props.dispatch({
             type:'SET_SESSION_DATA',

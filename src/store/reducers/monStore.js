@@ -1,5 +1,6 @@
 const  initialState = {
     session : {},
+    baseBrutData: [],
     mustLoad:false,
     ndToShow: null,
     //formValue: '',
@@ -17,8 +18,16 @@ export default function  monStore(state = initialState, action){
     let nextState;
     switch (action.type) {
 
+        case 'RESET_SESSION' :
+            nextState = {...state, session:{}, baseBrutData: [], mustLoad:true}
+        return nextState||state
+
         case 'SET_SESSION_DATA':
             nextState = {...state, session:action.value}
+        return nextState||state
+
+        case 'SET_BASE_DATA':
+            nextState = {...state, baseBrutData: action.value}
         return nextState||state
 
         case 'TOGGLE_FAVORITE':{

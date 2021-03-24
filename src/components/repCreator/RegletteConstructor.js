@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux';
-import ExtraSession from '../../classes/extraSession'
+import Button from 'react-bootstrap/Button'
 
 class RegletteConstructor extends React.Component{
     constructor(props){
@@ -29,6 +29,15 @@ class RegletteConstructor extends React.Component{
         this.props.dispatch({
             type:'SET_SESSION_DATA',
             value: newSession
+        })
+    }
+    deleteHandleClick(){
+        const newSession = this.props.session.modifRegType([this.props.val.tdps[0]._id], 'x')
+        const newSession2 = newSession.modifRegNbr(this.props.val.tdps[0]._id, '')
+        const newSession3 = newSession2.modifOption([this.props.val.tdps[0]._id], '')
+        this.props.dispatch({
+            type:'SET_SESSION_DATA',
+            value: newSession3
         })
     }
 
@@ -66,7 +75,10 @@ class RegletteConstructor extends React.Component{
                         <option value="I">Inversée</option>
                         <option value="TNI">Tête Non Isolable</option>
                     </select>
-                </div>              
+                </div>  
+                <Button variant="danger" style={{marginLeft:'15px'}} size="sm" onClick={this.deleteHandleClick.bind(this)}>
+                    x
+                </Button>            
             </div>
         )
     }

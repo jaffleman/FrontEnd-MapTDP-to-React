@@ -1,6 +1,6 @@
 import { Level } from './level'
 export class Ferme {
-  constructor(identifiant, newTabTdp) {
+  constructor(identifiant, newTabTdp, index) {
     
 
     const dataTab = []
@@ -11,6 +11,7 @@ export class Ferme {
       return tab.map(elem=>new Level(elem,dataTab)).sort((a,b)=>a.number-b.number)
     }
     this.number = identifiant
+    this.index = index
     this.level = find(dataTab)
   }
 }

@@ -6,6 +6,7 @@ import { transforme } from '../functions/transforme';
 import { reduce } from '../functions/reduce';
 import { Session } from '../classes/session';
 import {connect} from 'react-redux';
+import { Container } from 'react-bootstrap';
 
 
 const Accueil = (props) => {
@@ -32,36 +33,39 @@ const Accueil = (props) => {
   }
 
   return (
-    <div className='main'>
-      <div className='row'>
-        <div className='col-lg' style={{marginTop:'20px'}}>
-        <div className="MyCard">
-                <div className="Bando-Titre">
-                    <p>TDP Search</p>
-                </div>
-          <form>
-            <textarea id="msg" type="text" className='cardArea'
-              name="tdp_list" rows="6"  
-              placeholder="Coller votre liste de TDP ici ou taper la position recherchée: ex: cho94 linx19127..." 
-              value={formValue}  onChange={e=>textareaHandleChange(e)}>
-            </textarea>
-          </form>
-          <div className="Bando-Valider">
-                    <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>textareaHandleClick()}>Lancer la recherche</button>                
-                </div>
-            </div>
-        </div>      
-        <div className='col-lg' style={{marginTop:'20px'}}>
-          <Card data={{
-            title:'Création de répartiteur:',
-            type:'text',
-            textValue:'Le mode "création de rep" te permets d\'intégrer ton répartiteur. Une fois créé, il sera accessible par tout les utilisateurs de MapTDP. Il est important de prendre le temps d\'intégrer les répartiteurs afin de peupler la base de MapTDP et aissi faciliter la recherche des futurs TDP. Si tu souhaites intégrer un répartiteur cliques sur "GO=>"',
-            bName:'Go=>',
-            route:'/Displayer'}}/> 
-        </div>
+    <Container>
+      <div className='main'>
+        <div className='row'>
+          <div className='col-lg' style={{marginTop:'20px'}}>
+          <div className="MyCard">
+                  <div className="Bando-Titre">
+                      <p>TDP Search</p>
+                  </div>
+            <form>
+              <textarea id="msg" type="text" className='cardArea'
+                name="tdp_list" rows="6"  
+                placeholder="Coller votre liste de TDP ici ou taper la position recherchée: ex: cho94 linx19127..." 
+                value={formValue}  onChange={e=>textareaHandleChange(e)}>
+              </textarea>
+            </form>
+            <div className="Bando-Valider">
+                      <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>textareaHandleClick()}>Lancer la recherche</button>                
+                  </div>
+              </div>
+          </div>      
+          <div className='col-lg' style={{marginTop:'20px'}}>
+            <Card data={{
+              title:'Création de répartiteur:',
+              type:'text',
+              textValue:'Le mode "création de rep" te permets d\'intégrer ton répartiteur. Une fois créé, il sera accessible par tout les utilisateurs de MapTDP. Il est important de prendre le temps d\'intégrer les répartiteurs afin de peupler la base de MapTDP et aissi faciliter la recherche des futurs TDP. Si tu souhaites intégrer un répartiteur cliques sur "GO=>"',
+              bName:'Go=>',
+              route:'/Displayer'}}/> 
+          </div>
 
+        </div>
       </div>
-    </div>
+
+    </Container>
   )
 
 }   

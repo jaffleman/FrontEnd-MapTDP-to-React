@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux';
+import $ from 'jquery'
 
 class RegletteTrame extends React.Component{
 
@@ -9,6 +10,8 @@ class RegletteTrame extends React.Component{
             type:'SET_SESSION_DATA',
             value: newSession
         })
+        $("select#headTrame.custom-select custom-select-sm").val('x')
+        
     }
     EndHandleChange = (e) =>{
         const newSession = this.props.session.modifOption(this.props.tabId, e.target.value)
@@ -16,9 +19,11 @@ class RegletteTrame extends React.Component{
             type:'SET_SESSION_DATA',
             value: newSession
         })
+        $("select#endTrame.custom-select custom-select-sm").val('x')
     }
 
     render(){
+
         return (
             <div className='RegletteConstructor'>
                 <div>
@@ -26,8 +31,8 @@ class RegletteTrame extends React.Component{
                 </div>
                 
                 <div style={{marginLeft:'40px'}}>
-                    <select className="custom-select custom-select-sm" style={{textAlign:"right"}} onChange={this.HeadHandleChange.bind(this)} >
-                        <option value="x" defaultValue>----</option>
+                    <select id="headTrame" className="custom-select custom-select-sm" style={{textAlign:"right"}} onChange={this.HeadHandleChange.bind(this)} >
+                        <option value="x" defaultValue></option>
                         <option value="L/INX">L/INX</option>
                         <option value="R/DEG">R/DEG</option>
                         <option value="T/LIF">T/LIF</option>
@@ -36,8 +41,9 @@ class RegletteTrame extends React.Component{
                 </div>
                 |===|
                 <div style={{marginLeft:'10px', width:'70px'}}>
-                    <select className="custom-select custom-select-sm" onChange={this.EndHandleChange.bind(this)} style={{}}>
-                        <option value="null">...</option>
+                    <select id="endTrame" className="custom-select custom-select-sm" onChange={this.EndHandleChange.bind(this)} style={{}}>
+                        <option value="x"></option>
+                        <option value="null">Aucun</option>
                         <option value="I">Inversée</option>
                         <option value="TNI">Tête Non Isolable</option>
                     </select>

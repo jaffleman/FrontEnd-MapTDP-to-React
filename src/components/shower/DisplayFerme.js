@@ -19,11 +19,6 @@ class DisplayFerme extends React.Component{
             loadRepResult:''
         }
     }
-    handleHeadChange = (e) => {
-    }
-
-    handleBodyChange = (e) => {
-    }
 
     fermeUp = () => {
         let inc = this.state.increment
@@ -32,11 +27,12 @@ class DisplayFerme extends React.Component{
                 increment : inc+1
             })
         }else{
-            const newSession = this.props.session.addFerme(this.props.rcoNumb, this.props.salleNumb, this.props.data.ferme[inc].number+1)
+            const newSession = this.props.session.addFerme( this.props.salleNumb, this.props.rcoNumb, this.props.data.ferme[inc].number+1)
             this.props.dispatch({
                 type:'SET_SESSION_DATA',
                 value: newSession
             })
+            this.setState({increment : inc+1})
         }
     }
     fermeBack = () => {
@@ -47,36 +43,34 @@ class DisplayFerme extends React.Component{
             })
        }
     }
-
-    componentDidMount(){
-        
-    }
-    componentWillUnmount(){
-    }
-    /*levelConstructor(ferme){
-        const levels = [1,2,3,4,5,6,7,8]
-        return levels.map(level=>{
-            if (level===ferme)
+    directFerme = (index)=>{
+        this.setState({
+            increment : index
         })
-    }*/
+    }
+
     render(){
+        
         const fermes = this.props.data.ferme
         const inc = this.state.increment
+        const id = "salle"+this.props.salleNumb+"rco"+this.props.rcoNumb
+         
         return (
             
             <>
-                
-                    <div>
-                        <Switcher number={fermes[inc].number} total={fermes[fermes.length-1].number} next={this.fermeUp} back={this.fermeBack} text='ferme'/>
-                    </div>
-                    <div>
-                        <DisplayLevel key={fermes[inc].level} data={fermes[inc].level}/>
-                    </div>
-                    <div className="d-flex justify-content-around" style={{marginTop: '5px'}}>
-                        <button type="button" className="btn btn-secondary" onClick={()=>this.props.history.push('/')}>Annuler</button>
-                        <button type="button" className="btn btn-primary" onClick={this.handle_valideClick}>Valider</button>
-                    </div>
-                
+                <div>
+                    <Switcher 
+                        number={fermes[inc].number} 
+                        id={id}
+                        fermes={fermes}
+                        next={this.fermeUp} 
+                        back={this.fermeBack} 
+                        handleClick={this.directFerme}
+                    />
+                </div>
+                <div>
+                    <DisplayLevel key={fermes[inc].level} data={fermes[inc].level}/>
+                </div>                
             </>
         )
     }

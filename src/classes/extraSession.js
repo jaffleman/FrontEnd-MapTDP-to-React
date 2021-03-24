@@ -1,4 +1,5 @@
 import {Rep} from './rep'
+import sorter from '../functions/sorter'
 
 export default class ExtraSession{
     brutdata
@@ -8,7 +9,15 @@ export default class ExtraSession{
     salleNumber
     constructor(sessionData, repName){
         if (sessionData.length!==0) {
-            this.brutdata = sessionData
+
+            const newSessionData = sorter(sessionData).map((elem)=>{
+                if (!elem.status){
+                    return {...elem, status: "original"}
+                }else{
+                    return elem
+                }        
+            })
+            this.brutdata = newSessionData
             this.repName = repName
             //const tab = []
             //this.brutdata.forEach(tdp => tab.findIndex(elem => elem === tdp.rep) === -1? tab.push(tdp.rep):null)
@@ -25,6 +34,7 @@ export default class ExtraSession{
                                     const match = elemFerme.level.find(elem=>elem.number===index)
                                     if (match===undefined){
                                         newTab.push({
+                                            status: "ghost",
                                             cd: this.cd,
                                             ferme: elemFerme.number,
                                             found: undefined,
@@ -81,10 +91,11 @@ export default class ExtraSession{
 
     addSalle(){
         const ndFerme =  parseInt(prompt('Quel est le numéro de la première ferme de la première rco?'))
-        if (ndFerme<1||isNaN(ndFerme)) return new ExtraSession(this.brutdata)
+        if (ndFerme<1||isNaN(ndFerme)) return new ExtraSession(this.brutdata, this.repName)
         const newSalleNd = this.salleNumber+1 
         for (let index = 1; index < 9; index++) {
             this.brutdata.push({
+                status: "ghost",
                 cd: this.cd,
                 ferme: ndFerme,
                 found: undefined,
@@ -102,12 +113,13 @@ export default class ExtraSession{
     }
     addRco(){
         const idSalle = this.salleNumber>1? parseInt(prompt('dans quelle salle?')) : 1
-        if (isNaN(idSalle<1||isNaN(idSalle)||idSalle>this.salleNumber)) return new ExtraSession(this.brutdata)
+        if (isNaN(idSalle<1||isNaN(idSalle)||idSalle>this.salleNumber)) return new ExtraSession(this.brutdata, this.repName)
         const ndFerme =  parseInt(prompt('Quel est le numéro de la première ferme de cette rco?'))
-        if (ndFerme<1||isNaN(ndFerme)) return new ExtraSession(this.brutdata)
+        if (ndFerme<1||isNaN(ndFerme)) return new ExtraSession(this.brutdata, this.repName)
         const newRcoNd = this.rep[0].salle[idSalle-1].rco.length+1 
         for (let index = 1; index < 9; index++) {
             this.brutdata.push({
+                status: "ghost",
                 cd: this.cd,
                 ferme: ndFerme,
                 found: undefined,
@@ -125,21 +137,23 @@ export default class ExtraSession{
     }
     addFerme(idSalle=0,idRco=0,ndFerme=0){
         if (idSalle === 0) idSalle = this.salleNumber>1? parseInt(prompt('dans quelle salle?')) : 1
-        if (isNaN(idSalle<1||isNaN(idSalle)||idSalle>this.salleNumber)) return new ExtraSession(this.brutdata)
+        if (idSalle<1||isNaN(idSalle)||idSalle>this.salleNumber) return new ExtraSession(this.brutdata, this.repName)
         const rcoNumber = this.getRcoNumber(idSalle-1)
+
         if (idRco === 0) idRco = rcoNumber>1? parseInt(prompt('dans quelle rco?')) : 1
-        if (isNaN(idRco<1||isNaN(idRco)||idRco>rcoNumber)) return new ExtraSession(this.brutdata)
+        if (idRco<1||isNaN(idRco)||idRco>rcoNumber) return new ExtraSession(this.brutdata, this.repName)
         if (ndFerme === 0) ndFerme =  parseInt(prompt('Quel est le numéro de la ferme ?'))
         const fermeExist = this.rep[0].salle[idSalle-1].rco[idRco-1].ferme.findIndex(elem=>elem.number===ndFerme)===-1?false:true
-        if (ndFerme<1||isNaN(ndFerme)||fermeExist) return new ExtraSession(this.brutdata)
+        if (ndFerme<1||isNaN(ndFerme)||fermeExist) return new ExtraSession(this.brutdata, this.repName)
         for (let index = 1; index < 9; index++) {
             this.brutdata.push({
+                status: "ghost",
                 cd: this.cd,
                 ferme: ndFerme,
                 found: undefined,
                 level: index,
                 option: null,
-                rco: rcoNumber,
+                rco: idRco,
                 regletteNbr: "",
                 regletteType: "x",
                 rep : this.repName,
@@ -171,10 +185,27 @@ export default class ExtraSession{
                 return new ExtraSession(newTab, this.repName)
             }
         }
-
     }
+    deleteFerme(idSalle=0,idRco=0,ndFerme=0){
+        if (idSalle === 0) idSalle = this.salleNumber>1? parseInt(prompt('dans quelle salle?')) : 1
+        if (idSalle<1||isNaN(idSalle)||idSalle>this.salleNumber) return new ExtraSession(this.brutdata, this.repName)
+        const rcoNumber = this.getRcoNumber(idSalle-1)
+
+        if (idRco === 0) idRco = rcoNumber>1? parseInt(prompt('dans quelle rco?')) : 1
+        if (idRco<1||isNaN(idRco)||idRco>rcoNumber) return new ExtraSession(this.brutdata, this.repName)
+        if (ndFerme === 0) ndFerme =  parseInt(prompt('Quel est le numéro de la ferme ?'))
+        const fermeExist = this.rep[0].salle[idSalle-1].rco[idRco-1].ferme.findIndex(elem=>elem.number===ndFerme)===-1?false:true
+        if (ndFerme<1||isNaN(ndFerme)||!fermeExist) return new ExtraSession(this.brutdata, this.repName)
+        const newTab =[]
+        this.brutdata.forEach(elem => {
+            if (!(elem.salle === idSalle&&elem.rco === idRco&&elem.ferme === ndFerme)) newTab.push(elem)
+        })
+        return new ExtraSession(newTab, this.repName)
+    }
+
     creatNewRep(repName){
         return new ExtraSession([{
+            status: "ghost",
             cd: repName.slice(-2),
             ferme: 1,
             found: undefined,

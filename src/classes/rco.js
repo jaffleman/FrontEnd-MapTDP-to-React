@@ -6,7 +6,7 @@ export class Rco {
     function find(dataTab){
       const tab=[]
       dataTab.forEach(tdp=>tab.findIndex(elem=>elem === tdp.ferme) === -1? tab.push(tdp.ferme):null)
-      return tab.map(elem=>new Ferme(elem,dataTab))
+      return tab.map((elem,index)=>new Ferme(elem,dataTab,index))
     }
     this.number = identifiant
     this.ferme = find(dataTab)

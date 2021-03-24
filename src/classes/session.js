@@ -10,18 +10,12 @@ export class Session{
     .then((fetchedResult)=>{
       this.rep = getRep(expend(compare(sessionData,fetchedResult)))
 
-      //function
       function getRep(sessionData){
         const tab = []
         sessionData.forEach(tdp => tab.findIndex(elem => elem === tdp.rep) === -1? tab.push(tdp.rep):null)
         const obj = tab.map(elem => new Rep(elem, sessionData))
         return callback(obj)
-      }//
+      }
     })
   }
-  /*addSalle(ndFerme){
-    //this.rep.addSalle(ndFerme)
-    
-    return "this.rep"
-  }*/
 }  

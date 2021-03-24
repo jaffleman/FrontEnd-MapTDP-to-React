@@ -5,6 +5,8 @@ import VerifRepName from './VerifRepName';
 import DisplaySalle from './DisplaySalle';
 import { Container } from 'react-bootstrap';
 import ExtraSession from '../../classes/extraSession'
+import tabSorter from '../../functions/valider'
+import {fetcher} from '../../functions/fetcher'
 
 class Displayer extends React.Component{
     constructor(props){
@@ -13,12 +15,35 @@ class Displayer extends React.Component{
             repName :'',
             theSession: undefined
         }
+        this.buttonOK=React.createRef()
     }
 
     handleRepChange = (e)=> {
         this.setState({
             repName:e.target.value.toLowerCase(),
         })
+    }
+    handle_valideClick = ()=>{
+        if (this.props.mySession.brutdata.length) {
+            const {tCreatedElem, tEditedElem, tDeletedElem} = tabSorter(this.props.myBrutData, this.props.mySession.brutdata)
+            if(tCreatedElem.length===0 && tEditedElem.length===0 && tDeletedElem.length===0) alert("Tu n'as apporter aucune modif à ce rep...")
+            else{
+                if (window.confirm("Tu es sur le point de modifier definitivement la base de donnée. Es-tu sur de vouloir continuer?")){
+
+                    this.props.dispatch({
+                        type: "UPDATE_LOADER",
+                        value: true
+                    })
+                
+                    tCreatedElem.forEach(elem=>Reflect.deleteProperty(elem, '_id'))
+                    fetcher("create","POST", tCreatedElem, ()=>{
+                        fetcher("update","PUT", tEditedElem, ()=>{
+                            fetcher("delete","DELETE", tDeletedElem, this.handleClick)
+                        })
+                    })
+                }
+            }
+        }else alert("Aucun rep a valider !")
     }
     handleClick = ()=>{
         const callback = (data, repName)=>{
@@ -28,30 +53,75 @@ class Displayer extends React.Component{
                     this.props.dispatch({type:'SET_SESSION_DATA',value: mySession.creatNewRep(repName)})
                 }
             }
-            else {this.props.dispatch({type:'SET_SESSION_DATA',value: mySession})}            
+            else {
+                const myBrutData = [...mySession.brutdata]
+                this.props.dispatch({type:'SET_BASE_DATA', value: myBrutData})
+                this.props.dispatch({type:'SET_SESSION_DATA',value: mySession})
+            }
+            this.props.dispatch({
+                type: "UPDATE_LOADER",
+                value: false
+            })
         }
+        //if (!this.props.loaderStatus) this.props.dispatch({ type: "UPDATE_LOADER",value: true })
+        this.props.dispatch({type: "RESET_SESSION"})
         VerifRepName(this.state.repName, callback)
     }
     SalleDisplayer({data}){
         if (data.rep) return <DisplaySalle data={data.rep[0]}/> 
         else return null
     }
+    handleKeyPress(e){
+        if (e.key==='Enter'){
+            this.handleClick()
+            this.buttonOK.current.focus()
+        } 
+    }
 
     render(){
         return (
-            <Container>
-                <div className="input-group mb-3">
-                    <input type="text" className="form-control" onChange={this.handleRepChange} placeholder="Rep à créer/modifier ex:cho94" aria-label="ex:cho94" aria-describedby="button-addon2"/>
-                    <div className="input-group-append">
-                        <button className="btn btn-primary" type="button" id="button-addon2" onClick={this.handleClick}>OK</button>
-                    </div>
+            <div>
+                <div className="d-flex justify-content-around" style={{marginBottom: '10px'}}>
+                    <button 
+                        type="button" 
+                        className="btn btn-secondary" 
+                        onClick={()=>this.props.history.goBack()}>Annuler
+                    </button>
+                    <button 
+                        type="button" 
+                        className="btn btn-primary" 
+                        onClick={this.handle_valideClick}>Valider
+                    </button>
                 </div>
-                <this.SalleDisplayer data={this.props.mySession}/>
-            </Container>
+                <Container>
+                    <div className="input-group mb-3">
+                        <input 
+                            type="text" 
+                            className="form-control" 
+                            onChange={this.handleRepChange} 
+                            onKeyPress={e=>this.handleKeyPress(e)} 
+                            placeholder="Rep à créer/modifier ex:cho94" 
+                            aria-label="ex:cho94" 
+                            aria-describedby="button-addon2"
+                        />
+                        <div className="input-group-append">
+                            <button 
+                                className="btn btn-primary" 
+                                ref={this.buttonOK}
+                                type="button" id="button-addon2"
+                                onClick={this.handleClick}>OK
+                            </button>
+                        </div>
+                    </div>
+                    <this.SalleDisplayer data={this.props.mySession}/>
+                </Container>
+            </div>
         )
     }
 }
 const mapStateToProps = (state)=>{return {
-    mySession: state.session
+    loaderSatus: state.mustLoad,
+    mySession: state.session,
+    myBrutData: state.baseBrutData
 }}
 export default withRouter(connect(mapStateToProps)(Displayer))
