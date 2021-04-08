@@ -8,6 +8,7 @@ import ExtraSession from '../../classes/extraSession'
 import tabSorter from '../../functions/valider'
 import {fetcher} from '../../functions/fetcher'
 
+
 class Displayer extends React.Component{
     constructor(props){
         super(props)
@@ -16,16 +17,14 @@ class Displayer extends React.Component{
             theSession: undefined
         }
         this.buttonOK=React.createRef()
+        this.validButton=React.createRef()
     }
 
-    handleRepChange = (e)=> {
-        this.setState({
-            repName:e.target.value.toLowerCase(),
-        })
-    }
+    handleRepChange = e => this.setState({repName:e.target.value.toLowerCase()})
+
     handle_valideClick = ()=>{
         if (this.props.mySession.brutdata.length) {
-            const {tCreatedElem, tEditedElem, tDeletedElem} = tabSorter(this.props.myBrutData, this.props.mySession.brutdata)
+            let {tCreatedElem, tEditedElem, tDeletedElem} = tabSorter(this.props.myBrutData, this.props.mySession.brutdata)
             if(tCreatedElem.length===0 && tEditedElem.length===0 && tDeletedElem.length===0) alert("Tu n'as apporter aucune modif à ce rep...")
             else{
                 if (window.confirm("Tu es sur le point de modifier definitivement la base de donnée. Es-tu sur de vouloir continuer?")){
@@ -63,15 +62,14 @@ class Displayer extends React.Component{
                 value: false
             })
         }
-        //if (!this.props.loaderStatus) this.props.dispatch({ type: "UPDATE_LOADER",value: true })
+        if (!this.props.loaderStatus) this.props.dispatch({ type: "UPDATE_LOADER",value: true })
         this.props.dispatch({type: "RESET_SESSION"})
         VerifRepName(this.state.repName, callback)
     }
-    SalleDisplayer({data}){
-        if (data.rep) return <DisplaySalle data={data.rep[0]}/> 
-        else return null
-    }
-    handleKeyPress(e){
+    
+    SalleDisplayer = ({data, vButton, vRef}) => data.rep? <DisplaySalle data={data.rep[0]} vButton={vButton}  vRef={vRef}/>: null
+    
+    handleKeyPress = e => {
         if (e.key==='Enter'){
             this.handleClick()
             this.buttonOK.current.focus()
@@ -81,18 +79,6 @@ class Displayer extends React.Component{
     render(){
         return (
             <div>
-                <div className="d-flex justify-content-around" style={{marginBottom: '10px'}}>
-                    <button 
-                        type="button" 
-                        className="btn btn-secondary" 
-                        onClick={()=>this.props.history.goBack()}>Annuler
-                    </button>
-                    <button 
-                        type="button" 
-                        className="btn btn-primary" 
-                        onClick={this.handle_valideClick}>Valider
-                    </button>
-                </div>
                 <Container>
                     <div className="input-group mb-3">
                         <input 
@@ -113,7 +99,7 @@ class Displayer extends React.Component{
                             </button>
                         </div>
                     </div>
-                    <this.SalleDisplayer data={this.props.mySession}/>
+                    <this.SalleDisplayer data={this.props.mySession} vButton={this.handle_valideClick} vRef={this.validButton}/>
                 </Container>
             </div>
         )

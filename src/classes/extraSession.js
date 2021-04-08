@@ -75,10 +75,12 @@ export default class ExtraSession{
         return new ExtraSession(newBrut,this.repName)
     }
     modifRegNbr(itemId, value){
-        const elem = this.brutdata.findIndex(tdp=>tdp._id===itemId)
         const newBrut = [...this.brutdata]
-        newBrut[elem] = {...this.brutdata[elem], regletteNbr:value}
-        return new ExtraSession(newBrut, this.repName)
+        itemId.forEach(element => {
+            const elem = this.brutdata.findIndex(tdp=>tdp._id===element)
+            newBrut[elem] = {...this.brutdata[elem], regletteNbr:value} 
+        })
+        return new ExtraSession(newBrut,this.repName)
     }
     modifOption(itemId, value){
         const newBrut = [...this.brutdata]

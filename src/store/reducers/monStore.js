@@ -19,7 +19,7 @@ export default function  monStore(state = initialState, action){
     switch (action.type) {
 
         case 'RESET_SESSION' :
-            nextState = {...state, session:{}, baseBrutData: [], mustLoad:true}
+            nextState = {...state, session:{}, baseBrutData: []}
         return nextState||state
 
         case 'SET_SESSION_DATA':

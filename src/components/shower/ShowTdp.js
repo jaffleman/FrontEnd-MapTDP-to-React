@@ -2,8 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux'
 import LongPress from './LongPress'
 import $ from "jquery";
-import FoundedTdp from './FoundedTdp';
-import NotFoundedTdp from './NotFoundedTdp';
 import DeteilView from './DeteilView'
 
 class ShowTdp extends React.Component{

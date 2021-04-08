@@ -29,7 +29,7 @@ class DeleteElement extends React.Component{
     }
     render(){
         return <>
-            <DropdownButton id="dropdown-basic-button" title="Que voulez-vous ajouter ?">
+            <DropdownButton variant='danger' id="dropdown-basic-button" title="Que voulez-vous supprimer?">
                 <Dropdown.Item onClick={()=>this.deleteSalle()}>Salle</Dropdown.Item>
                 <Dropdown.Item onClick={()=>this.deleteRco()}>RCO</Dropdown.Item>
                 <Dropdown.Item onClick={()=>this.deleteFerme()}>Ferme</Dropdown.Item>

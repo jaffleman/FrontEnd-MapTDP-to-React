@@ -25,7 +25,7 @@ class RegletteConstructor extends React.Component{
         })
     }
     BodyHandleChange(e){
-        const newSession = this.props.session.modifRegNbr(this.props.val.tdps[0]._id, e.target.value)
+        const newSession = this.props.session.modifRegNbr([this.props.val.tdps[0]._id], e.target.value)
         this.props.dispatch({
             type:'SET_SESSION_DATA',
             value: newSession

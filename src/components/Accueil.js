@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import Card from './Card';
 import { useHistory } from 'react-router-dom';
 import { filter } from '../functions/filter';
@@ -7,13 +7,24 @@ import { reduce } from '../functions/reduce';
 import { Session } from '../classes/session';
 import {connect} from 'react-redux';
 import { Container } from 'react-bootstrap';
+import getClipboardContent from '../functions/getClipboard'
 
 
 const Accueil = (props) => {
+  const textAreaRef = useRef()
   const history = useHistory()
   const [formValue,setFormValue] = useState('')
   const textareaHandleChange=(e)=>{
     setFormValue(e.target.value)
+  }
+  const handle_click = ()=>{
+    getClipboardContent(callback)
+    function callback(clipContent){
+      if (clipContent.length>0){ 
+        textAreaRef.current.value=clipContent
+        setFormValue(clipContent)
+      }
+    }
   }
   const textareaHandleClick = () =>{
     props.dispatch({
@@ -21,6 +32,7 @@ const Accueil = (props) => {
       value: true
     })
     const noTdp = ()=>{
+      setFormValue('')
       alert('Aucun TDP trouvé...')
       props.dispatch({
         type: "UPDATE_LOADER",
@@ -42,10 +54,14 @@ const Accueil = (props) => {
                       <p>TDP Search</p>
                   </div>
             <form>
-              <textarea id="msg" type="text" className='cardArea'
+              <textarea 
+                ref= {textAreaRef}
+                id="msg" 
+                type="text" 
+                className='cardArea'
                 name="tdp_list" rows="6"  
                 placeholder="Coller votre liste de TDP ici ou taper la position recherchée: ex: cho94 linx19127..." 
-                value={formValue}  onChange={e=>textareaHandleChange(e)}>
+                value={formValue} onClick={()=>handle_click()}  onChange={e=>textareaHandleChange(e)}>
               </textarea>
             </form>
             <div className="Bando-Valider">
