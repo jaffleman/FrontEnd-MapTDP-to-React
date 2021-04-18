@@ -1,15 +1,14 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Card from './Card';
 import { useHistory } from 'react-router-dom';
-import { filter } from '../functions/filter';
-import { transforme } from '../functions/transforme';
-import { reduce } from '../functions/reduce';
 import { Session } from '../classes/session';
 import {connect} from 'react-redux';
 import { Container } from 'react-bootstrap';
 import getClipboardContent from '../functions/getClipboard'
-
-
+import { SessionDeRecherche } from '../classes/sessionDeRecherche';
+import loader from '../functions/loaderManager'
+import storageAvailable from '../functions/storageCheck'
+import LastSearch from './shower/LastSearch'
 const Accueil = (props) => {
   const textAreaRef = useRef()
   const history = useHistory()
@@ -17,6 +16,21 @@ const Accueil = (props) => {
   const textareaHandleChange=(e)=>{
     setFormValue(e.target.value)
   }
+  useEffect(()=>{
+    if (storageAvailable('localStorage')){
+      const sessionStockage = localStorage.getItem('sessionStockage')
+        if (sessionStockage!=null){
+          const parseSession = JSON.parse(sessionStockage)
+          const today = new Date()
+          const compareDate = parseSession.date.localeCompare(today.toDateString())
+          
+          if ( compareDate !== 0){
+            console.log(compareDate)
+            localStorage.removeItem('sessionStockage')
+          }
+        }else {}
+    }
+  },[])
   const handle_click = ()=>{
     getClipboardContent(callback)
     function callback(clipContent){
@@ -27,21 +41,22 @@ const Accueil = (props) => {
     }
   }
   const textareaHandleClick = () =>{
-    props.dispatch({
-      type: "UPDATE_LOADER",
-      value: true
-    })
+    
+    loader(true, props)
+
     const noTdp = ()=>{
       setFormValue('')
       alert('Aucun TDP trouvé...')
-      props.dispatch({
-        type: "UPDATE_LOADER",
-        value: false
-      })
+      loader(false, props)
     }
 
-    const plotTab = reduce(transforme(filter(formValue)))
-    plotTab.length? new Session(plotTab, (session)=>history.push('/Shower', session)): noTdp()
+    const maRecherche = new SessionDeRecherche(formValue)
+    if (maRecherche.valide) {
+      throwSession(maRecherche.donneesExtraites)
+    }else noTdp()    
+  }
+  const throwSession = (data)=>{
+    new Session([...data], (session)=>history.push('/Shower', session))
   }
 
   return (
@@ -50,9 +65,9 @@ const Accueil = (props) => {
         <div className='row'>
           <div className='col-lg' style={{marginTop:'20px'}}>
           <div className="MyCard">
-                  <div className="Bando-Titre">
-                      <p>TDP Search</p>
-                  </div>
+            <div className="Bando-Titre">
+              <p>TDP Search</p>
+            </div>
             <form>
               <textarea 
                 ref= {textAreaRef}
@@ -65,10 +80,45 @@ const Accueil = (props) => {
               </textarea>
             </form>
             <div className="Bando-Valider">
-                      <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>textareaHandleClick()}>Lancer la recherche</button>                
-                  </div>
-              </div>
-          </div>      
+              <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>textareaHandleClick()}>Lancer la recherche</button>                
+            </div>
+          </div>
+        </div>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div className='col-lg' style={{marginTop:'20px'}}>
+          <div className="MyCard">
+            <div className="Bando-Titre">
+              <p>dernières recherches</p>
+            </div>
+            <LastSearch callback={throwSession}/> 
+            <div className="Bando-Valider"></div>
+          </div>
+        </div>
+          
+
+
+
+
+
+
+
+
+
+
+
+   
           <div className='col-lg' style={{marginTop:'20px'}}>
             <Card data={{
               title:'Création de répartiteur:',
@@ -77,10 +127,8 @@ const Accueil = (props) => {
               bName:'Go=>',
               route:'/Displayer'}}/> 
           </div>
-
         </div>
       </div>
-
     </Container>
   )
 

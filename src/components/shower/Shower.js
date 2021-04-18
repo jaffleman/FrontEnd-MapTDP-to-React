@@ -3,14 +3,11 @@ import ShowRep from './ShowRep';
 import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
 import LaModal from '../ModalContent'
-
+import loader from '../../functions/loaderManager'
 
 class Shower extends React.Component{
     componentDidMount(){
-        this.props.dispatch({
-            type: "UPDATE_LOADER",
-            value: false
-          })
+        loader(false, this.props)
     }
     render(){
         const data = this.props.location.state

@@ -46,21 +46,27 @@ class Displayer extends React.Component{
     }
     handleClick = ()=>{
         const callback = (data, repName)=>{
-            const mySession = new ExtraSession(data, repName)
-            if (!mySession.rep) {
-                if (window.confirm("Le rep n'existe pas, voulez-vous le creer")){
-                    this.props.dispatch({type:'SET_SESSION_DATA',value: mySession.creatNewRep(repName)})
-                }
+            if(data === 'error'){ 
+                this.props.dispatch({ type: "UPDATE_LOADER",value: false })
+                alert('une erreur c\'est produite...')
             }
             else {
-                const myBrutData = [...mySession.brutdata]
-                this.props.dispatch({type:'SET_BASE_DATA', value: myBrutData})
-                this.props.dispatch({type:'SET_SESSION_DATA',value: mySession})
+                const mySession = new ExtraSession(data, repName)
+                if (!mySession.rep) {
+                    if (window.confirm("Le rep n'existe pas, voulez-vous le creer")){
+                        this.props.dispatch({type:'SET_SESSION_DATA',value: mySession.creatNewRep(repName)})
+                    }
+                }
+                else {
+                    const myBrutData = [...mySession.brutdata]
+                    this.props.dispatch({type:'SET_BASE_DATA', value: myBrutData})
+                    this.props.dispatch({type:'SET_SESSION_DATA',value: mySession})
+                }
+                this.props.dispatch({
+                    type: "UPDATE_LOADER",
+                    value: false
+                })
             }
-            this.props.dispatch({
-                type: "UPDATE_LOADER",
-                value: false
-            })
         }
         if (!this.props.loaderStatus) this.props.dispatch({ type: "UPDATE_LOADER",value: true })
         this.props.dispatch({type: "RESET_SESSION"})

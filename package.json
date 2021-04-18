@@ -43,5 +43,6 @@
   },
   "devDependencies": {
     "remote-redux-devtools": "^0.5.16"
-  }
+  },
+  "homepage": "http://www.jaffleman.tech"
 }
