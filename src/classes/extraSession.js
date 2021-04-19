@@ -8,6 +8,7 @@ export default class ExtraSession{
     cd
     salleNumber
     constructor(sessionData, repName){
+        //if (sessionStorage.length===0) return {error:'une erreur'}
         if (sessionData.length!==0) {
 
             const newSessionData = sorter(sessionData).map((elem)=>{
@@ -34,6 +35,7 @@ export default class ExtraSession{
                                     const match = elemFerme.level.find(elem=>elem.number===index)
                                     if (match===undefined){
                                         newTab.push({
+                                            tdpId:"",
                                             status: "ghost",
                                             cd: this.cd,
                                             ferme: elemFerme.number,
@@ -70,7 +72,7 @@ export default class ExtraSession{
         const newBrut = [...this.brutdata]
         itemId.forEach(element => {
             const elem = this.brutdata.findIndex(tdp=>tdp._id===element)
-            newBrut[elem] = {...this.brutdata[elem], regletteType:value, tdpId:this.regletteNbr==='x'?'':this.rep+value+this.regletteNbr} 
+            newBrut[elem] = {...this.brutdata[elem], regletteType:value, tdpId:this.regletteNbr==='x'?'':""+this.brutdata[elem].rep+value+this.brutdata[elem].regletteNbr} 
         })
         return new ExtraSession(newBrut,this.repName)
     }
@@ -78,7 +80,7 @@ export default class ExtraSession{
         const newBrut = [...this.brutdata]
         itemId.forEach(element => {
             const elem = this.brutdata.findIndex(tdp=>tdp._id===element)
-            newBrut[elem] = {...this.brutdata[elem], regletteNbr:value , tdpId:this.regletteType===""?"":this.rep+this.regletteType+value} 
+            newBrut[elem] = {...this.brutdata[elem], regletteNbr:value , tdpId:this.regletteType===""?"":""+this.brutdata[elem].rep+this.brutdata[elem].regletteType+value} 
         })
         return new ExtraSession(newBrut,this.repName)
     }
@@ -97,6 +99,7 @@ export default class ExtraSession{
         const newSalleNd = this.salleNumber+1 
         for (let index = 1; index < 9; index++) {
             this.brutdata.push({
+                tdpId:"",
                 status: "ghost",
                 cd: this.cd,
                 ferme: ndFerme,
@@ -122,6 +125,7 @@ export default class ExtraSession{
         for (let index = 1; index < 9; index++) {
             this.brutdata.push({
                 status: "ghost",
+                tdpId:"",
                 cd: this.cd,
                 ferme: ndFerme,
                 found: undefined,
@@ -149,6 +153,7 @@ export default class ExtraSession{
         if (ndFerme<1||isNaN(ndFerme)||fermeExist) return new ExtraSession(this.brutdata, this.repName)
         for (let index = 1; index < 9; index++) {
             this.brutdata.push({
+                tdpId:"",
                 status: "ghost",
                 cd: this.cd,
                 ferme: ndFerme,

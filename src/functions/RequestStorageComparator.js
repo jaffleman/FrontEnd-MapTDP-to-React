@@ -2,7 +2,7 @@
 import storageAvailable from './storageCheck'
 export default function RequestStorageComparator(requestData) {
     const newTabReq = [...requestData]
-    const searchTab =[]
+    const searchTab = []
     if (storageAvailable('localStorage')){
         const sessionStockage = localStorage.getItem('sessionStockage')
         if (sessionStockage!=null){
@@ -13,7 +13,14 @@ export default function RequestStorageComparator(requestData) {
                 const index = parseSession.data.findIndex(comparator)
                 if (index === -1) searchTab.push(req)
             }
+            console.log(searchTab)
             return searchTab
-        }else return newTabReq
-    }else return newTabReq
+        }else {
+            console.log(newTabReq)
+            return newTabReq
+        }
+    }else {
+        console.log(newTabReq)
+        return newTabReq
+    }
 }

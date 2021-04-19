@@ -1,6 +1,11 @@
 import storageAvailable from '../functions/storageCheck'
 export function compare(tabReq,tabRes) {
-    const storage = storageAvailable('localStorage')?JSON.parse(localStorage.getItem('sessionStockage')):false
+    let storage = false
+    if (storageAvailable('localStorage')){
+        const data = JSON.parse(localStorage.getItem('sessionStockage'))
+        if (data !== null) storage = data
+    }
+
     const tabTdp =[]
     while(tabReq.length>0){
         const req = tabReq.shift()

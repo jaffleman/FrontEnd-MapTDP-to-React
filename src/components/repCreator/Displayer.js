@@ -33,35 +33,43 @@ class Displayer extends React.Component{
                         type: "UPDATE_LOADER",
                         value: true
                     })
-                
-                    tCreatedElem.forEach(elem=>Reflect.deleteProperty(elem, '_id'))
-                    fetcher("create","POST", tCreatedElem, ()=>{
-                        fetcher("update","PUT", tEditedElem, ()=>{
-                            fetcher("delete","DELETE", tDeletedElem, this.handleClick)
+                    try {
+                        tCreatedElem.forEach(elem=>Reflect.deleteProperty(elem, '_id'))
+                        fetcher("create","POST", tCreatedElem, ()=>{
+                            fetcher("update","PUT", tEditedElem, ()=>{
+                                fetcher("delete","DELETE", tDeletedElem, ()=>{
+                                    alert("sauvegardé avec succes")
+                                    this.handleClick()
+                                })
+                            })
                         })
-                    })
+                    } catch (error) {
+                        alert("Il y a eu un probleme: les donner n'ont pas été sauvegardées")
+                    }
                 }
             }
         }else alert("Aucun rep a valider !")
     }
     handleClick = ()=>{
-        const callback = (data, repName)=>{
-            if(data === 'error'){ 
+        const callback = (result, repName)=>{
+            if(result.err){ 
                 this.props.dispatch({ type: "UPDATE_LOADER",value: false })
                 alert('une erreur c\'est produite...')
             }
-            else {
-                const mySession = new ExtraSession(data, repName)
-                if (!mySession.rep) {
-                    if (window.confirm("Le rep n'existe pas, voulez-vous le creer")){
-                        this.props.dispatch({type:'SET_SESSION_DATA',value: mySession.creatNewRep(repName)})
+            else if (result.data){
+                const mySession = new ExtraSession(result.data, repName)
+                    if (!mySession.rep) {
+                        if (window.confirm("Le rep n'existe pas, voulez-vous le creer")){
+                            this.props.dispatch({type:'SET_SESSION_DATA',value: mySession.creatNewRep(repName)})
+                        }
                     }
-                }
-                else {
-                    const myBrutData = [...mySession.brutdata]
-                    this.props.dispatch({type:'SET_BASE_DATA', value: myBrutData})
-                    this.props.dispatch({type:'SET_SESSION_DATA',value: mySession})
-                }
+                    else {
+                        const myBrutData = [...mySession.brutdata]
+                        this.props.dispatch({type:'SET_BASE_DATA', value: myBrutData})
+                        this.props.dispatch({type:'SET_SESSION_DATA',value: mySession})
+                    }
+                
+                
                 this.props.dispatch({
                     type: "UPDATE_LOADER",
                     value: false

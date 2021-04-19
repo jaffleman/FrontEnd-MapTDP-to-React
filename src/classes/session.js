@@ -5,12 +5,13 @@ import {expend} from '../functions/expend'
 import storageStock from '../functions/storageStockage'
 import RequestStorageComparator from '../functions/RequestStorageComparator'
 export class Session{
-  constructor(sessionData, callback=(obj)=>{return obj}) {
+  constructor(sessionData, callback, callback2) {
     fetcher("search","POST",RequestStorageComparator(sessionData))
     .then((fetchedResult)=>{
-      if (fetchedResult!== 'error'){
-        const altern = []
-        const expention = expend(compare(sessionData,fetchedResult||altern))
+      console.log(fetchedResult)
+      if (fetchedResult.data){
+        //const altern = []
+        const expention = expend(compare(sessionData,fetchedResult.data))
         storageStock(expention)
         this.rep = getRep(expention)
         function getRep(data){
@@ -20,7 +21,7 @@ export class Session{
 
           return callback(obj)
         }
-      }
+      }else if (fetchedResult.err) callback2()
     })
   }
 }  

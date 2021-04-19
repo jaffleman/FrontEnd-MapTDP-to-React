@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import Card from './Card';
 import { useHistory } from 'react-router-dom';
 import { Session } from '../classes/session';
@@ -7,8 +7,9 @@ import { Container } from 'react-bootstrap';
 import getClipboardContent from '../functions/getClipboard'
 import { SessionDeRecherche } from '../classes/sessionDeRecherche';
 import loader from '../functions/loaderManager'
-import storageAvailable from '../functions/storageCheck'
 import LastSearch from './shower/LastSearch'
+import storageAvailable from '../functions/storageCheck'
+
 const Accueil = (props) => {
   const textAreaRef = useRef()
   const history = useHistory()
@@ -16,21 +17,15 @@ const Accueil = (props) => {
   const textareaHandleChange=(e)=>{
     setFormValue(e.target.value)
   }
-  useEffect(()=>{
+
+  const localStorageCleaner = ()=>{
     if (storageAvailable('localStorage')){
       const sessionStockage = localStorage.getItem('sessionStockage')
-        if (sessionStockage!=null){
-          const parseSession = JSON.parse(sessionStockage)
-          const today = new Date()
-          const compareDate = parseSession.date.localeCompare(today.toDateString())
-          
-          if ( compareDate !== 0){
-            console.log(compareDate)
-            localStorage.removeItem('sessionStockage')
-          }
-        }else {}
+      if (sessionStockage!=null) localStorage.removeItem('sessionStockage')
+      history.go(0)
     }
-  },[])
+  }
+
   const handle_click = ()=>{
     getClipboardContent(callback)
     function callback(clipContent){
@@ -41,9 +36,7 @@ const Accueil = (props) => {
     }
   }
   const textareaHandleClick = () =>{
-    
     loader(true, props)
-
     const noTdp = ()=>{
       setFormValue('')
       alert('Aucun TDP trouvé...')
@@ -56,7 +49,7 @@ const Accueil = (props) => {
     }else noTdp()    
   }
   const throwSession = (data)=>{
-    new Session([...data], (session)=>history.push('/Shower', session))
+    new Session([...data], (session)=>history.push('/Shower', session), ()=>{loader(false, props)} )
   }
 
   return (
@@ -103,7 +96,9 @@ const Accueil = (props) => {
               <p>dernières recherches</p>
             </div>
             <LastSearch callback={throwSession}/> 
-            <div className="Bando-Valider"></div>
+            <div className="Bando-Valider">
+            <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>localStorageCleaner()}>Effacer l'historique</button>                
+            </div>
           </div>
         </div>
           
