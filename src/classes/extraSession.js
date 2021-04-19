@@ -70,7 +70,7 @@ export default class ExtraSession{
         const newBrut = [...this.brutdata]
         itemId.forEach(element => {
             const elem = this.brutdata.findIndex(tdp=>tdp._id===element)
-            newBrut[elem] = {...this.brutdata[elem], regletteType:value} 
+            newBrut[elem] = {...this.brutdata[elem], regletteType:value, tdpId:this.regletteNbr==='x'?'':this.rep+value+this.regletteNbr} 
         })
         return new ExtraSession(newBrut,this.repName)
     }
@@ -78,7 +78,7 @@ export default class ExtraSession{
         const newBrut = [...this.brutdata]
         itemId.forEach(element => {
             const elem = this.brutdata.findIndex(tdp=>tdp._id===element)
-            newBrut[elem] = {...this.brutdata[elem], regletteNbr:value} 
+            newBrut[elem] = {...this.brutdata[elem], regletteNbr:value , tdpId:this.regletteType===""?"":this.rep+this.regletteType+value} 
         })
         return new ExtraSession(newBrut,this.repName)
     }
@@ -207,6 +207,7 @@ export default class ExtraSession{
 
     creatNewRep(repName){
         return new ExtraSession([{
+            tdpId:"",
             status: "ghost",
             cd: repName.slice(-2),
             ferme: 1,
