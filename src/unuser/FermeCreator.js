@@ -1,6 +1,6 @@
 import React, { createRef } from 'react'
-import RegletteConst from './RegletteConstructor'
-import Switcher from './Switcher'
+import RegletteConst from '../components/repCreator/RegletteConstructor'
+import Switcher from '../components/repCreator/Switcher'
 
 class fermeCreator extends React.Component{
     constructor(props){
@@ -27,7 +27,6 @@ class fermeCreator extends React.Component{
         const parentProps = this.props.parentProps
         
         return (
-            console.log("hello les cochons")
             <div className="">
                 <Switcher number={this.props.parentProps.ferme} next={this.props.fermeUp} back={this.props.fermeBack} text='colonne'/>
                     <RegletteConst nd="0" parentProps = {parentProps} trame={true}/>
