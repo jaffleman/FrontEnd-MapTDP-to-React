@@ -31,8 +31,11 @@ class RegletteTrame extends React.Component{
     }
     deleteHandleClick(){
         const newSession = this.props.session.modifRegType(this.props.tabId, 'x')
+        console.log(newSession)
         const newSession2 = newSession.modifRegNbr(this.props.tabId, '')
+        console.log(newSession2)
         const newSession3 = newSession2.modifOption(this.props.tabId, '')
+        console.log(newSession3)
         this.props.dispatch({
             type:'SET_SESSION_DATA',
             value: newSession3

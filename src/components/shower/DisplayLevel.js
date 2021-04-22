@@ -9,7 +9,7 @@ class DisplayLevel extends React.Component{
         this.refL2 = createRef()
         this.refL3 = createRef()
         this.refL4 = createRef()
-        this.refL4 = createRef()
+        this.refL5 = createRef()
         this.refL6 = createRef()
         this.refL7 = createRef()
         this.refL8 = createRef()

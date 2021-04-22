@@ -36,14 +36,10 @@ class RegletteConstructor extends React.Component{
     }
     deleteHandleClick(){
         const newSession = this.props.session.modifRegType([this.props.val.tdps[0]._id], 'x')
-        const newSession2 = newSession.modifRegNbr(this.props.val.tdps[0]._id, '')
+        const newSession2 = newSession.modifRegNbr([this.props.val.tdps[0]._id], '')
         const newSession3 = newSession2.modifOption([this.props.val.tdps[0]._id], '')
-        this.props.dispatch({
-            type:'SET_SESSION_DATA',
-            value: newSession3
-        })
+        this.props.dispatch({type:'SET_SESSION_DATA',value: newSession3})
     }
-
     render(){
         return (
             <div className='RegletteConstructor'>
