@@ -1,8 +1,8 @@
 export async function fetcher (route, method, data, callback=null){
-    if (data.length === 0) return {data:[]}
+    if (data.length === 0) return callback()
     else{
         const body = JSON.stringify(data)
-        const result = await fetch(`http://192.168.0.14:8081/tdp/${route}`,
+        const result = await fetch(`http://localhost:8081/tdp/${route}`,
         { 
             method,
             mode: 'cors',

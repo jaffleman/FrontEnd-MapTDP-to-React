@@ -29,7 +29,8 @@ class DisplayRco extends React.Component{
                                 key={`displayFerme${this.props.salleNumb}${elem.number}`} 
                                 data={elem} 
                                 salleNumb={this.props.salleNumb} 
-                                rcoNumb={elem.number}/>
+                                rcoNumb={elem.number}
+                                validRef={this.props.validRef}/>
                         </Tab.Pane>
                     })
                 }</Tab.Content>

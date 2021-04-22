@@ -69,7 +69,7 @@ class DisplayFerme extends React.Component{
                     />
                 </div>
                 <div>
-                    <DisplayLevel key={fermes[inc].level} data={fermes[inc].level}/>
+                    <DisplayLevel key={fermes[inc].level} data={fermes[inc].level} validRef={this.props.validRef}/>
                 </div>                
             </>
         )

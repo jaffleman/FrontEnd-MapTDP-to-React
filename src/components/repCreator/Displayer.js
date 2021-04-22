@@ -34,12 +34,13 @@ class Displayer extends React.Component{
                         value: true
                     })
                     try {
+                        const handleClick2 = this.handleClick
                         tCreatedElem.forEach(elem=>Reflect.deleteProperty(elem, '_id'))
-                        fetcher("create","POST", tCreatedElem, ()=>{
-                            fetcher("update","PUT", tEditedElem, ()=>{
-                                fetcher("delete","DELETE", tDeletedElem, ()=>{
+                        fetcher("create","POST", tCreatedElem, function(){
+                            fetcher("update","PUT", tEditedElem, function(){
+                                fetcher("delete","DELETE", tDeletedElem, function (){
                                     alert("sauvegardé avec succes")
-                                    this.handleClick()
+                                    handleClick2()
                                 })
                             })
                         })

@@ -18,7 +18,7 @@ class DisplaySalle extends React.Component{
                 </div>
                 <Tabs justify defaultActiveKey="salle1" id="uncontrolled-tab-example" unmountOnExit={true}>
                     {salle.map(elem=><Tab key={"Salle"+elem.number} eventKey={`salle${elem.number}`} title={`salle${elem.number}`}>
-                        <DisplayRco key={"rco"+elem.number} data={elem.rco} salleNumb={elem.number}/>
+                        <DisplayRco key={"rco"+elem.number} data={elem.rco} salleNumb={elem.number} validRef={vRef}/>
                     </Tab>)}
                     <Tab key={'0'} eventKey={'+'} title={'+/-'}>
                         <ItemsManager function={this.props.function}/>
@@ -29,7 +29,8 @@ class DisplaySalle extends React.Component{
                     type="button" 
                     className="btn btn-primary" 
                     onClick={vButton}
-                    ref={vRef} size="sm">Valider en base</Button>
+                    ref={vRef} 
+                    size="sm">Valider en base</Button>
                 </div>
             </div>
         ) 

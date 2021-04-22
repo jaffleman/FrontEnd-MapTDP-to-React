@@ -6,7 +6,7 @@ import storageStock from '../functions/storageStockage'
 import RequestStorageComparator from '../functions/RequestStorageComparator'
 export class Session{
   constructor(sessionData, callback, callback2) {
-    fetcher("search","POST",RequestStorageComparator(sessionData))
+    fetcher("search","POST",RequestStorageComparator(sessionData), function(){return {data:[]}})
     .then((fetchedResult)=>{
       console.log(fetchedResult)
       if (fetchedResult.data){

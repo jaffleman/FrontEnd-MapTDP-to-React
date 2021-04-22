@@ -30,6 +30,9 @@ class RegletteConstructor extends React.Component{
             type:'SET_SESSION_DATA',
             value: newSession
         })
+        /*const leNd = 1+parseInt(this.props.nd)
+        const laRef = 'input'+leNd*/
+        if (e.target.value.length===2) this.props.nextFocus(parseInt(this.props.nd))
     }
     deleteHandleClick(){
         const newSession = this.props.session.modifRegType([this.props.val.tdps[0]._id], 'x')
@@ -60,12 +63,13 @@ class RegletteConstructor extends React.Component{
                 
                 <input 
                     id={`input:${this.props.val.tdps[0]._id}${this.props.keyOrigin}`}
+                    ref= {this.props.laRef}
                     type="text" 
                     maxLength="2" 
                     style={{width:"46px"}} 
                     className="form-control form-control-sm"
                     value={this.props.val.tdps[0].regletteNbr}
-                    onChange = {this.BodyHandleChange.bind(this)}  
+                    onChange = {this.BodyHandleChange.bind(this)} 
                     onBlur={()=>{}}
                 />
                 
@@ -83,7 +87,6 @@ class RegletteConstructor extends React.Component{
         )
     }
 }
-const mapStateToProps = (state)=>{return {
-    session: state.session}
-}
+const mapStateToProps = (state)=>{ return {session: state.session}}
+
 export default connect(mapStateToProps)(RegletteConstructor)
