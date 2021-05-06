@@ -2,12 +2,14 @@ export async function fetcher (route, method, data, callback=null){
     if (data.length === 0) return callback()
     else{
         const body = JSON.stringify(data)
-        const result = await fetch(`http://localhost:8081/tdp/${route}`,
+        const result = await fetch(`https://api.jaffleman.tech/tdp/${route}`,
         { 
             method,
             mode: 'cors',
             body,
-            headers:{'Content-Type' : 'application/json'}
+            headers:{
+                'Content-Type' : 'application/json'
+            }
         }).catch(err => {
             alert('probleme')
             return {err}

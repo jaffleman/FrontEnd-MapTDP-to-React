@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import { fetcher } from '../functions/fetcher';
 
 function Modal(props){
-    const {_id, option, leLevel, laFerme, laRco, laSalle, rep, cd, regletteNbr, regletteType} = props.modalData
+    const {_id, rep, cd, regletteNbr, regletteType} = props.modalData
 
     
     const [salle,setSalle] = useState(1);
@@ -47,7 +47,7 @@ function Modal(props){
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <h5 className="modal-title" id="exampleModalLabel">Modifier...</h5>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
