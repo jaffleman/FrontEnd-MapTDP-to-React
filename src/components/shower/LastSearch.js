@@ -26,19 +26,11 @@ class LastSearch extends React.Component{
         }else return null
     }
     handleClick=(rep)=>{
-        if (storageAvailable('localStorage')){
-            const sessionStockage = localStorage.getItem('sessionStockage')
-            if (sessionStockage!=null){
-                const {data} = JSON.parse(sessionStockage)
-                const list =[]
-                data.forEach((tdp)=>{if(tdp.rep===rep)list.push(tdp)})
-
-                console.log(list)
-                    this.props.callback(list)
-                
-            }else return null
-        }else return null
-        
+        const sessionStockage = localStorage.getItem('sessionStockage')
+        const {data} = JSON.parse(sessionStockage)
+        const list =[]
+        data.forEach((tdp)=>{if(tdp.rep===rep)list.push(tdp)})
+        this.props.callback(list)
     }
     render(){
         return(
