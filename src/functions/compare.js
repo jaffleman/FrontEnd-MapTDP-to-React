@@ -2,8 +2,8 @@ import storageAvailable from '../functions/storageCheck'
 export function compare(tabReq,tabRes) {
     let storage = false
     if (storageAvailable('localStorage')){
-        const data = JSON.parse(localStorage.getItem('sessionStockage'))
-        if (data !== null) storage = data
+        const parseLocalStorage = JSON.parse(localStorage.getItem('sessionStockage'))
+        if (parseLocalStorage && 'data' in parseLocalStorage) storage = parseLocalStorage
     }
 
     const tabTdp =[]

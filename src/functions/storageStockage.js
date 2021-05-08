@@ -8,7 +8,7 @@ export default function storageStock (fetchedData){
             
                 const parseSession = JSON.parse(sessionStockage)
                 const newSession = ResponseStorageComparator(fetchedData,parseSession.data)
-                localStorage.setItem('sessionStockage', JSON.stringify({'data':newSession, 'date':date.toDateString()}))
+                localStorage.setItem('sessionStockage', JSON.stringify({...parseSession, 'data':newSession, 'date':date.toDateString()}))
            
         }else{
             localStorage.setItem('sessionStockage', JSON.stringify({'data':fetchedData, 'date':date.toDateString()}))

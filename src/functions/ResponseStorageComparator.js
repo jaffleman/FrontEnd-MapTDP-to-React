@@ -1,4 +1,4 @@
-export default function ResponsestorageComparator(fetchedData,localStorageCurrentData) {
+export default function ResponsestorageComparator(fetchedData,localStorageCurrentData=[]) {
     const newTabReq = [...fetchedData]
     while(newTabReq.length>0){
         const req = newTabReq.shift()
