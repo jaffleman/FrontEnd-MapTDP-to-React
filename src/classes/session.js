@@ -9,8 +9,7 @@ export class Session{
     fetcher("search","POST",RequestStorageComparator(sessionData), function(){return {data:[]}})
     .then((fetchedResult)=>{
       console.log(fetchedResult)
-      if (fetchedResult.data){
-        //const altern = []
+      if ('data' in fetchedResult){
         const expention = expend(compare(sessionData,fetchedResult.data))
         storageStock(expention)
         this.rep = getRep(expention)

@@ -7,14 +7,19 @@ export default function RequestStorageComparator(requestData) {
         const sessionStockage = localStorage.getItem('sessionStockage')
         if (sessionStockage!=null){
             const parseSession = JSON.parse(sessionStockage)
-            while(newTabReq.length>0){
-                const req = newTabReq.shift()
-                const comparator = ({tdpId})=>tdpId===req.rep+req.regletteType+req.regletteNbr
-                const index = parseSession.data.findIndex(comparator)
-                if (index === -1) searchTab.push(req)
+            if (parseSession.data){
+                while(newTabReq.length>0){
+                    const req = newTabReq.shift()
+                    const comparator = ({tdpId})=>tdpId===req.rep+req.regletteType+req.regletteNbr
+                    const index = parseSession.data.findIndex(comparator)
+                    if (index === -1) searchTab.push(req)
+                }
+                console.log(searchTab)
+                return searchTab
+            }else{
+                console.log(newTabReq)
+                return newTabReq
             }
-            console.log(searchTab)
-            return searchTab
         }else {
             console.log(newTabReq)
             return newTabReq

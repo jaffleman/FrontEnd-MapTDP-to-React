@@ -13,30 +13,24 @@ class LastSearch extends React.Component{
             const sessionStockage = localStorage.getItem('sessionStockage')
             if (sessionStockage!=null){
                 const parseSession = JSON.parse(sessionStockage)
-                const today = new Date()
-                const compareDate = parseSession.date.localeCompare(today.toDateString())
-                if ( compareDate !== 0){
-                    localStorage.removeItem('sessionStockage')
-                    return null
-                }
-                else return this.getRep(parseSession.data).map((tdp, key)=>{ return <Button key={key} variant="primary" size="sm" block onClick={()=>this.handleClick(tdp)}>{tdp}</Button>})
+                if (parseSession.date){
+                    const today = new Date()
+                    const compareDate = parseSession.date.localeCompare(today.toDateString())
+                    if ( compareDate !== 0){
+                        localStorage.removeItem('sessionStockage')
+                        return null
+                    }
+                    else return this.getRep(parseSession.data).map((tdp, key)=>{ return <Button key={key} variant="primary" size="sm" block onClick={()=>this.handleClick(tdp)}>{tdp}</Button>})
+                }else return null
             }else return null
         }else return null
     }
     handleClick=(rep)=>{
-        if (storageAvailable('localStorage')){
-            const sessionStockage = localStorage.getItem('sessionStockage')
-            if (sessionStockage!=null){
-                const {data} = JSON.parse(sessionStockage)
-                const list =[]
-                data.forEach((tdp)=>{if(tdp.rep===rep)list.push(tdp)})
-
-                console.log(list)
-                    this.props.callback(list)
-                
-            }else return null
-        }else return null
-        
+        const sessionStockage = localStorage.getItem('sessionStockage')
+        const {data} = JSON.parse(sessionStockage)
+        const list =[]
+        data.forEach((tdp)=>{if(tdp.rep===rep)list.push(tdp)})
+        this.props.callback(list)
     }
     render(){
         return(

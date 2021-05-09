@@ -1,40 +1,75 @@
 import React, {useRef, useState} from 'react';
-import Card from './Card';
-import { useHistory } from 'react-router-dom';
-import { Session } from '../classes/session';
+import Switch from "react-switch";
 import {connect} from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
 import { Container } from 'react-bootstrap';
-import getClipboardContent from '../functions/getClipboard'
-import { SessionDeRecherche } from '../classes/sessionDeRecherche';
-import loader from '../functions/loaderManager'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+
+import Card from './Card';
 import LastSearch from './shower/LastSearch'
+
+import { Session } from '../classes/session';
+import { SessionDeRecherche } from '../classes/sessionDeRecherche';
+
+import getClipboardContent from '../functions/getClipboard'
+import loader from '../functions/loaderManager'
 import storageAvailable from '../functions/storageCheck'
 
+
+
+
+
+
 const Accueil = (props) => {
+  const localStoAccess = storageAvailable('localStorage')
+
+  const checkInitValue = ()=>{
+    if (!localStoAccess) return false
+    const parseSession = JSON.parse(localStorage.getItem('sessionStockage'))
+    if (!parseSession) return false
+    if (!('autopast' in parseSession)) return false
+    return parseSession.autopast  
+  }
+
+  const url = !(localStoAccess && 'credentials' in navigator)
   const textAreaRef = useRef()
   const history = useHistory()
   const [formValue,setFormValue] = useState('')
-  const textareaHandleChange=(e)=>{
-    setFormValue(e.target.value)
-  }
+  const [checked, setChecked] = useState(checkInitValue)
+
+  const textareaHandleChange=(e)=> setFormValue(e.target.value)
 
   const localStorageCleaner = ()=>{
-    if (storageAvailable('localStorage')){
-      const sessionStockage = localStorage.getItem('sessionStockage')
-      if (sessionStockage!=null) localStorage.removeItem('sessionStockage')
+    if (localStoAccess){
+      const parseLS = JSON.parse(localStorage.getItem('sessionStockage'))
+      if ('data' in parseLS) localStorage.setItem('sessionStockage',  JSON.stringify({'autopast':parseLS.autopast}))
       history.go(0)
     }
   }
 
+  const handleSwitchChange = (e)=>{
+    setChecked(e)  
+    if (localStoAccess) {
+      const parseSession = JSON.parse(localStorage.getItem('sessionStockage'))
+      localStorage.setItem('sessionStockage', JSON.stringify({...parseSession, 'autopast':e}))
+      if (!e) setFormValue('')
+    }
+  }
+
   const handle_click = ()=>{
-    getClipboardContent(callback)
-    function callback(clipContent){
-      if (clipContent.length>0){ 
-        textAreaRef.current.value=clipContent
-        setFormValue(clipContent)
+    if (checked){
+      getClipboardContent(callback)
+      function callback(clipContent){
+        if (clipContent.length>0){ 
+          textAreaRef.current.value=clipContent
+          setFormValue(clipContent)
+        }
       }
     }
   }
+
   const textareaHandleClick = () =>{
     loader(true, props)
     const noTdp = ()=>{
@@ -42,15 +77,17 @@ const Accueil = (props) => {
       alert('Aucun TDP trouvé...')
       loader(false, props)
     }
-
     const maRecherche = new SessionDeRecherche(formValue)
     if (maRecherche.valide) {
       throwSession(maRecherche.donneesExtraites)
-    }else noTdp()    
+    }else noTdp()   
   }
+
   const throwSession = (data)=>{
     new Session([...data], (session)=>history.push('/Shower', session), ()=>{loader(false, props)} )
   }
+
+
 
   return (
     <Container>
@@ -73,21 +110,20 @@ const Accueil = (props) => {
               </textarea>
             </form>
             <div className="Bando-Valider">
-              <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>textareaHandleClick()}>Lancer la recherche</button>                
+              <Container>
+                <Row>
+                  <Col className='align-items-center'>
+                    <div style={{marginTop:'10px'}}>
+                      <Switch  onChange={e=>handleSwitchChange(e)} checked={checked} disabled={url}/>
+                    </div>
+                  </Col>
+                  <Col xs={6}><button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>textareaHandleClick()}>Lancer la recherche</button></Col>
+                  <Col></Col>
+                </Row>
+              </Container>                            
             </div>
           </div>
         </div>  
-
-
-
-
-
-
-
-
-
-
-
 
 
         <div className='col-lg' style={{marginTop:'20px'}}>
@@ -97,23 +133,13 @@ const Accueil = (props) => {
             </div>
             <LastSearch callback={throwSession}/> 
             <div className="Bando-Valider">
-            <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>localStorageCleaner()}>Effacer l'historique</button>                
+              <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>localStorageCleaner()}>Effacer l'historique</button>                
             </div>
           </div>
         </div>
           
 
 
-
-
-
-
-
-
-
-
-
-   
           <div className='col-lg' style={{marginTop:'20px'}}>
             <Card data={{
               title:'Création de répartiteur:',
