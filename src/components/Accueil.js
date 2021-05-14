@@ -23,7 +23,7 @@ import storageAvailable from '../functions/storageCheck'
 
 
 const Accueil = (props) => {
-  const localStoAccess = storageAvailable('localStorage')
+  const localStoAccess = storageAvailable('localStorage') // verifie l'acces au local storage
 
   const checkInitValue = ()=>{
     if (!localStoAccess) return false
@@ -33,7 +33,7 @@ const Accueil = (props) => {
     return parseSession.autopast  
   }
 
-  const url = !(localStoAccess && 'credentials' in navigator)
+  const url = !(localStoAccess && 'credentials' in navigator) // si acces au store && https
   const textAreaRef = useRef()
   const history = useHistory()
   const [formValue,setFormValue] = useState('')
@@ -44,7 +44,9 @@ const Accueil = (props) => {
   const localStorageCleaner = ()=>{
     if (localStoAccess){
       const parseLS = JSON.parse(localStorage.getItem('sessionStockage'))
-      if ('data' in parseLS) localStorage.setItem('sessionStockage',  JSON.stringify({'autopast':parseLS.autopast}))
+      delete parseLS.data  
+      delete parseLS.date 
+      localStorage.setItem('sessionStockage',  JSON.stringify(parseLS))
       history.go(0)
     }
   }
@@ -52,40 +54,32 @@ const Accueil = (props) => {
   const handleSwitchChange = (e)=>{
     setChecked(e)  
     if (localStoAccess) {
-      const parseSession = JSON.parse(localStorage.getItem('sessionStockage'))
-      localStorage.setItem('sessionStockage', JSON.stringify({...parseSession, 'autopast':e}))
+      localStorage.setItem('sessionStockage', JSON.stringify({...JSON.parse(localStorage.getItem('sessionStockage')), 'autopast':e}))
       if (!e) setFormValue('')
     }
   }
 
   const handle_click = ()=>{
-    if (checked){
-      getClipboardContent(callback)
-      function callback(clipContent){
-        if (clipContent.length>0){ 
-          textAreaRef.current.value=clipContent
-          setFormValue(clipContent)
-        }
+    if (checked) getClipboardContent((clipContent)=>{
+      if (clipContent.length>0){ 
+        textAreaRef.current.value=clipContent
+        setFormValue(clipContent)
       }
-    }
+    })
   }
 
   const textareaHandleClick = () =>{
     loader(true, props)
-    const noTdp = ()=>{
+    const maRecherche = new SessionDeRecherche(formValue)
+    if (maRecherche.valide) throwSession(maRecherche.donneesExtraites)
+    else {
       setFormValue('')
       alert('Aucun TDP trouvé...')
       loader(false, props)
-    }
-    const maRecherche = new SessionDeRecherche(formValue)
-    if (maRecherche.valide) {
-      throwSession(maRecherche.donneesExtraites)
-    }else noTdp()   
+    } 
   }
 
-  const throwSession = (data)=>{
-    new Session([...data], (session)=>history.push('/Shower', session), ()=>{loader(false, props)} )
-  }
+  const throwSession = data=> new Session([...data], session=>history.push('/Shower', session), ()=>{loader(false, props)}, localStoAccess)
 
 
 

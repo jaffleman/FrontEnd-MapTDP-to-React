@@ -9,21 +9,21 @@ class LastSearch extends React.Component{
         return tab
     }
     searchList= ()=>{
-        if (storageAvailable('localStorage')){
-            const sessionStockage = localStorage.getItem('sessionStockage')
-            if (sessionStockage!=null){
-                const parseSession = JSON.parse(sessionStockage)
-                if (parseSession.date){
-                    const today = new Date()
-                    const compareDate = parseSession.date.localeCompare(today.toDateString())
-                    if ( compareDate !== 0){
-                        localStorage.removeItem('sessionStockage')
-                        return null
-                    }
-                    else return this.getRep(parseSession.data).map((tdp, key)=>{ return <Button key={key} variant="primary" size="sm" block onClick={()=>this.handleClick(tdp)}>{tdp}</Button>})
-                }else return null
-            }else return null
-        }else return null
+        if (!storageAvailable('localStorage'))return null
+        const sessionStockage = localStorage.getItem('sessionStockage')
+        if (!sessionStockage)return null
+        const parseSession = JSON.parse(sessionStockage)
+        if (!('data' in parseSession)) return null
+        const today = new Date()
+        const compareDate = parseSession.date.localeCompare(today.toDateString())
+        if ( compareDate !== 0){
+            delete parseSession.data  
+            delete parseSession.date       
+            localStorage.setItem('sessionStockage', JSON.stringify(parseSession))
+            return null
+        }
+        else return this.getRep(parseSession.data).map((tdp, key)=>{ return <Button key={key} variant="primary" size="sm" block onClick={()=>this.handleClick(tdp)}>{tdp}</Button>})
+
     }
     handleClick=(rep)=>{
         const sessionStockage = localStorage.getItem('sessionStockage')

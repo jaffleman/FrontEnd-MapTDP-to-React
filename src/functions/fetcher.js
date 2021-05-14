@@ -1,5 +1,5 @@
-export async function fetcher (route, method, data, callback=null){
-    if (data.length === 0) return callback()
+export async function fetcher (route, method, data){
+    if (data.length === 0) return {data:[]}
     else{
         const body = JSON.stringify(data)
         const result = await fetch(`https://api.jaffleman.tech/tdp/${route}`,
@@ -14,10 +14,9 @@ export async function fetcher (route, method, data, callback=null){
             alert('probleme')
             return {err}
         })
-        if (result.ok){
+        if ("ok" in result){
             const jsonData = await result.json()
-            if (callback !== null) callback()
             return {data:jsonData}
-        }else if (result.err) return {err:result.err}
+        }else return {err:result.err}
     }
 }
