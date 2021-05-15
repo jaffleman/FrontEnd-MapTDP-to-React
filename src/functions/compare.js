@@ -1,13 +1,11 @@
 
 export function compare(tabReq,tabRes, localStoAccess) {
-    let storage = ()=>{
-        if(localStoAccess){
-            const parseData = JSON.parse(localStorage.getItem('sessionStockage'))
-            if (parseData) {
-                if('data' in parseData) return {'avalable':true, 'data': [...parseData.data]}
-                else return {'avalable':false}
-            }else return {'avalable':false}
-        }else return {'avalable':false}
+    const storage = ()=>{
+        if(!localStoAccess) return {'avalable':false}
+        const parseData = JSON.parse(localStorage.getItem('sessionStockage'))
+        if (!parseData) return {'avalable':false}
+        if(!('data' in parseData)) return {'avalable':false}
+        return {'avalable':true, 'data': [...parseData.data]}
     }
     const monStorage = storage()
     const tabTdp =[]

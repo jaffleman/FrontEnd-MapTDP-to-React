@@ -76,27 +76,25 @@ class ShowTdp extends React.Component{
                 </div>
             )
         }else{
-            if (found===undefined){
-                return null
-            }else{                
-                return(
-                    <div>
-                        <LongPress
-                            key={_id}
-                            time={500}
-                            onLongPress={() => this.addToPressed(this.props.tdp)}
-                            onPress={() => this.removeFromPressed(_id)}
-                            > 
-                            <div className ="tdp Letes3" onClick = {()=>{}}>
-                                <div style={{display:'flex' }}>
-                                    <p style={{margin:'0'}}>{"what!"}</p>
-                                    <p style={{flex:10}} className = "tdp2"> {regletteType+regletteNbr}-{plot}</p>
-                                </div>
+             
+            return(
+                <div>
+                    <LongPress
+                        key={_id}
+                        time={500}
+                        onLongPress={() => this.addToPressed(this.props.tdp)}
+                        onPress={() => this.removeFromPressed(_id)}
+                        > 
+                        <div className ="tdp Letes3" onClick = {()=>{}}>
+                            <div style={{display:'flex' }}>
+                                <p style={{margin:'0'}}>{"what!"}</p>
+                                <p style={{flex:10}} className = "tdp2"> {regletteType+regletteNbr}-{plot}</p>
                             </div>
-                        </LongPress>
-                    </div>
-                )
-            }
+                        </div>
+                    </LongPress>
+                </div>
+            )
+            
         }
     }
 }
