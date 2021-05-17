@@ -1,13 +1,11 @@
-import storageAvailable from '../functions/storageCheck'
-export function compare(tabReq,tabRes) {
-    let storage = ()=>{
-        if(storageAvailable('localStorage')){
-            const parseData = JSON.parse(localStorage.getItem('sessionStockage'))
-            if (parseData) {
-                if('data' in parseData) return {'avalable':true, 'data': [...parseData.data]}
-                else return {'avalable':false}
-            }else return {'avalable':false}
-        }else return {'avalable':false}
+
+export function compare(tabReq,tabRes, localStoAccess) {
+    const storage = ()=>{
+        if(!localStoAccess) return {'avalable':false}
+        const parseData = JSON.parse(localStorage.getItem('sessionStockage'))
+        if (!parseData) return {'avalable':false}
+        if(!('data' in parseData)) return {'avalable':false}
+        return {'avalable':true, 'data': [...parseData.data]}
     }
     const monStorage = storage()
     const tabTdp =[]

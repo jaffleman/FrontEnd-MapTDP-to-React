@@ -7,8 +7,7 @@ export function reduce(tabA) {
     const tabB =[]
     while(tabA.length>0){
         const A = tabA.shift()
-        
-        const comparator = ({rep, regletteType, regletteNbr})=>rep === A.rep && regletteType === A.regletteType && regletteNbr === A.regletteNbr
+        const comparator = ({idTdp})=>idTdp === A.idTdp
         
         const index = tabB.findIndex(comparator)
         if (index === -1) tabB.push(A)
