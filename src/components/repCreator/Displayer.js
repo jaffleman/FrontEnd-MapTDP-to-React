@@ -7,6 +7,7 @@ import { Container } from 'react-bootstrap';
 import ExtraSession from '../../classes/extraSession'
 import tabSorter from '../../functions/valider'
 import {fetcher} from '../../functions/fetcher'
+import loader from '../../functions/loaderManager';
 
 
 class Displayer extends React.Component{
@@ -28,11 +29,7 @@ class Displayer extends React.Component{
             if(tCreatedElem.length===0 && tEditedElem.length===0 && tDeletedElem.length===0) alert("Tu n'as apporter aucune modif à ce rep...")
             else{
                 if (window.confirm("Tu es sur le point de modifier definitivement la base de donnée. Es-tu sur de vouloir continuer?")){
-
-                    this.props.dispatch({
-                        type: "UPDATE_LOADER",
-                        value: true
-                    })
+                    loader(true, this.props)
                     try {
                         const handleClick2 = this.handleClick
                         tCreatedElem.forEach(elem=>Reflect.deleteProperty(elem, '_id'))
@@ -45,6 +42,7 @@ class Displayer extends React.Component{
                             })
                         })
                     } catch (error) {
+                        loader(false, this.props)
                         alert("Il y a eu un probleme: les donner n'ont pas été sauvegardées")
                     }
                 }
@@ -54,32 +52,28 @@ class Displayer extends React.Component{
     handleClick = ()=>{
         const callback = (result, repName)=>{
             if(result.err){ 
-                this.props.dispatch({ type: "UPDATE_LOADER",value: false })
+                loader(false, this.props)
                 alert('une erreur c\'est produite...')
             }
             else if (result.data){
-                const mySession = new ExtraSession(result.data, repName)
-                    if (!mySession.rep) {
-                        if (window.confirm("Le rep n'existe pas, voulez-vous le creer")){
-                            this.props.dispatch({type:'SET_SESSION_DATA',value: mySession.creatNewRep(repName)})
-                        }
+            const mySession = new ExtraSession(result.data, repName)
+                if (!mySession.rep) {
+                    if (window.confirm("Le rep n'existe pas, voulez-vous le creer")){
+                        this.props.dispatch({type:'SET_SESSION_DATA',value: mySession.creatNewRep(repName)})
                     }
-                    else {
-                        const myBrutData = [...mySession.brutdata]
-                        this.props.dispatch({type:'SET_BASE_DATA', value: myBrutData})
-                        this.props.dispatch({type:'SET_SESSION_DATA',value: mySession})
-                    }
-                
-                
-                this.props.dispatch({
-                    type: "UPDATE_LOADER",
-                    value: false
-                })
+                }
+                else {
+                    const myBrutData = [...mySession.brutdata]
+                    this.props.dispatch({type:'SET_BASE_DATA', value: myBrutData})
+                    this.props.dispatch({type:'SET_SESSION_DATA',value: mySession})
+                }
+                loader(false, this.props)
             }
         }
-        if (!this.props.loaderStatus) this.props.dispatch({ type: "UPDATE_LOADER",value: true })
+        loader(true, this.props)
         this.props.dispatch({type: "RESET_SESSION"})
         VerifRepName(this.state.repName, callback)
+        loader(false, this.props)
     }
     
     SalleDisplayer = ({data, vButton, vRef}) => data.rep? <DisplaySalle data={data.rep[0]} vButton={vButton}  vRef={vRef}/>: null
