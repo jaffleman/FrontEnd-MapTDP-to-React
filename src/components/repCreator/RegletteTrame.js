@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux';
+import { tdpExist } from '../../functions/tdpExist';
 import Button from 'react-bootstrap/Button'
 
 class RegletteTrame extends React.Component{
@@ -14,11 +15,13 @@ class RegletteTrame extends React.Component{
     }
 
     HeadHandleChange = (e) =>{
-        const newSession = this.props.session.modifRegType(this.props.tabId, e.target.value)
-        this.props.dispatch({
-            type:'SET_SESSION_DATA',
-            value: newSession
-        })
+        if (!tdpExist(this.props.session, e.target.value, this.props.tabId)){
+            const newSession = this.props.session.modifRegType(this.props.tabId, e.target.value)
+            this.props.dispatch({
+                type:'SET_SESSION_DATA',
+                value: newSession
+            })
+        }
         this.headTrameRef.current.value="x"
     }
     EndHandleChange = (e) =>{

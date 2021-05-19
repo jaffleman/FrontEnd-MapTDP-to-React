@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux';
 import Button from 'react-bootstrap/Button'
+import { tdpExist } from '../../functions/tdpExist';
 
 class RegletteConstructor extends React.Component{
     constructor(props){
@@ -11,11 +12,13 @@ class RegletteConstructor extends React.Component{
         }
     }
     HeadHandleChange = (e) =>{
-        const newSession = this.props.session.modifRegType([this.props.val.tdps[0]._id], e.target.value)
-        this.props.dispatch({
-            type:'SET_SESSION_DATA',
-            value: newSession
-        })
+        if (!tdpExist(this.props.session, e.target.value, this.props.val.tdps[0].regletteNbr)) {
+            const newSession = this.props.session.modifRegType([this.props.val.tdps[0]._id], e.target.value)
+            this.props.dispatch({
+                type:'SET_SESSION_DATA',
+                value: newSession
+            })
+        }
     }
     EndHandleChange = (e) =>{
         const newSession = this.props.session.modifOption([this.props.val.tdps[0]._id], e.target.value)
@@ -25,14 +28,14 @@ class RegletteConstructor extends React.Component{
         })
     }
     BodyHandleChange(e){
-        const newSession = this.props.session.modifRegNbr([this.props.val.tdps[0]._id], e.target.value)
-        this.props.dispatch({
-            type:'SET_SESSION_DATA',
-            value: newSession
-        })
-        /*const leNd = 1+parseInt(this.props.nd)
-        const laRef = 'input'+leNd*/
-        if (e.target.value.length===2) this.props.nextFocus(parseInt(this.props.nd))
+        if (!tdpExist(this.props.session, this.props.val.tdps[0].regletteType, e.target.value)) {
+            const newSession = this.props.session.modifRegNbr([this.props.val.tdps[0]._id], e.target.value)
+            this.props.dispatch({
+                type:'SET_SESSION_DATA',
+                value: newSession
+            })
+            if (e.target.value.length===2) this.props.nextFocus(parseInt(this.props.nd))
+        }
     }
     deleteHandleClick(){
         const newSession = this.props.session.modifRegType([this.props.val.tdps[0]._id], 'x')
@@ -41,6 +44,7 @@ class RegletteConstructor extends React.Component{
         this.props.dispatch({type:'SET_SESSION_DATA',value: newSession3})
     }
     render(){
+        //console.log(this.props.session)
         return (
             <div className='RegletteConstructor'>
                 <div>
