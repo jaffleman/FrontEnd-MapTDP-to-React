@@ -4,9 +4,14 @@ import React from "react";
 import storageAvailable from '../../functions/storageCheck'
 class LastSearch extends React.Component{
     getRep=(data)=>{
-        const tab = []
-        data.forEach(tdp => tab.findIndex(elem => elem === tdp.rep) === -1? tab.push(tdp.rep):null)
-        return tab
+        const tab2rep = []
+        data.forEach(tdp => tab2rep.findIndex(elem => elem === tdp.rep)===-1? tab2rep.push(tdp.rep):null)
+        const object = tab2rep.map((rep)=>{
+            const matchTdp = []
+            data.forEach(tdp => (tdp.rep === rep)? matchTdp.push(tdp):null)
+            return [rep, matchTdp.length]
+        })
+        return object
     }
     searchList= ()=>{
         if (!storageAvailable('localStorage'))return null
@@ -22,7 +27,7 @@ class LastSearch extends React.Component{
             localStorage.setItem('sessionStockage', JSON.stringify(parseSession))
             return null
         }
-        else return this.getRep(parseSession.data).map((tdp, key)=>{ return <Button key={key} variant="primary" size="sm" block onClick={()=>this.handleClick(tdp)}>{tdp}</Button>})
+        else return this.getRep(parseSession.data).map((repTab, key)=>{ return <Button key={key} variant="primary" size="sm" block onClick={()=>this.handleClick(repTab[0])}>{repTab[0]+' : '+repTab[1]+'tdp'}</Button>})
 
     }
     handleClick=(rep)=>{
