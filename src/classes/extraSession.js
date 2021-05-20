@@ -8,7 +8,6 @@ export default class ExtraSession{
     cd
     salleNumber
     constructor(sessionData, repName){
-        //if (sessionStorage.length===0) return {error:'une erreur'}
         if (sessionData.length!==0) {
 
             const newSessionData = sorter(sessionData).map((elem)=>{
@@ -20,8 +19,6 @@ export default class ExtraSession{
             })
             this.brutdata = newSessionData
             this.repName = repName
-            //const tab = []
-            //this.brutdata.forEach(tdp => tab.findIndex(elem => elem === tdp.rep) === -1? tab.push(tdp.rep):null)
             this.rep = [new Rep(repName, this.brutdata)]
             this.cd = repName.slice(-2) 
             this.salleNumber = this.rep[0].salle.length
@@ -47,7 +44,7 @@ export default class ExtraSession{
                                             regletteType: "x",
                                             rep: this.repName,
                                             salle: elemSalle.number,
-                                            _id: this.cd + this.repName + elemSalle.number + elemRco.number + elemFerme.number + index,
+                                            _id: this.repName + elemSalle.number + elemRco.number + elemFerme.number + index,
                                         })
                                     }
                             
@@ -111,7 +108,7 @@ export default class ExtraSession{
                 regletteType: "x",
                 rep : this.repName,
                 salle: newSalleNd,
-                _id: this.cd + this.rep + newSalleNd + 1 + ndFerme + index,
+                _id: this.repName + newSalleNd + 1 + ndFerme + index,
             })
         }
         return new ExtraSession(this.brutdata, this.repName)
@@ -136,7 +133,7 @@ export default class ExtraSession{
                 regletteType: "x",
                 rep : this.repName,
                 salle: idSalle,
-                _id: this.cd + this.rep + idSalle + newRcoNd + ndFerme + index,
+                _id: this.repName + idSalle + newRcoNd + ndFerme + index,
             })
         }
         return new ExtraSession(this.brutdata, this.repName)
@@ -165,7 +162,7 @@ export default class ExtraSession{
                 regletteType: "x",
                 rep : this.repName,
                 salle: idSalle,
-                _id: this.cd + this.rep + idSalle + rcoNumber + ndFerme + index,
+                _id: this.repName + idSalle + rcoNumber + ndFerme + index,
             })
         }
         return new ExtraSession(this.brutdata, this.repName)
@@ -224,7 +221,7 @@ export default class ExtraSession{
             regletteType: "x",
             rep : repName,
             salle: 1,
-            _id: repName.slice(-2) + repName + 1 + 1 + 1 + 1,
+            _id: repName + 1 + 1 + 1 + 1,
         }], repName)
     }
 }
