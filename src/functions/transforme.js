@@ -1,8 +1,8 @@
-import { Plot } from '../classes/plot';
+import newPlot  from '../classes/newPlot';
 /*
     input: Array<String>
     output: Array<Plot>
 */
-export const transforme = params => params.map(value => new Plot(value));
+export const transforme = params => params.map(value => new newPlot(value));
 
 

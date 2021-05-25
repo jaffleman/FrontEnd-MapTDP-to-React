@@ -30,7 +30,7 @@ class DisplayLevel extends React.Component{
             nextFocus={this.nextFocus}/>)
     }
     render(){
-        const tabId = this.props.data.map(elem=>elem.tdps[0]._id)
+        const tabId = this.props.data.map(elem=>elem.tdps._id)
         return <div >
             <RegletteTrame tabId = {tabId}/>
             {this.reglette(this.props.data)}
