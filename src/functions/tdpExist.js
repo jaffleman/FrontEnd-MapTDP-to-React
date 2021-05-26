@@ -1,7 +1,8 @@
 export function tdpExist(session, regletteType, regletteNbr){
+    console.log(session)
     if (regletteNbr === '' || regletteType === 'x') return false
     const tabTdp = []
-    session.rep.forEach(leRep => leRep.salle.forEach(laSalle => laSalle.rco.forEach(laRco => laRco.ferme.forEach(laFerme => laFerme.level.forEach(leLevel => leLevel.tdps.forEach(tdpa => tabTdp.push(tdpa)))))))
+    session.rep.forEach(leRep => leRep.salle.forEach(laSalle => laSalle.rco.forEach(laRco => laRco.ferme.forEach(laFerme => laFerme.level.forEach(leLevel =>  tabTdp.push(leLevel.tdps))))))
     
     if (typeof(regletteNbr) === 'object') {
         const tabNbr = []

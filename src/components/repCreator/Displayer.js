@@ -24,17 +24,18 @@ class Displayer extends React.Component{
     handleRepChange = e => this.setState({repName:e.target.value.toLowerCase()})
 
     handle_valideClick = ()=>{
-        if (this.props.mySession.brutdata.length>0) return alert("Aucun rep a valider !")
+        if (this.props.mySession.brutdata.length===0) return alert("Aucun rep a valider !")
         let {tCreatedElem, tEditedElem, tDeletedElem} = tabSorter(this.props.myBrutData, this.props.mySession.brutdata)
         if (tCreatedElem.length===0 && tEditedElem.length===0 && tDeletedElem.length===0) return alert("Tu n'as apporter aucune modif à ce rep...") 
         if (window.confirm("Tu es sur le point de modifier definitivement la base de donnée. Es-tu sur de vouloir continuer?")){
             loader(true, this.props)
             tCreatedElem.forEach(elem=>Reflect.deleteProperty(elem, '_id'))
+            const newHandleClick = this.handleClick
             fetcher("create","POST", tCreatedElem, function(){
                 fetcher("update","PUT", tEditedElem, function(){
                     fetcher("delete","DELETE", tDeletedElem, function (){
                         alert("sauvegardé avec succes")
-                        this.handleClick()
+                        newHandleClick()
                     })
                 })
             })

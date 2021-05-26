@@ -20,8 +20,9 @@ export async function fetcher (route, method, data, callback){
             return {err}
         })
         if ("ok" in result){
-            if (callback) return callback()
-            else return {data:await result.json()}
+            const ladata = await result.json()
+            if (callback) callback({data: ladata})
+            else return {data:ladata}
         }else return {err:result.err}
     }
 }

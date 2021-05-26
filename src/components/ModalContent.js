@@ -1,40 +1,54 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import { fetcher } from '../functions/fetcher';
+import $ from "jquery";
 
 function Modal(props){
-    const {_id, rep, cd, regletteNbr, regletteType} = props.modalData
+    const {rep, cd, regletteNbr, regletteType} = props.modalData
 
     
     const [salle,setSalle] = useState(1);
     const [rco,setRco] = useState(1);
     const [ferme,setFerme] = useState(1);
     const [level,setLevel] = useState(1);
-    const [opt,setOpt] = useState("x");
-
-    useEffect(()=>{},[])
+    const [opt,setOpt] = useState(null);
     
     function closeModal() {
-        
-        props.dispatch({
-            type:"SHOW_MODAL",
-            value:{}
-        })
+        $(()=> window.$('#laModal').modal('hide'))
+        alert('Position enregistrée avec succes! Merci de votre contribution.')
     }
     function valideModal(){
         const tdp =[{
-            _id,
-            regletteType,
-            regletteNbr,
-            cd,
             rep,
             salle,
             rco,
             ferme,
             level,
-            opt,
+            option:opt,
+            cd,
+            regletteType,
+            regletteNbr,
+            idTdp:rep.concat(regletteType,regletteNbr)
         }]
-        fetcher("update","PUT", tdp, closeModal())
+        const callback =({data})=>{
+            console.log(data)
+            if (data.length===0) fetcher("create","POST", tdp, closeModal())
+            else{
+                const confirmation = window.confirm('Cette position est déjà occupée par '+data[0].regletteType+data[0].regletteNbr+'\n Voulez-vous la remplacer?')
+                if(confirmation) fetcher("create","POST", tdp, closeModal())
+            }
+        }
+
+        fetcher("search", "POST", tdp, (retour)=>{
+            console.log(retour)
+            if (retour.data.length>0) {
+                $(()=> window.$('#laModal').modal('hide'))
+                return alert('Cette position existe déjà dans ce répartiteur.')
+            }
+            fetcher("searchBp","POST",tdp,callback)
+        })
+        
+        
     }
     const   salleChange = e => setSalle(e.target.value),
             rcoChange = e => setRco(e.target.value),
