@@ -4,44 +4,47 @@ import Button from 'react-bootstrap/Button'
 import { tdpExist } from '../../functions/tdpExist';
 
 class RegletteConstructor extends React.Component{
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            nd:this.props.nd,
-            val:this.props.val,
+            nd: this.props.nd,
+            val: this.props.val,
         }
     }
-    HeadHandleChange = (e) =>{
-        if (!tdpExist(this.props.session, e.target.value, this.props.val.tdps.regletteNbr)) {
-            const newSession = this.props.session.modifRegType([this.props.val.tdps._id], e.target.value)
+    HeadHandleChange = (e) => {
+        if (!tdpExist(this.props.session, e.target.value, this.props.val.tdp.regletteNbr)) {
+            const newSession = this.props.session.modifRegType([this.props.val.tdp._id], e.target.value)
             this.props.dispatch({
-                type:'SET_SESSION_DATA',
+                type: 'SET_SESSION_DATA',
                 value: newSession
             })
         }
     }
-    EndHandleChange = (e) =>{
-        const newSession = this.props.session.modifOption([this.props.val.tdps._id], e.target.value)
+    EndHandleChange = (e) => {
+        const newSession = this.props.session.modifOption([this.props.val.tdp._id], e.target.value)
         this.props.dispatch({
-            type:'SET_SESSION_DATA',
+            type: 'SET_SESSION_DATA',
             value: newSession
         })
     }
-    BodyHandleChange(e){
-        if (!tdpExist(this.props.session, this.props.val.tdps.regletteType, e.target.value)) {
-            const newSession = this.props.session.modifRegNbr([this.props.val.tdps._id], e.target.value)
+    BodyHandleChange(e) {
+        if (!tdpExist(this.props.session, this.props.val.tdp.regletteType, e.target.value)) {
+            const newSession = this.props.session.modifRegNbr([this.props.val.tdp._id], e.target.value)
             this.props.dispatch({
-                type:'SET_SESSION_DATA',
+                type: 'SET_SESSION_DATA',
                 value: newSession
             })
-            if (e.target.value.length===2) this.props.nextFocus(parseInt(this.props.nd))
+            if (e.target.value.length === 2) this.props.nextFocus(parseInt(this.props.nd))
         }
     }
-    deleteHandleClick(){
-        const newSession = this.props.session.modifRegType([this.props.val.tdps._id], 'x')
-        const newSession2 = newSession.modifRegNbr([this.props.val.tdps._id], '')
-        const newSession3 = newSession2.modifOption([this.props.val.tdps._id], '')
-        this.props.dispatch({type:'SET_SESSION_DATA',value: newSession3})
+    deleteHandleClick() {
+            const newSession = this.props.session.modifRegType([this.props.val.tdp._id], 'x')
+            const newSession2 = newSession.modifRegNbr([this.props.val.tdp._id], '')
+            const newSession3 = newSession2.modifOption([this.props.val.tdp._id], '')
+            this.props.dispatch({
+                type: 'SET_SESSION_DATA',
+                value: newSession3
+            })
     }
     render(){
         //console.log(this.props.session)
@@ -52,7 +55,7 @@ class RegletteConstructor extends React.Component{
                 </div>
                 
                 <div style={{marginLeft:'15px'}}>
-                    <select className="custom-select custom-select-sm" value={this.props.val.tdps.regletteType}  id={`select1:${this.props.val.tdps._id}${this.props.keyOrigin}`} style={{textAlign:"right"}} onChange={this.HeadHandleChange.bind(this)}>
+                    <select className="custom-select custom-select-sm" value={this.props.val.tdp.regletteType}  id={`select1:${this.props.val.tdp._id}${this.props.keyOrigin}`} style={{textAlign:"right"}} onChange={this.HeadHandleChange.bind(this)}>
                         <option value="x" defaultValue>-----</option>
                         <option value="L/INX">L/INX</option>
                         <option value="R/DEG">R/DEG</option>
@@ -62,19 +65,19 @@ class RegletteConstructor extends React.Component{
                 </div>
                 
                 <input 
-                    id={`input:${this.props.val.tdps._id}${this.props.keyOrigin}`}
+                    id={`input:${this.props.val.tdp._id}${this.props.keyOrigin}`}
                     ref= {this.props.laRef}
                     type="text" 
                     maxLength="2" 
                     style={{width:"46px"}} 
                     className="form-control form-control-sm"
-                    value={this.props.val.tdps.regletteNbr}
+                    value={this.props.val.tdp.regletteNbr}
                     onChange = {this.BodyHandleChange.bind(this)} 
                     onBlur={()=>{}}
                 />
                 
                 <div style={{marginLeft:'10px', width:'70px'}}>
-                    <select className="custom-select custom-select-sm" value={this.props.val.tdps.option===null?'...':this.props.val.tdps.option} id={`${this.props.val.tdps._id}option${this.props.keyOrigin}`} onChange={this.EndHandleChange.bind(this)} style={{}}>
+                    <select className="custom-select custom-select-sm" value={this.props.val.tdp.option===null?'...':this.props.val.tdp.option} id={`${this.props.val.tdp._id}option${this.props.keyOrigin}`} onChange={this.EndHandleChange.bind(this)} style={{}}>
                         <option value="null">...</option>
                         <option value="I">Inversée</option>
                         <option value="TNI">Tête Non Isolable</option>
