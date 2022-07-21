@@ -1,3 +1,4 @@
+
 export async function fetcher (route, method, data, callback){
     console.log(data)
     if (data.length === 0){
@@ -7,7 +8,7 @@ export async function fetcher (route, method, data, callback){
 
     else{
         const body = JSON.stringify(data)
-        const result = await fetch(`https://api.jaffleman.tech/tdp/${route}`,
+        const result = await fetch(process.env.REACT_APP_URL +`${route}`,
         { 
             method,
             mode: 'cors',

@@ -10,7 +10,6 @@ import Col from 'react-bootstrap/Col'
 import Card from './Card';
 import LastSearch from './shower/LastSearch'
 
-import { Session } from '../classes/session';
 import { SessionDeRecherche } from '../classes/sessionDeRecherche';
 
 import getClipboardContent from '../functions/getClipboard'
@@ -67,11 +66,14 @@ const Accueil = (props) => {
       }
     })
   }
-
-  const textareaHandleClick = () =>{
+  const sessionCreator = async ()=>{
+    return new SessionDeRecherche(formValue, localStoAccess)
+  }
+  const textareaHandleClick = async () =>{
     loader(true, props)
-    const maRecherche = new SessionDeRecherche(formValue)
-    if (maRecherche.valide) throwSession(maRecherche.donneesExtraites)
+    const maRecherche = await sessionCreator()
+    console.log(maRecherche)
+    if (maRecherche.valide) history.push('/Shower', maRecherche.session)
     else {
       setFormValue('')
       alert('Aucun TDP trouvé...')
@@ -79,7 +81,7 @@ const Accueil = (props) => {
     } 
   }
 
-  const throwSession = data=> new Session([...data], session=>history.push('/Shower', session), ()=>{loader(false, props)}, localStoAccess)
+  //const throwSession = data=> new Session([...data], session=>history.push('/Shower', session), ()=>{loader(false, props)}, localStoAccess)
 
 
 
@@ -125,7 +127,7 @@ const Accueil = (props) => {
             <div className="Bando-Titre">
               <p>dernières recherches</p>
             </div>
-            <LastSearch callback={throwSession}/> 
+            <LastSearch callback={()=>{}}/> 
             <div className="Bando-Valider">
               <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>localStorageCleaner()}>Effacer l'historique</button>                
             </div>
