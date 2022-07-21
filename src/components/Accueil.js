@@ -10,11 +10,11 @@ import Col from 'react-bootstrap/Col'
 import Card from './Card';
 import LastSearch from './shower/LastSearch'
 
-import { SessionDeRecherche } from '../classes/sessionDeRecherche';
-
 import getClipboardContent from '../functions/getClipboard'
 import loader from '../functions/loaderManager'
 import storageAvailable from '../functions/storageCheck'
+import extraireLesDonnees from '../functions/extraireLesDonnees'
+
 
 
 
@@ -66,24 +66,17 @@ const Accueil = (props) => {
       }
     })
   }
-  const sessionCreator = async ()=>{
-    return new SessionDeRecherche(formValue, localStoAccess)
-  }
+
   const textareaHandleClick = async () =>{
-    loader(true, props)
-    const maRecherche = await sessionCreator()
-    console.log(maRecherche)
-    if (maRecherche.valide) history.push('/Shower', maRecherche.session)
-    else {
-      setFormValue('')
-      alert('Aucun TDP trouvé...')
+    const extractData = extraireLesDonnees(formValue)
+    if (extractData.length > 0){
+      loader(true, props)
+      history.push('/Shower', extraireLesDonnees(formValue)) 
+    }else{
+      alert('Aucun TDP dans la demande...')
       loader(false, props)
-    } 
+    }
   }
-
-  //const throwSession = data=> new Session([...data], session=>history.push('/Shower', session), ()=>{loader(false, props)}, localStoAccess)
-
-
 
   return (
     <Container>

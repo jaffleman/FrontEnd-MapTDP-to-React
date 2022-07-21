@@ -101,7 +101,7 @@ function Modal(props){
                                 <InputGroup.Prepend>
                                 <InputGroup.Text id="inputGroup-sizing-sm">Réglette:</InputGroup.Text>
                                 </InputGroup.Prepend>
-                                <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm" value={regletteType+regletteNbr}/>
+                                <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm" defaultValue={''+regletteType+regletteNbr}/>
                             </InputGroup>
                             <InputGroup size="sm" className="mb-3">
                                 <InputGroup.Prepend>
