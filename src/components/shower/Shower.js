@@ -18,41 +18,40 @@ class Shower extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            fetchedData : null
+            fetchedData : {},
+            localStoAccess : null
         }
     }
     componentDidMount(){
+        console.log('componentDidMount()')
         const localStoAccess = storageAvailable('localStorage')
         fetcher("search","POST",RequestStorageComparator(this.props.location.state, localStoAccess))
-        .then((fetchedResult)=>{
-            if ('data' in fetchedResult){
-                const expendTdp = expend(compare(this.props.location.state,fetchedResult.data, localStoAccess))
-                storageStock(expendTdp, localStoAccess)
-                const tab = []
-                expendTdp.forEach(tdp => tab.findIndex(elem => elem === tdp.rep) === -1? tab.push(tdp.rep):null)
-                    const object = tab.map(elem => new Rep(elem, expendTdp))
-                    console.log(object)
-                    return object
-            }   
-        })
-        .then((fetchedData)=>this.setState({ fetchedData }))
+        .then((fetchedData)=>this.setState({ 
+            fetchedData,
+            localStoAccess
+        }))
         .then(()=>loader(false, this.props))
     }
+    lister = ()=> {
+        const expendTdp = expend(compare(this.props.location.state,this.state.fetchedData.data, this.state.localStoAccess))
+        storageStock(expendTdp, this.state.localStoAccess)
+        const tab = []
+        expendTdp.forEach(tdp => tab.findIndex(elem => elem === tdp.rep) === -1? tab.push(tdp.rep):null)
+        return (tab.map(elem => new Rep(elem, expendTdp))).map((rep, key)=><ShowRep key={key} rep = {rep}/>)
+    }
     render(){
-        if (this.state.fetchedData === null) {
-            console.log('fetchedData=undefined')
-            return null
-        } else {
-            console.log(this.state.fetchedData)
-            const lister = ()=> this.state.fetchedData.map((rep, key)=><ShowRep key={key} rep = {rep}/>)
+        if ('data' in this.state.fetchedData) {
             return (
                 <div>
                     <LaModal/>
                     <div className='main'>
-                        {lister()}
+                        {this.lister()}
                     </div>
                 </div>
             )       
+        } else {
+            console.log('fetchedData=undefined')
+            return null
         }
     }
 }

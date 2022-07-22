@@ -120,7 +120,7 @@ const Accueil = (props) => {
             <div className="Bando-Titre">
               <p>dernières recherches</p>
             </div>
-            <LastSearch callback={()=>{}}/> 
+            <LastSearch callback={(list)=>{history.push('/Shower',list)}}/> 
             <div className="Bando-Valider">
               <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>localStorageCleaner()}>Effacer l'historique</button>                
             </div>
