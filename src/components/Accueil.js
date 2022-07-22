@@ -12,7 +12,7 @@ import LastSearch from './shower/LastSearch'
 
 import getClipboardContent from '../functions/getClipboard'
 import loader from '../functions/loaderManager'
-import storageAvailable from '../functions/storageCheck'
+//import storageAvailable from '../functions/storageCheck'
 import extraireLesDonnees from '../functions/extraireLesDonnees'
 import LocalStorageManager from '../classes/LocalStorageManager'
 
@@ -22,41 +22,24 @@ import LocalStorageManager from '../classes/LocalStorageManager'
 
 
 const Accueil = (props) => {
-  const monLocalStorage = new LocalStorageManager()
-  const localStoAccess = storageAvailable('localStorage') // verifie l'acces au local storage
-
-  const checkInitValue = ()=>{
-    if (!localStoAccess) return false
-    const sessionStockage = JSON.parse(localStorage.getItem('sessionStockage'))
-    if (!sessionStockage) return false
-    if (!('autopast' in sessionStockage)) return false
-    return sessionStockage.autopast  
-  }
-
-  const url = !(localStoAccess && 'credentials' in navigator) // si acces au store && https
+  const localSto = new LocalStorageManager()
+  const url = !(localSto.getIsActive() && 'credentials' in navigator) // si acces au store && https
   const textAreaRef = useRef()
   const history = useHistory()
   const [formValue,setFormValue] = useState('')
-  const [checked, setChecked] = useState(checkInitValue)
+  const [checked, setChecked] = useState(localSto.getAutoPast())
 
   const textareaHandleChange=(e)=> setFormValue(e.target.value)
 
-  const localStorageCleaner = ()=>{
-    if (localStoAccess){
-      const parseLS = JSON.parse(localStorage.getItem('sessionStockage'))
-      delete parseLS.data  
-      delete parseLS.date 
-      localStorage.setItem('sessionStockage',  JSON.stringify(parseLS))
-      history.go(0)
-    }
+  const clearTdpList = ()=>{
+    localSto.clearTdpList()
+    history.go(0)
   }
 
   const handleSwitchChange = (e)=>{
     setChecked(e)  
-    if (localStoAccess) {
-      localStorage.setItem('sessionStockage', JSON.stringify({...JSON.parse(localStorage.getItem('sessionStockage')), 'autopast':e}))
-      if (!e) setFormValue('')
-    }
+    localSto.setAutoPast(e)
+    if (!e) setFormValue('')
   }
 
   const handle_click = ()=>{
@@ -123,7 +106,7 @@ const Accueil = (props) => {
             </div>
             <LastSearch callback={(list)=>{history.push('/Shower',list)}}/> 
             <div className="Bando-Valider">
-              <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>localStorageCleaner()}>Effacer l'historique</button>                
+              <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>clearTdpList()}>Effacer l'historique</button>                
             </div>
           </div>
         </div>

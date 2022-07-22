@@ -8,42 +8,47 @@ export default class LocalStorageManager{
             window['localStorage'].setItem(x, x);
             window['localStorage'].removeItem(x);
             this.isActive = true;
-            var stoDate = localStorage.getItem('storageDate')
-            const date : Date = new Date(stoDate||'July 20, 69 20:17:40 GMT+00:00')
-            const tdps:[Tdp] =  JSON.parse(localStorage.getItem('tdps')||'[]')
-            const autoPastStatus: boolean = JSON.parse(localStorage.getItem('autoPastStatus')||'false')
-            const today = new Date()
-            if (stoDate) {
-                if (IsNewDay(date,today)){
-                    console.log(`ok c'est le bon jour`)
-                    localStorage.setItem('tdps', JSON.stringify([...tdps]))
-                    localStorage.setItem('autoPastStatus', JSON.stringify(autoPastStatus))
-                }else{
-                    console.log(`c'est pas le bon jour`)
-                    localStorage.setItem('storageDate', ''+today)
-                    localStorage.setItem('tdps', JSON.stringify([]))
-                    localStorage.setItem('autoPastStatus', JSON.stringify(autoPastStatus))
-                }
-            }else{
-                console.log(`pas de données dans le localStorage`)
-                localStorage.setItem('storageDate', ''+today)
-                localStorage.setItem('tdps', JSON.stringify([]))
-                localStorage.setItem('autoPastStatus', JSON.stringify(autoPastStatus))
-            }
         }
         catch(e) {
             this.isActive = false;
         }
+        if (!this.isActive) return
+        const stoDate = localStorage.getItem('storageDate')
+        const date : Date = new Date(stoDate||'July 20, 69 20:17:40 GMT+00:00')
+        const tdps:[Tdp] =  JSON.parse(localStorage.getItem('tdps')||'[]')
+        const autoPastStatus: boolean = JSON.parse(localStorage.getItem('autoPastStatus')||'true')
+        const today = new Date()
+        if (stoDate) {
+            if (IsNewDay(date,today)){
+                console.log(`ok c'est le bon jour`)
+                localStorage.setItem('tdps', JSON.stringify([...tdps]))
+                localStorage.setItem('autoPastStatus', JSON.stringify(autoPastStatus))
+            }else{
+                console.log(`c'est pas le bon jour`)
+                localStorage.setItem('storageDate', ''+today)
+                localStorage.setItem('tdps', JSON.stringify([]))
+                localStorage.setItem('autoPastStatus', JSON.stringify(autoPastStatus))
+            }
+        }else{
+            console.log(`pas de données dans le localStorage`)
+            localStorage.setItem('storageDate', ''+today)
+            localStorage.setItem('tdps', JSON.stringify([]))
+            localStorage.setItem('autoPastStatus', JSON.stringify(autoPastStatus))
+        }
+
     }
     public getIsActive():boolean{
         return this.isActive
     }
-
-    public autoPast():boolean {
-        return true
+    public getAutoPast():boolean {
+        if (!this.isActive) return false
+        return JSON.parse(localStorage.getItem('autoPastStatus')||'false')
     }
-    public setAutoPast(value:boolean):boolean{
-        return true
+    public setAutoPast(value:boolean):void{
+        if (this.isActive) localStorage.setItem('autoPastStatus', JSON.stringify(value))
+    }
+    public clearTdpList(): void{
+        if (this.isActive) localStorage.setItem('tdps', JSON.stringify([]))
     }
     public storageStock(fetchedData:[any]):void{
         const newSession = fetchedData.filter(elem=>elem.fetched).map(element => {return  {...element, 'fetched':false}});
