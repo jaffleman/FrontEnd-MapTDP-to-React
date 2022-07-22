@@ -14,7 +14,7 @@ import getClipboardContent from '../functions/getClipboard'
 import loader from '../functions/loaderManager'
 import storageAvailable from '../functions/storageCheck'
 import extraireLesDonnees from '../functions/extraireLesDonnees'
-
+import LocalStorageManager from '../classes/LocalStorageManager'
 
 
 
@@ -22,14 +22,15 @@ import extraireLesDonnees from '../functions/extraireLesDonnees'
 
 
 const Accueil = (props) => {
+  const monLocalStorage = new LocalStorageManager()
   const localStoAccess = storageAvailable('localStorage') // verifie l'acces au local storage
 
   const checkInitValue = ()=>{
     if (!localStoAccess) return false
-    const parseSession = JSON.parse(localStorage.getItem('sessionStockage'))
-    if (!parseSession) return false
-    if (!('autopast' in parseSession)) return false
-    return parseSession.autopast  
+    const sessionStockage = JSON.parse(localStorage.getItem('sessionStockage'))
+    if (!sessionStockage) return false
+    if (!('autopast' in sessionStockage)) return false
+    return sessionStockage.autopast  
   }
 
   const url = !(localStoAccess && 'credentials' in navigator) // si acces au store && https
@@ -71,7 +72,7 @@ const Accueil = (props) => {
     const extractData = extraireLesDonnees(formValue)
     if (extractData.length > 0){
       loader(true, props)
-      history.push('/Shower', extraireLesDonnees(formValue)) 
+      history.push('/Shower', extractData) 
     }else{
       alert('Aucun TDP dans la demande...')
       loader(false, props)

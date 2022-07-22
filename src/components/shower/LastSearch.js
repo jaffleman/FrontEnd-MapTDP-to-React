@@ -19,7 +19,7 @@ class LastSearch extends React.Component{
         const parseSession = JSON.parse(sessionStockage)
         if (!('data' in parseSession)) return null
         const today = new Date()
-        if ( (parseSession.date.localeCompare(today.toDateString()))!= 0 ){
+        if ( (parseSession.date.localeCompare(today.toDateString()))!== 0 ){
             delete parseSession.data;
             delete parseSession.date;       
             localStorage.setItem('sessionStockage', JSON.stringify(parseSession));
