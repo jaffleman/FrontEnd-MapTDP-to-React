@@ -13,5 +13,6 @@ export class Tdp {
     this.salle = elem.salle
     this.plot =  elem.plot
     this._id = elem._id
+    this.tdpId= elem.rep+elem.regletteType+elem.regletteNbr
   }
 }

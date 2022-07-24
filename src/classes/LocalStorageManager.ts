@@ -50,16 +50,27 @@ export default class LocalStorageManager{
     public clearTdpList(): void{
         if (this.isActive) localStorage.setItem('tdps', JSON.stringify([]))
     }
+    public getTdps():Tdp[] {
+        return JSON.parse(localStorage.getItem('tdps')||'[]')
+    }
+    public requestComparator(requestData:Tdp[]):Tdp[] {
+        const newTabReq:Tdp[] = [...requestData]
+        const searchTab = []
+        if (!this.isActive) return newTabReq
+        const tdps:[Tdp] =  JSON.parse(localStorage.getItem('tdps')||'[]')
+        if (tdps.length<1) return newTabReq
+        while(newTabReq.length>0){
+            const req:Tdp = newTabReq.shift()||new Tdp()
+            const comparator = ({tdpId}:Tdp)=>tdpId===req.rep+req.regletteType+req.regletteNbr
+            const index = tdps.findIndex(comparator)
+            if (index === -1) searchTab.push(req)
+        }
+        return searchTab
+    }
     public storageStock(fetchedData:[any]):void{
-        const newSession = fetchedData.filter(elem=>elem.fetched).map(element => {return  {...element, 'fetched':false}});
-        const sessionStockage = localStorage.getItem('sessionStockage')
-        const date = new Date()
-        if (sessionStockage){
-            const parseSession = JSON.parse(sessionStockage)
-            if('data' in parseSession){
-                localStorage.setItem('sessionStockage', JSON.stringify({...parseSession, 'data':[...parseSession.data, ...newSession], 'date':date.toDateString()}))
-            }else localStorage.setItem('sessionStockage', JSON.stringify({...parseSession, 'data':newSession, 'date':date.toDateString()}))
-        }else localStorage.setItem('sessionStockage', JSON.stringify({'data':newSession, 'date':date.toDateString()}))
+        const tdps:[Tdp] =  JSON.parse(localStorage.getItem('tdps')||'[]')
+        const newSession = [...fetchedData.filter(elem=>elem.fetched).map(element => {return  {...element, 'fetched':false}}), ...tdps];
+        localStorage.setItem('tdps', JSON.stringify([...newSession]))
     }
 
 }

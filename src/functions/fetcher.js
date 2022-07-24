@@ -1,12 +1,9 @@
 
 export async function fetcher (route, method, data, callback){
-    console.log(data)
     if (data.length === 0){
         if (callback) return callback()
         else return {data:[]}
-    }
-
-    else{
+    }else{
         const body = JSON.stringify(data)
         const result = await fetch(process.env.REACT_APP_URL +`${route}`,
         { 
@@ -20,6 +17,7 @@ export async function fetcher (route, method, data, callback){
             alert('probleme')
             return {err}
         })
+        console.log(result)
         if ("ok" in result){
             const ladata = await result.json()
             if (callback) callback({data: ladata})

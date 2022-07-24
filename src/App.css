@@ -173,6 +173,11 @@ body {
   font-family: Courier New, monospace;
   border: 1px solid black;
 }
+.modal-content{
+  width: 96%;
+  position: fixed;
+  margin-top: 40px;
+}
 .RegletteConstructor{
   display: flex;
   padding: 1px;

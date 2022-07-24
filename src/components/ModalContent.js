@@ -14,17 +14,17 @@ function Modal(props){
         regletteNbr,
         regletteType
     } = props.modalData,
-        [salle, setSalle] = useState(null),
-        [rco, setRco] = useState(null),
-        [ferme, setFerme] = useState(null),
-        [level, setLevel] = useState(null),
-        [opt, setOpt] = useState(null),
-        salleChange = e => setSalle(e.target.value),
-        rcoChange = e => setRco(e.target.value),
-        colonneChange = e => setFerme(e.target.value),
-        positionChange = e => setLevel(e),
-        OptionChange = e => setOpt(e),
-        closeModal = () => $(() => window.$('#laModal').modal('hide'));
+    [salle, setSalle] = useState(''),
+    [rco, setRco] = useState(''),
+    [ferme, setFerme] = useState(''),
+    [level, setLevel] = useState(''),
+    [opt, setOpt] = useState(''),
+    salleChange = e => setSalle(e.target.value),
+    rcoChange = e => setRco(e.target.value),
+    colonneChange = e => setFerme(e.target.value),
+    positionChange = e => setLevel(e),
+    OptionChange = e => setOpt(e),
+    closeModal = () => $(() => window.$('#laModal').modal('hide'));
 
     function option(params) {
         if (params === ''| null) return ''
@@ -32,10 +32,7 @@ function Modal(props){
         if (params === "TNI") return "Tete Non Isolable"
     }
     function valideModal() {
-        if (salle === null) return
-        if (rco === null) return
-        if (ferme === null) return
-        if (level === null) return
+        if (salle===''|| rco ==='' || ferme==='' || level==='') return alert('Vous devez renseigner tous les champs.')
         const tdp = [{
             rep,
             salle,
@@ -48,9 +45,7 @@ function Modal(props){
             regletteNbr,
             tdpId: rep.concat(regletteType, regletteNbr)
         }],
-        callback = ({
-            data
-        }) => {
+        callback = ({data}) => {
             if (data.length === 0) fetcher("create", "POST", tdp, ()=>{
                 $(() => window.$('#laModal').modal('hide'))
                 alert('Position enregistrée avec succes! Merci de votre contribution.')
@@ -76,32 +71,32 @@ function Modal(props){
             fetcher("searchBp", "POST", tdp, callback)
         })
     }
-
+    const completRegletteName = ''+regletteType+regletteNbr
     return (
         <div className="modal fade" id="laModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Modifier...</h5>
+                        <h5 className="modal-title" id="exampleModalLabel">Créer ou Modifier...</h5>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div className="modal-body">
-                        <p>Merci de renseigner les infos manquantes pour cette position:</p>
+                        <p>Merci de renseigner les infos manquantes pour cette réglette:</p>
                         <Form>
 
                             <InputGroup size="sm" className="mb-3">
                                 <InputGroup.Prepend>
                                 <InputGroup.Text id="inputGroup-sizing-sm">REPARTITEUR:</InputGroup.Text>
                                 </InputGroup.Prepend>
-                                <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm" value={rep}/>
+                                <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm" readOnly value={rep}/>
                             </InputGroup>
                             <InputGroup size="sm" className="mb-3">
                                 <InputGroup.Prepend>
                                 <InputGroup.Text id="inputGroup-sizing-sm">Réglette:</InputGroup.Text>
                                 </InputGroup.Prepend>
-                                <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm" defaultValue={''+regletteType+regletteNbr}/>
+                                <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm" readOnly value={completRegletteName}/>
                             </InputGroup>
                             <InputGroup size="sm" className="mb-3">
                                 <InputGroup.Prepend>
@@ -137,7 +132,7 @@ function Modal(props){
                                     <Dropdown.Item value="7" onClick={()=>{positionChange(7)}}>7</Dropdown.Item>
                                     <Dropdown.Item value="8" onClick={()=>{positionChange(8)}}>8</Dropdown.Item>
                                 </DropdownButton>
-                                <FormControl aria-describedby="basic-addon1" value={level} />
+                                <FormControl aria-describedby="basic-addon1" readOnly value={level} />
                             </InputGroup>
                             <InputGroup className="sm-3">
                                 <DropdownButton
@@ -150,7 +145,7 @@ function Modal(props){
                                     <Dropdown.Item value="I" onClick={()=>{OptionChange("I")}}>Inversée</Dropdown.Item>
                                     <Dropdown.Item value="TNI" onClick={()=>{OptionChange("TNI")}}>Non isolable</Dropdown.Item>
                                 </DropdownButton>
-                                <FormControl aria-describedby="basic-addon1" value={option(opt)} />
+                                <FormControl aria-describedby="basic-addon1" readOnly value={option(opt)} />
                             </InputGroup>
                         </Form>
                     </div>

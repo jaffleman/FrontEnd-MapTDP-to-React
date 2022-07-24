@@ -25,8 +25,8 @@ class ShowTdp extends React.Component{
     }
     
     addToPressed = (tdp) =>{
-        if (tdp._id === this.props.ndToShow||!tdp.found){
-            //this.setState({pressed: [tdp._id]})
+        if (tdp.tdpId === this.props.ndToShow||!tdp.found){
+            //this.setState({pressed: [tdp.tdpId]})
             this.props.dispatch({type:'SHOW_MODAL', value:tdp})
             $(()=> window.$('#laModal').modal())
         }
@@ -37,7 +37,8 @@ class ShowTdp extends React.Component{
 
   
     render(){
-        const {_id, regletteType, regletteNbr,  option, plot, found} = this.props.tdp
+        console.log(this.props.tdp)
+        const {tdpId, regletteType, regletteNbr,  option, plot, found} = this.props.tdp
 
         const badgeElement= {
             badgeLabel:'',
@@ -59,12 +60,12 @@ class ShowTdp extends React.Component{
             return(
                 <div>
                     <LongPress
-                        key={_id}
+                        key={tdpId}
                         time={500}
                         onLongPress={() => this.addToPressed(this.props.tdp)}
-                        onPress={() => this.removeFromPressed(_id)}
+                        onPress={() => this.removeFromPressed(tdpId)}
                         > 
-                        <div className = {`tdp ${this.styler(_id)}`} onClick = {()=>{this._toggleView(_id)}}>
+                        <div className = {`tdp ${this.styler(tdpId)}`} onClick = {()=>{this._toggleView(tdpId)}}>
                         <div style={{display:'flex' }}>
                             <p style={{margin:'0'}}>{}</p>
                             <p style={{flex:10}} className = "tdp2"> {regletteType+regletteNbr}-{plot}</p>
@@ -80,10 +81,10 @@ class ShowTdp extends React.Component{
             return(
                 <div>
                     <LongPress
-                        key={_id}
+                        key={tdpId}
                         time={500}
                         onLongPress={() => this.addToPressed(this.props.tdp)}
-                        onPress={() => this.removeFromPressed(_id)}
+                        onPress={() => this.removeFromPressed(tdpId)}
                         > 
                         <div className ="tdp Letes3" onClick = {()=>{}}>
                             <div style={{display:'flex' }}>
