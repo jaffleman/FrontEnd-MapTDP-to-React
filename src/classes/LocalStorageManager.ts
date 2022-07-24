@@ -1,3 +1,4 @@
+import newPlot from "./newPlot";
 import { Tdp } from "./Tdp";
 
 export default class LocalStorageManager{
@@ -51,16 +52,21 @@ export default class LocalStorageManager{
         if (this.isActive) localStorage.setItem('tdps', JSON.stringify([]))
     }
     public getTdps():Tdp[] {
-        return JSON.parse(localStorage.getItem('tdps')||'[]')
+        return Tdp.parse(localStorage.getItem('tdps'))
     }
-    public requestComparator(requestData:Tdp[]):Tdp[] {
-        const newTabReq:Tdp[] = [...requestData]
+    public requestComparator(requestData:newPlot[] ):newPlot[] {
+        /*
+            compare les elements de types newPlot à rechercher en base avec 
+            les éléments de type Tdp et stocké dans le localStorage pour 
+            éviter toute requettes inutiles à la base de donnée.
+        */
+        const newTabReq = [...requestData]
         const searchTab = []
         if (!this.isActive) return newTabReq
-        const tdps:[Tdp] =  JSON.parse(localStorage.getItem('tdps')||'[]')
+        const tdps:Tdp[] =  Tdp.parse(localStorage.getItem('tdps'))
         if (tdps.length<1) return newTabReq
         while(newTabReq.length>0){
-            const req:Tdp = newTabReq.shift()||new Tdp()
+            const req:newPlot = newTabReq.shift()||new newPlot()
             const comparator = ({tdpId}:Tdp)=>tdpId===req.rep+req.regletteType+req.regletteNbr
             const index = tdps.findIndex(comparator)
             if (index === -1) searchTab.push(req)
@@ -68,7 +74,7 @@ export default class LocalStorageManager{
         return searchTab
     }
     public storageStock(fetchedData:[any]):void{
-        const tdps:[Tdp] =  JSON.parse(localStorage.getItem('tdps')||'[]')
+        const tdps:Tdp[] =  Tdp.parse(localStorage.getItem('tdps'))
         const newSession = [...fetchedData.filter(elem=>elem.fetched).map(element => {return  {...element, 'fetched':false}}), ...tdps];
         localStorage.setItem('tdps', JSON.stringify([...newSession]))
     }

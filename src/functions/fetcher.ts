@@ -1,5 +1,6 @@
+import { Tdp } from "../classes/Tdp"
 
-export async function fetcher (route, method, data, callback){
+export async function fetcher (route:string, method:string, data:Tdp[], callback:any){
     if (data.length === 0){
         if (callback) return callback()
         else return {data:[]}

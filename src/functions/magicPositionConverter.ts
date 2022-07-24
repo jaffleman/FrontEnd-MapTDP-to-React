@@ -1,4 +1,6 @@
-export function mPc(params){
+
+export function mPc(params:string):string[] {
+    const strToNum:number = parseInt(params)
     let i = 0;
     const tab =[];
     for (let b = 1; b < 17; b++) {
@@ -7,5 +9,5 @@ export function mPc(params){
             i++;
         }
     } 
-    return tab[parseInt(params)]
+    return tab[strToNum]
 }

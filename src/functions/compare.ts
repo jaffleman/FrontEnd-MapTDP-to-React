@@ -1,11 +1,11 @@
 import LocalStorageManager from "../classes/LocalStorageManager"
-
-export function compare(tabReq,tabRes, localStoAccess) {
+import { Tdp } from "../classes/Tdp"
+export function compare(tabReq:Tdp[],tabRes:Tdp[]):Tdp[] {
     const localSto = new LocalStorageManager()
-    const tabTdp =[]
+    const tabTdp:Tdp[] =[]
     while(tabReq.length>0){
-        const req = tabReq.shift()
-        const comparator = ({tdpId})=>tdpId===req.rep+req.regletteType+req.regletteNbr
+        const req:Tdp = tabReq.shift()||new Tdp()
+        const comparator = ({tdpId}:Tdp):boolean =>tdpId===''+req.rep+req.regletteType+req.regletteNbr
         const index1 = tabRes.findIndex(comparator)
         if (index1 === -1) {
             if (localSto.getIsActive()){

@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import Card from './Card';
-import LastSearch from './shower/LastSearch'
+import LastSearch from './showerComponent/LastSearch'
 
 import getClipboardContent from '../functions/getClipboard'
 import loader from '../functions/loaderManager'
@@ -55,7 +55,7 @@ const Accueil = (props) => {
     const extractData = extraireLesDonnees(formValue)
     if (extractData.length > 0){
       loader(true, props)
-      history.push('/Shower', extractData) 
+      history.push('/Shower', {'plotTab':extractData}) 
     }else{
       alert('Aucun TDP dans la demande...')
       loader(false, props)
@@ -104,7 +104,7 @@ const Accueil = (props) => {
             <div className="Bando-Titre">
               <p>dernières recherches</p>
             </div>
-            <LastSearch callback={(list)=>{history.push('/Shower',list)}}/> 
+            <LastSearch callback={(extractData)=>{history.push('/Shower',{'plotTab':extractData})}}/> 
             <div className="Bando-Valider">
               <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>clearTdpList()}>Effacer l'historique</button>                
             </div>

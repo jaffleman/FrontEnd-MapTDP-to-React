@@ -1,3 +1,4 @@
+
 class Rep {
     name: string
     salle: Salle[]
@@ -69,6 +70,18 @@ class Level {
     }
 }
 
+interface searchTdpInterface{
+    longRep: string
+    regletteNbr: string
+    reglette: string
+}
+// class searchTdp {
+//     tdpId: string
+//     constructor(elem:SearchTdpInterface) {
+        
+//     }
+// }
+
 class Tdp {
     tdpId: string
     status: string
@@ -84,7 +97,6 @@ class Tdp {
     _id: string
     position: number
     constructor(elem: any) {
-
         this.tdpId = elem.rep.concat(elem.regletteType, elem.regletteNbr)
         this.status = elem.status
         this.cd = elem.cd
@@ -355,6 +367,7 @@ export default class ExtraSession {
         }], repName)
     }
 }
+
 /*
 
 const transforme = (params: any[]) => params.map((value: any) => new Plot(value))
