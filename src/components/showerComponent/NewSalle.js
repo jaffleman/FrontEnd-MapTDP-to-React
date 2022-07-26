@@ -2,8 +2,6 @@ import React from "react"
 import NewRco from './NewRco'
 const NewSalle = (props) => {
     const {name, payload} = props
-    console.log('nameSalle: ', name)
-    console.log('salle: ', payload)
     const tabRco = []
     payload.forEach(tdp => tabRco.findIndex(rco => rco === tdp.rco) === -1? tabRco.push(tdp.rco):null)
     const next = () => tabRco.map((rco, key) => <NewRco key={key} name={rco} payload={payload.map((tdp)=>tdp.rco===rco?tdp:null)}/>)

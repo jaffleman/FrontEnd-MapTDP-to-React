@@ -63,7 +63,6 @@ function Modal(props){
         };
 
         fetcher("search", "POST", tdp, (retour) => {
-            console.log(retour)
             if (retour.data.length > 0) {
                 $(() => window.$('#laModal').modal('hide'))
                 return alert('Cette position existe déjà dans ce répartiteur.')

@@ -1,9 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import NewSalle from './NewSalle';
 const NewRep = (props) => {
     const {name, payload} = props
-    console.log('name: ', name)
-    console.log('rep: ', payload)
     const tabSalle = []
     payload.forEach(tdp => tabSalle.findIndex(salle => salle === tdp.salle) === -1? tabSalle.push(tdp.salle):null)
     const next= ()=>tabSalle.map((salle, key) => <NewSalle key={key} name={salle} payload={payload.filter((tdp)=>tdp.salle===salle)}/>)

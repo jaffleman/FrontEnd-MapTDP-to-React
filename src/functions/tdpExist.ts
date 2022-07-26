@@ -5,7 +5,6 @@ export function tdpExist(session:ExtraSession, regletteType:string, regletteNbr:
     if (regletteNbr === '' || regletteType === 'x') return false
     const tabTdp:Tdp[] = []
     session.getRep().forEach(leRep => leRep.salle.forEach(laSalle => laSalle.rco.forEach(laRco => laRco.ferme.forEach(laFerme => laFerme.level.forEach(leLevel => tabTdp.push(leLevel.tdp))))))
-    console.log(tabTdp)
     if (typeof (regletteNbr) === 'object') {
         const tabNbr:Tdp[] = []
         regletteNbr.forEach(element => {

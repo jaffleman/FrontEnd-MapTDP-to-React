@@ -17,7 +17,6 @@ class LastSearch extends React.Component{
     handleClick=(rep)=>{
         const list =[];
         this.localSto.getTdps().forEach((tdp)=>{if(tdp.rep===rep)list.push(tdp)});
-        console.log(list)
         this.props.callback(list);
     }
     render(){

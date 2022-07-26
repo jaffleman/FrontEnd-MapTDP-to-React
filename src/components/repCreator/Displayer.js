@@ -52,12 +52,9 @@ class Displayer extends React.Component{
             if ('err' in result) {
                 loader(false, this.props)
                 alert('une erreur c\'est produite...')
-                console.log('err: ', result.err)
             }
             if (result.data) {
-                console.log(result.data)
                 const mySession = new ExtraSession(result.data, repName)
-                console.log(mySession)
                 if (mySession.rep.length === 0) {
                     if (window.confirm("Le rep n'existe pas, voulez-vous le créer?")) {
                         this.props.dispatch({

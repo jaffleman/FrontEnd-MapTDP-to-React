@@ -20,7 +20,6 @@ class AddElement extends React.Component{
         })
     }
     addFerme(){
-        console.log("cliquer")
         const newSession = this.props.session.addFerme()
         this.props.dispatch({
             type:'SET_SESSION_DATA',

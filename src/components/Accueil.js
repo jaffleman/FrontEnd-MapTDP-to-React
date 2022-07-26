@@ -22,7 +22,6 @@ import LocalStorageManager from '../classes/LocalStorageManager'
 
 
 const Accueil = (props) => {
-  console.log(props)
   const localSto = new LocalStorageManager()
   const url = !(localSto.getIsActive() && 'credentials' in navigator) // si acces au store && https
   const textAreaRef = useRef()

@@ -9,7 +9,6 @@ import Modal from './Modal'
 
 class TdpFlatList extends React.Component{
     showModal = (e)=>{
-        console.log(e);
         this.setState(
             {visible: true}
         )

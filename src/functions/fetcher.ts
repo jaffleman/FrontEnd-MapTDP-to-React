@@ -18,7 +18,6 @@ export async function fetcher (route:string, method:string, data:Tdp[], callback
             alert('probleme')
             return {err}
         })
-        console.log(result)
         if ("ok" in result){
             const ladata = await result.json()
             if (callback) callback({data: ladata})

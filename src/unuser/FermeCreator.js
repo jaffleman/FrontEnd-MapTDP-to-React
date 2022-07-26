@@ -19,9 +19,6 @@ class fermeCreator extends React.Component{
         
     }
     nextFocus = (nd)=>{
-        /*if (nd===8) return null
-        this.refTab[nd].current.focus()*/
-        console.log(nd)
     }
     render(){
         const parentProps = this.props.parentProps

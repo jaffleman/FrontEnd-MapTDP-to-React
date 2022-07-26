@@ -37,7 +37,6 @@ class ShowTdp extends React.Component{
 
   
     render(){
-        console.log(this.props.tdp)
         const {tdpId, regletteType, regletteNbr,  option, plot, found} = this.props.tdp
 
         const badgeElement= {

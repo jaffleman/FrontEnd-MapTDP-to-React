@@ -21,17 +21,14 @@ export default class LocalStorageManager{
         const today = new Date()
         if (stoDate) {
             if (IsNewDay(date,today)){
-                console.log(`ok c'est le bon jour`)
                 localStorage.setItem('tdps', JSON.stringify([...tdps]))
                 localStorage.setItem('autoPastStatus', JSON.stringify(autoPastStatus))
             }else{
-                console.log(`c'est pas le bon jour`)
                 localStorage.setItem('storageDate', ''+today)
                 localStorage.setItem('tdps', JSON.stringify([]))
                 localStorage.setItem('autoPastStatus', JSON.stringify(autoPastStatus))
             }
         }else{
-            console.log(`pas de données dans le localStorage`)
             localStorage.setItem('storageDate', ''+today)
             localStorage.setItem('tdps', JSON.stringify([]))
             localStorage.setItem('autoPastStatus', JSON.stringify(autoPastStatus))
