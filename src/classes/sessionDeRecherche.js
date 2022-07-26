@@ -5,6 +5,7 @@ import {expend} from '../functions/expend'
 import storageStock from '../functions/storageStockage'
 import extraireLesDonnees from '../functions/extraireLesDonnees'
 import RequestStorageComparator from '../functions/RequestStorageComparator'
+import LocalStorageManager from './LocalStorageManager'
 
 export class SessionDeRecherche{
     donneesExtraites
@@ -12,6 +13,7 @@ export class SessionDeRecherche{
     valide
 
     constructor(textBrut, localStoAccess){
+        const localSto = new LocalStorageManager()
         this.donneesExtraites=extraireLesDonnees(textBrut)
         //this.valide=this.donneesExtraites.length>0?true:false
         if (this.donneesExtraites.length>0) {

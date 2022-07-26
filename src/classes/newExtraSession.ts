@@ -164,20 +164,12 @@ export default class ExtraSession {
         this.rep.forEach((elem: {
             salle: Salle[]
         }) => {
-            elem.salle.forEach((elemSalle: {
-                rco: Rco[];number: number
-            }) => {
-                elemSalle.rco.forEach((elemRco: {
-                    ferme: Ferme[];number: number
-                }) => {
-                    elemRco.ferme.forEach((elemFerme: {
-                        level: Level[];number: number
-                    }) => {
+            elem.salle.forEach((elemSalle: {rco: Rco[];number: number}) => {
+                elemSalle.rco.forEach((elemRco: {ferme: Ferme[];number: number}) => {
+                    elemRco.ferme.forEach((elemFerme: {level: Level[];number: number}) => {
                         if (elemFerme.level.length !== 8) {
                             for (let index = 1; index < 9; index++) {
-                                if (!(elemFerme.level.find((elem: {
-                                        number: number
-                                    }) => elem.number === index))) {
+                                if (!(elemFerme.level.find((elem: {number: number}) => elem.number === index))) {
                                     newTab.push(new Tdp({
                                         tdpId: '',
                                         status: "ghost",

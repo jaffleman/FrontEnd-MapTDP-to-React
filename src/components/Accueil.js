@@ -22,6 +22,7 @@ import LocalStorageManager from '../classes/LocalStorageManager'
 
 
 const Accueil = (props) => {
+  console.log(props)
   const localSto = new LocalStorageManager()
   const url = !(localSto.getIsActive() && 'credentials' in navigator) // si acces au store && https
   const textAreaRef = useRef()
@@ -44,10 +45,10 @@ const Accueil = (props) => {
 
   const handle_click = ()=>{
     if (checked) getClipboardContent((clipContent)=>{
-      if (clipContent.length>0){ 
-        textAreaRef.current.value=clipContent
-        setFormValue(clipContent)
-      }
+        if (clipContent.length>0){ 
+          textAreaRef.current.value=clipContent
+          setFormValue(clipContent)
+        }
     })
   }
 

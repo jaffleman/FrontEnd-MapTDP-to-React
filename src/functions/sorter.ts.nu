@@ -11,10 +11,6 @@ interface sorterTdp extends Tdp{
 }
 export default function sorter(tab:Tdp[]) {
     const newTab:sorterTdp[] =[]
-    tab.forEach(tdp => {
-        const rectifyFerme = (tdp.ferme)<10?"0"+tdp.ferme:tdp.ferme
-        newTab.push({...tdp, position: parseInt(""+tdp.salle+tdp.rco+rectifyFerme+tdp.level)}) 
-    })
-    newTab.sort((a, b)=> { return a.position - b.position })
-    return newTab
+   return (tab.map(tdp => ({...tdp, position: parseInt(""+tdp.salle+tdp.rco+((tdp.ferme)<10?"0"+tdp.ferme:tdp.ferme)+tdp.level)})))
+   .sort((a, b)=> { return a.position - b.position })
 }

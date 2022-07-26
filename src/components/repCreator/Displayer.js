@@ -46,6 +46,7 @@ class Displayer extends React.Component{
         }
     }
     handleClick = () => {
+        if(this.state.repName.length===0) return 
         loader(true, this.props)
         const callback = (result, repName) => {
             if ('err' in result) {
@@ -54,7 +55,9 @@ class Displayer extends React.Component{
                 console.log('err: ', result.err)
             }
             if (result.data) {
+                console.log(result.data)
                 const mySession = new ExtraSession(result.data, repName)
+                console.log(mySession)
                 if (mySession.rep.length === 0) {
                     if (window.confirm("Le rep n'existe pas, voulez-vous le créer?")) {
                         this.props.dispatch({
@@ -79,7 +82,6 @@ class Displayer extends React.Component{
             type: "RESET_SESSION"
         })
         VerifRepName(this.state.repName, callback)
-        //loader(false, this.props)
     }
 
     SalleDisplayer = ({data, vButton,vRef}) =>{

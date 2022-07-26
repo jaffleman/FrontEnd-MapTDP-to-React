@@ -1,9 +1,3 @@
-interface minTdp{
-  rep:string,
-  regletteNbr:string,
-  regletteType:string
-}
-
 export class Tdp {
   tdpId:string|null
   status:string|null
@@ -13,8 +7,8 @@ export class Tdp {
   level:number|null
   option:string|null
   rco:number|null
-  regletteNbr:string|null
-  regletteType:string|null
+  regletteNbr:string
+  regletteType:string
   salle:number|null
   found: boolean|null
   _id:number|null
@@ -48,8 +42,8 @@ export class Tdp {
       this.level = null
       this.option = null
       this.rco = null
-      this.regletteNbr = null
-      this.regletteType = null
+      this.regletteNbr = ''
+      this.regletteType = 'x'
       this.salle = null
       this.plot = []
       this._id = null
@@ -61,7 +55,6 @@ export class Tdp {
   static parse(data:any):Tdp[] {
     try {
       const parseData = JSON.parse(data)
-      const tab:Tdp[]=[]
       return parseData.map((elem:Tdp)=> new Tdp(elem))
     } catch (error) {
       throw error
