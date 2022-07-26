@@ -1,3 +1,4 @@
+import { Tdp } from "./Tdp"
 
 class Rep {
     name: string
@@ -70,49 +71,6 @@ class Level {
     }
 }
 
-interface searchTdpInterface{
-    longRep: string
-    regletteNbr: string
-    reglette: string
-}
-// class searchTdp {
-//     tdpId: string
-//     constructor(elem:SearchTdpInterface) {
-        
-//     }
-// }
-
-class Tdp {
-    tdpId: string
-    status: string
-    cd: string
-    rep: string
-    ferme: number
-    level: number
-    option: string
-    rco: number
-    regletteNbr: string
-    regletteType: string
-    salle: number
-    _id: string
-    position: number
-    constructor(elem: any) {
-        this.tdpId = elem.rep.concat(elem.regletteType, elem.regletteNbr)
-        this.status = elem.status
-        this.cd = elem.cd
-        this.rep = elem.rep
-        this.ferme = elem.ferme
-        this.level = elem.level
-        this.option = elem.option
-        this.rco = elem.rco
-        this.regletteNbr = elem.regletteNbr
-        this.regletteType = elem.regletteType
-        this.salle = elem.salle
-        this._id = elem._id
-        this.position = elem.position
-    }
-}
-
 function truncBase(position: number, base: number) {
     return Math.trunc(position / base)
 }
@@ -140,21 +98,20 @@ function prompter(phrase: string) {
     return parse
 }
 export default class ExtraSession {
+    getRep = () => this.rep
     private repName: string = ''
     private brutdata: Tdp[] = []
     private rep: Rep[] = []
     private cd: string = ''
     private salleNumber: number = 0
-    constructor(sessionData: any[], repName: string) {
+    constructor(sessionData: Tdp[], repName: string) {
         if (sessionData.length === 0) return
         this.brutdata = sorterData(sessionData.map(elem => {
             if (!elem.status) return new Tdp({
                 ...elem,
                 status: "original"
             })
-            else return new Tdp({
-                ...elem
-            })
+            else return new Tdp(elem)
         }))
         this.repName = repName
         this.rep = [new Rep(repName, this.brutdata)]
@@ -171,15 +128,10 @@ export default class ExtraSession {
                             for (let index = 1; index < 9; index++) {
                                 if (!(elemFerme.level.find((elem: {number: number}) => elem.number === index))) {
                                     newTab.push(new Tdp({
-                                        tdpId: '',
-                                        status: "ghost",
-                                        cd: this.cd,
+                                        cd: parseInt(this.cd),
                                         ferme: elemFerme.number,
                                         level: index,
-                                        option: null,
                                         rco: elemRco.number,
-                                        regletteNbr: "",
-                                        regletteType: "x",
                                         rep: this.repName,
                                         salle: elemSalle.number,
                                         _id: this.repName + elemSalle.number + elemRco.number + elemFerme.number + index,
@@ -242,15 +194,10 @@ export default class ExtraSession {
         const newSalleNd = this.salleNumber + 1
         for (let index = 1; index < 9; index++) {
             this.brutdata.push(new Tdp({
-                tdpId: '',
-                status: "ghost",
-                cd: this.cd,
+                cd: parseInt(this.cd),
                 ferme: ndFerme,
                 level: index,
-                option: null,
                 rco: 1,
-                regletteNbr: "",
-                regletteType: "x",
                 rep: this.repName,
                 salle: newSalleNd,
                 _id: this.repName + newSalleNd + 1 + ndFerme + index,
@@ -267,15 +214,10 @@ export default class ExtraSession {
         const newRcoNd = this.rep[0].salle[idSalle - 1].rco.length + 1
         for (let index = 1; index < 9; index++) {
             this.brutdata.push(new Tdp({
-                tdpId: '',
-                status: "ghost",
-                cd: this.cd,
+                cd: parseInt(this.cd),
                 ferme: ndFerme,
                 level: index,
-                option: null,
                 rco: newRcoNd,
-                regletteNbr: "",
-                regletteType: "x",
                 rep: this.repName,
                 salle: idSalle,
                 _id: this.repName + idSalle + newRcoNd + ndFerme + index,
@@ -294,13 +236,10 @@ export default class ExtraSession {
             this.brutdata.push(new Tdp({
                 tdpId: '',
                 status: "ghost",
-                cd: this.cd,
+                cd: parseInt(this.cd),
                 ferme: ndFerme,
                 level: index,
-                option: null,
                 rco: idRco,
-                regletteNbr: "",
-                regletteType: "x",
                 rep: this.repName,
                 salle: idSalle,
                 _id: this.repName + idSalle + rcoNumber + ndFerme + index,
@@ -343,37 +282,14 @@ export default class ExtraSession {
     }
 
     creatNewRep(repName: string) {
-        return new ExtraSession([{
-            tdpId: '',
-            status: "ghost",
-            cd: repName.slice(-2),
+        return new ExtraSession([new Tdp({
+            cd: parseInt(repName.slice(-2)),
             ferme: 1,
             level: 1,
-            option: null,
             rco: 1,
-            regletteNbr: "",
-            regletteType: "x",
             rep: repName,
             salle: 1,
             _id: repName + 1 + 1 + 1 + 1,
-        }], repName)
+        })], repName)
     }
 }
-
-/*
-
-const transforme = (params: any[]) => params.map((value: any) => new Plot(value))
-
-const data = JSON.parse('[{"_id":"60a4fa60e48ed602c8def467","tdpId":"rep00R/DEG04","cd":0,"ferme":4,"level":3,"option":null,"rco":1,"regletteNbr":"04","regletteType":"R/DEG","rep":"rep00","salle":1,"__v":0},{"_id":"60a4fa60e48ed602c8def468","tdpId":"rep00R/DEG05","cd":0,"ferme":4,"level":4,"option":null,"rco":1,"regletteNbr":"05","regletteType":"R/DEG","rep":"rep00","salle":1,"__v":0},{"_id":"60a4fa60e48ed602c8def469","tdpId":"rep00R/DEG06","cd":0,"ferme":4,"level":5,"option":null,"rco":1,"regletteNbr":"06","regletteType":"R/DEG","rep":"rep00","salle":1,"__v":0},{"_id":"60a4fa60e48ed602c8def46a","tdpId":"rep00R/DEG07","cd":0,"ferme":4,"level":6,"option":null,"rco":1,"regletteNbr":"07","regletteType":"R/DEG","rep":"rep00","salle":1,"__v":0},{"_id":"60a4fa60e48ed602c8def46b","tdpId":"rep00R/DEG08","cd":0,"ferme":4,"level":7,"option":null,"rco":1,"regletteNbr":"08","regletteType":"R/DEG","rep":"rep00","salle":1,"__v":0},{"_id":"60a4fa61e48ed602c8def46c","tdpId":"rep00R/DEG09","cd":0,"ferme":4,"level":8,"option":null,"rco":1,"regletteNbr":"09","regletteType":"R/DEG","rep":"rep00","salle":1,"__v":0},{"_id":"60a53fb4e48ed602c8def477","tdpId":"rep00R/DEG02","cd":0,"ferme":4,"level":1,"option":null,"rco":1,"regletteNbr":"02","regletteType":"R/DEG","rep":"rep00","salle":1,"__v":0},{"_id":"60a53fb4e48ed602c8def478","tdpId":"rep00R/DEG03","cd":0,"ferme":4,"level":2,"option":null,"rco":1,"regletteNbr":"03","regletteType":"R/DEG","rep":"rep00","salle":1,"__v":0}]')
-const maSession = new ExtraSession(data, 'rep00')//?
-const newSession = maSession.creatNewRep('rep00')//?
-newSession.addSalle(2).addRco(2,2)//?
-
-//const maSession2 = maSession.deleteRco()
-//const newSalle = maSession.addSalle(2)
-//const newRco = newSalle.addRco(2,2)
-//const newFerme = newRco.addFerme(1,0,2)
-//const deleteFerme = newFerme.deleteFerme(1,0,4)
-//const deleteRco = deleteFerme.deleteRco(2)
-//const deleteSalle = deleteRco.deleteSalle()
-*/

@@ -1,15 +1,18 @@
-export function tdpExist(session, regletteType, regletteNbr) {
+import ExtraSession from "../classes/newExtraSession"
+import { Tdp } from "../classes/Tdp"
+
+export function tdpExist(session:ExtraSession, regletteType:string, regletteNbr:string[]|string) {
     if (regletteNbr === '' || regletteType === 'x') return false
-    const tabTdp = []
-    session.rep.forEach(leRep => leRep.salle.forEach(laSalle => laSalle.rco.forEach(laRco => laRco.ferme.forEach(laFerme => laFerme.level.forEach(leLevel => tabTdp.push(leLevel.tdp))))))
+    const tabTdp:Tdp[] = []
+    session.getRep().forEach(leRep => leRep.salle.forEach(laSalle => laSalle.rco.forEach(laRco => laRco.ferme.forEach(laFerme => laFerme.level.forEach(leLevel => tabTdp.push(leLevel.tdp))))))
     console.log(tabTdp)
     if (typeof (regletteNbr) === 'object') {
-        const tabNbr = []
+        const tabNbr:Tdp[] = []
         regletteNbr.forEach(element => {
             const elemToChange = tabTdp.find(tdp => tdp._id === element && (tdp.regletteType === 'x' || tdp.regletteType !== regletteType))
             if (elemToChange) tabNbr.push(elemToChange)
         })
-        const existTab = []
+        const existTab:Tdp[] = []
         tabNbr.forEach(nbr => {
             if (nbr.regletteNbr !== '') {
                 const exist = tabTdp.find(element => element.regletteType === regletteType && element.regletteNbr === nbr.regletteNbr)

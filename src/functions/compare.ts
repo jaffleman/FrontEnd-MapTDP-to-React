@@ -4,7 +4,7 @@ export function compare(tabReq:Tdp[],tabRes:Tdp[]):Tdp[] {
     const localSto = new LocalStorageManager()
     const tabTdp:Tdp[] =[]
     while(tabReq.length>0){
-        const req:Tdp = tabReq.shift()||new Tdp()
+        const req:Tdp = tabReq.shift()||new Tdp({})
         const comparator = ({tdpId}:Tdp):boolean =>tdpId===''+req.rep+req.regletteType+req.regletteNbr
         const index1 = tabRes.findIndex(comparator)
         if (index1 === -1) {

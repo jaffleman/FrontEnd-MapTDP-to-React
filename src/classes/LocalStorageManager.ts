@@ -52,7 +52,9 @@ export default class LocalStorageManager{
         if (this.isActive) localStorage.setItem('tdps', JSON.stringify([]))
     }
     public getTdps():Tdp[] {
-        return Tdp.parse(localStorage.getItem('tdps'))
+        const stoItem = localStorage.getItem('tdps')
+        if (stoItem===null) return []
+        return JSON.parse(stoItem).map((tdp:Tdp)=> new Tdp(tdp))
     }
     public requestComparator(requestData:newPlot[] ):newPlot[] {
         /*
@@ -63,7 +65,7 @@ export default class LocalStorageManager{
         const newTabReq = [...requestData]
         const searchTab = []
         if (!this.isActive) return newTabReq
-        const tdps:Tdp[] =  Tdp.parse(localStorage.getItem('tdps'))
+        const tdps:Tdp[] =  this.getTdps()
         if (tdps.length<1) return newTabReq
         while(newTabReq.length>0){
             const req:newPlot = newTabReq.shift()||new newPlot()
@@ -74,7 +76,7 @@ export default class LocalStorageManager{
         return searchTab
     }
     public storageStock(fetchedData:[any]):void{
-        const tdps:Tdp[] =  Tdp.parse(localStorage.getItem('tdps'))
+        const tdps:Tdp[] =  this.getTdps()
         const newSession = [...fetchedData.filter(elem=>elem.fetched).map(element => {return  {...element, 'fetched':false}}), ...tdps];
         localStorage.setItem('tdps', JSON.stringify([...newSession]))
     }
