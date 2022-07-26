@@ -1,6 +1,6 @@
 import React, { createRef } from 'react';
-import RegletteConst from '../repCreator/RegletteConstructor';
-import RegletteTrame from '../repCreator/RegletteTrame';
+import RegletteConst from './RegletteConstructor';
+import RegletteTrame from './RegletteTrame';
 
 class DisplayLevel extends React.Component {
         constructor(props) {

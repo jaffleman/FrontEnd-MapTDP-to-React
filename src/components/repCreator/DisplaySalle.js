@@ -2,7 +2,7 @@ import React from 'react'
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import DisplayRco from './DisplayRco';
-import ItemsManager from './ItemsManager';
+import ItemsManager from './itemManager/ItemsManager';
 import Button from 'react-bootstrap/Button'
 
 

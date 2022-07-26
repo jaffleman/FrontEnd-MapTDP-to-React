@@ -1,10 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import VerifRepName from './VerifRepName';
-import DisplaySalle from './DisplaySalle';
 import { Container } from 'react-bootstrap';
+
+import DisplaySalle from './DisplaySalle';
+
 import ExtraSession from '../../classes/newExtraSession'
+
+import VerifRepName from '../../functions/VerifRepName';
 import tabSorter from '../../functions/valider'
 import {fetcher} from '../../functions/fetcher'
 import loader from '../../functions/loaderManager';

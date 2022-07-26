@@ -1,6 +1,9 @@
 import { Tdp } from "../classes/Tdp"
 
-export async function fetcher (route:string, method:string, data:Tdp[], callback:any){
+interface RepTab{
+    rep:string
+}
+export async function fetcher (route:string, method:string, data:Tdp[]|RepTab[], callback?:any){
     if (data.length === 0){
         if (callback) return callback()
         else return {data:[]}

@@ -51,31 +51,5 @@ export class Tdp {
       this.tdpId= ''+this.rep+this.regletteType+this.regletteNbr
       this.fetched = fetched||false
       this.position = position||0
-    // } else {
-    //   this.status = null
-    //   this.found = false
-    //   this.cd = 0
-    //   this.rep = null
-    //   this.ferme = 0
-    //   this.level = 0
-    //   this.option = null
-    //   this.rco = 0
-    //   this.regletteNbr = ''
-    //   this.regletteType = 'x'
-    //   this.salle = 0
-    //   this.plot = []
-    //   this._id = ''
-    //   this.tdpId= null
-    //   this.fetched = null
-    //   this.position = 0      
-    // }
   }
-  // static parse(data:any):Tdp[] {
-  //   try {
-  //     const parseData = JSON.parse(data)
-  //     return parseData.map((elem:Tdp)=> new Tdp(elem))
-  //   } catch (error) {
-  //     throw error
-  //   }
-  // }
 }

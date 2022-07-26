@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Switcher from '../repCreator/Switcher';
+import Switcher from './Switcher';
 import { withRouter } from 'react-router-dom';
 import DisplayLevel from './DisplayLevel';
 
