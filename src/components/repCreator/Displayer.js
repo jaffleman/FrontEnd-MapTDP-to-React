@@ -99,7 +99,7 @@ class Displayer extends React.Component{
         return (
             <div>
                 <Container>
-                    <div className="input-group mb-3">
+                    <div className="input-group mb-3 bandoRepSearch">
                         <input 
                             type="text" 
                             className="form-control" 

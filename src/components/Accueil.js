@@ -51,7 +51,7 @@ const Accueil = (props) => {
     })
   }
 
-  const textareaHandleClick = async () =>{
+  const textareaHandleClick = () =>{
     const extractData = extraireLesDonnees(formValue)
     if (extractData.length > 0){
       loader(true, props)

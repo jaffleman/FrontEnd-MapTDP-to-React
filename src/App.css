@@ -34,6 +34,10 @@ body {
   height: 40px;
 }
 .MyCard{
+  min-width: 350px;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 375px;
   border-radius: 5px;;
   box-shadow: 3px 3px 10px 3px black;
   font-family: Courier New, monospace;
@@ -47,6 +51,19 @@ body {
   margin-bottom: 20px;
   /*min-width: 300px;*/
   cursor: default; 
+}
+
+.bandoRepSearch{
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 375px;
+  min-width: 350px;
+}
+.main{
+  max-width: 425px;
+  min-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .Bando-Titre{
   display: block;
@@ -144,9 +161,17 @@ body {
   margin: 5px 15px;
   background-color: hsl(54, 90%, 48%);
 }
+.salleContent{
+  padding: 2px;
+  margin: 5px 15px;
+  border-width: 1px;
+  border-radius: 10px;
+  border-color: yellow;
+  border-style: dashed;
+}
 .rco{
   padding: 1px;
-  margin: 5px 25px;
+  margin: 5px 15px;
   background-color: hsl(108, 90%, 48%);
 }
 .tdpHead{
@@ -180,7 +205,7 @@ body {
   margin-top: 40px;
 }
 .RegletteConstructor{
-  display: flex;
+  display: inline-flex;
   padding: 1px;
   border: 1px solid black;
   box-shadow: 3px 3px 10px 3px black;
