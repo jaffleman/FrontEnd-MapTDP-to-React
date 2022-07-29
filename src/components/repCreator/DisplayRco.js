@@ -1,7 +1,7 @@
 import React from 'react'
 import Tab from 'react-bootstrap/Tab';
 import {Nav} from 'react-bootstrap';
-import DisplayFerme from '../shower/DisplayFerme';
+import DisplayFerme from './DisplayFerme';
 
 
 class DisplayRco extends React.Component{

@@ -8,14 +8,13 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import Card from './Card';
-import LastSearch from './shower/LastSearch'
-
-import { Session } from '../classes/session';
-import { SessionDeRecherche } from '../classes/sessionDeRecherche';
+import LastSearch from './showerComponent/LastSearch'
 
 import getClipboardContent from '../functions/getClipboard'
 import loader from '../functions/loaderManager'
-import storageAvailable from '../functions/storageCheck'
+//import storageAvailable from '../functions/storageCheck'
+import extraireLesDonnees from '../functions/extraireLesDonnees'
+import LocalStorageManager from '../classes/LocalStorageManager'
 
 
 
@@ -23,65 +22,45 @@ import storageAvailable from '../functions/storageCheck'
 
 
 const Accueil = (props) => {
-  const localStoAccess = storageAvailable('localStorage') // verifie l'acces au local storage
-
-  const checkInitValue = ()=>{
-    if (!localStoAccess) return false
-    const parseSession = JSON.parse(localStorage.getItem('sessionStockage'))
-    if (!parseSession) return false
-    if (!('autopast' in parseSession)) return false
-    return parseSession.autopast  
-  }
-
-  const url = !(localStoAccess && 'credentials' in navigator) // si acces au store && https
+  const localSto = new LocalStorageManager()
+  const url = !(localSto.getIsActive() && 'credentials' in navigator) // si acces au store && https
   const textAreaRef = useRef()
   const history = useHistory()
   const [formValue,setFormValue] = useState('')
-  const [checked, setChecked] = useState(checkInitValue)
+  const [checked, setChecked] = useState(localSto.getAutoPast())
 
   const textareaHandleChange=(e)=> setFormValue(e.target.value)
 
-  const localStorageCleaner = ()=>{
-    if (localStoAccess){
-      const parseLS = JSON.parse(localStorage.getItem('sessionStockage'))
-      delete parseLS.data  
-      delete parseLS.date 
-      localStorage.setItem('sessionStockage',  JSON.stringify(parseLS))
-      history.go(0)
-    }
+  const clearTdpList = ()=>{
+    localSto.clearTdpList()
+    history.go(0)
   }
 
   const handleSwitchChange = (e)=>{
     setChecked(e)  
-    if (localStoAccess) {
-      localStorage.setItem('sessionStockage', JSON.stringify({...JSON.parse(localStorage.getItem('sessionStockage')), 'autopast':e}))
-      if (!e) setFormValue('')
-    }
+    localSto.setAutoPast(e)
+    if (!e) setFormValue('')
   }
 
   const handle_click = ()=>{
     if (checked) getClipboardContent((clipContent)=>{
-      if (clipContent.length>0){ 
-        textAreaRef.current.value=clipContent
-        setFormValue(clipContent)
-      }
+        if (clipContent.length>0){ 
+          textAreaRef.current.value=clipContent
+          setFormValue(clipContent)
+        }
     })
   }
 
   const textareaHandleClick = () =>{
-    loader(true, props)
-    const maRecherche = new SessionDeRecherche(formValue)
-    if (maRecherche.valide) throwSession(maRecherche.donneesExtraites)
-    else {
-      setFormValue('')
-      alert('Aucun TDP trouvé...')
+    const extractData = extraireLesDonnees(formValue)
+    if (extractData.length > 0){
+      loader(true, props)
+      history.push('/Shower', {'plotTab':extractData}) 
+    }else{
+      alert('Aucun TDP dans la demande...')
       loader(false, props)
-    } 
+    }
   }
-
-  const throwSession = data=> new Session([...data], session=>history.push('/Shower', session), ()=>{loader(false, props)}, localStoAccess)
-
-
 
   return (
     <Container>
@@ -125,9 +104,9 @@ const Accueil = (props) => {
             <div className="Bando-Titre">
               <p>dernières recherches</p>
             </div>
-            <LastSearch callback={throwSession}/> 
+            <LastSearch callback={(extractData)=>{history.push('/Shower',{'plotTab':extractData})}}/> 
             <div className="Bando-Valider">
-              <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>localStorageCleaner()}>Effacer l'historique</button>                
+              <button className="btn btn-sm btn-outline-dark" type="button" onClick={()=>clearTdpList()}>Effacer l'historique</button>                
             </div>
           </div>
         </div>

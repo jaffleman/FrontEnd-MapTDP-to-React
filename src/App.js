@@ -4,10 +4,11 @@ import { Provider } from 'react-redux'
 import Store from './store/configureStore'
 import Accueil from './components/Accueil'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Shower from './components/shower/Shower'
+import Shower from './components/showerComponent/Shower'
 import MapTdpHeader from './components/MapTdpTitle';
-import CreatRep from './components/CreatRep';
+//import CreatRep from './components/CreatRep';
 import Displayer from './components/repCreator/Displayer';
+
 
 class App extends React.Component {
   goToRecherche = ()=>{
@@ -26,9 +27,9 @@ class App extends React.Component {
               <Route exact path="/Shower">
                 <Shower/>  
               </Route>  
-              <Route exact path="/CreatRep">
+              {/*<Route exact path="/CreatRep">
                 <CreatRep/>  
-              </Route> 
+    </Route> */}
               <Route exact path="/Displayer">
                 <Displayer/>  
               </Route> 

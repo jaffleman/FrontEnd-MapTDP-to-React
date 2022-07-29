@@ -1,10 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import VerifRepName from './VerifRepName';
-import DisplaySalle from './DisplaySalle';
 import { Container } from 'react-bootstrap';
+
+import DisplaySalle from './DisplaySalle';
+
 import ExtraSession from '../../classes/newExtraSession'
+
+import VerifRepName from '../../functions/VerifRepName';
 import tabSorter from '../../functions/valider'
 import {fetcher} from '../../functions/fetcher'
 import loader from '../../functions/loaderManager';
@@ -21,9 +24,7 @@ class Displayer extends React.Component{
         this.validButton = React.createRef()
     }
 
-    handleRepChange = e => this.setState({
-        repName: e.target.value.toLowerCase()
-    })
+    handleRepChange = e => this.setState({repName: e.target.value.toLowerCase()})
 
     handle_valideClick = () => {
         if (this.props.mySession.brutdata.length === 0) return alert("Aucun rep a valider !")
@@ -48,11 +49,12 @@ class Displayer extends React.Component{
         }
     }
     handleClick = () => {
+        if(this.state.repName.length===0) return 
+        loader(true, this.props)
         const callback = (result, repName) => {
-            if (result.err) {
+            if ('err' in result) {
                 loader(false, this.props)
                 alert('une erreur c\'est produite...')
-                console.log('err: ' + result.err)
             }
             if (result.data) {
                 const mySession = new ExtraSession(result.data, repName)
@@ -76,28 +78,15 @@ class Displayer extends React.Component{
                 loader(false, this.props)
             }
         }
-        loader(true, this.props)
         this.props.dispatch({
             type: "RESET_SESSION"
         })
         VerifRepName(this.state.repName, callback)
-        loader(false, this.props)
     }
 
-    SalleDisplayer = ({
-        data,
-        vButton,
-        vRef
-    }) => data.rep ? < DisplaySalle data = {
-        data.rep[0]
+    SalleDisplayer = ({data, vButton,vRef}) =>{
+        return data.rep?< DisplaySalle data={data.rep[0]} vButton={vButton} vRef={vRef}/>: null
     }
-    vButton = {
-        vButton
-    }
-    vRef = {
-        vRef
-    }
-    />: null
 
     handleKeyPress = e => {
         if (e.key === 'Enter') {
@@ -110,7 +99,7 @@ class Displayer extends React.Component{
         return (
             <div>
                 <Container>
-                    <div className="input-group mb-3">
+                    <div className="input-group mb-3 bandoRepSearch">
                         <input 
                             type="text" 
                             className="form-control" 
